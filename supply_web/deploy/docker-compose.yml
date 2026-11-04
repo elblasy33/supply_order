@@ -1,0 +1,44 @@
+# Supply Orders web app behind automatic HTTPS (Caddy gets and renews the certificate for your domain).
+#   1. cp .env.example .env   and fill DOMAIN, SESSION_SECRET (and optionally ODOO_*)
+#   2. docker compose up -d --build
+#   3. open https://<DOMAIN>  → first visit creates the administrator → Settings → Odoo connection
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: supply-web:latest
+    restart: unless-stopped
+    environment:
+      SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET (32+ random characters) in .env}
+      SESSION_SECURE: "1"            # the session cookie is sent over HTTPS only
+      APP_TZ: ${APP_TZ:-Africa/Cairo} # time zone of the dashboard days/hours
+      DATA_DIR: /data
+      ODOO_URL: ${ODOO_URL:-}         # optional: can be set from Settings → Odoo connection instead
+      ODOO_API_KEY: ${ODOO_API_KEY:-}
+      ODOO_DB: ${ODOO_DB:-}
+    volumes:
+      - app-data:/data                # users, roles, saved Odoo connection (encrypted key)
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_healthy
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN (e.g. supply.example.com) in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  app-data:
+  caddy-data:
+  caddy-config:

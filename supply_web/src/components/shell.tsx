@@ -9,6 +9,7 @@ import {
   ShieldCheck, Users, Warehouse, X,
 } from "lucide-react";
 import { LocaleToggle } from "@/components/locale-toggle";
+import { OdooStatusBanner, OdooStatusPill, OdooStatusProvider } from "@/components/odoo-status";
 import { InstallPrompt } from "@/components/pwa";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useLocale, useT } from "@/lib/i18n/client";
@@ -89,11 +90,13 @@ export function Shell({
   );
 
   return (
+    <OdooStatusProvider>
     <div className={clsx("min-h-screen lg:grid lg:transition-[grid-template-columns] lg:duration-200", collapsed ? "lg:grid-cols-[4.5rem_1fr]" : "lg:grid-cols-[17rem_1fr]")}>
       {/* desktop sidebar: full, or a rail of icons to give the work area more room */}
       <aside className="sticky top-0 hidden h-screen flex-col overflow-hidden border-e border-line bg-surface lg:flex" data-collapsed={collapsed}>
         <div className={clsx("flex items-center", collapsed ? "flex-col gap-2 py-3" : "justify-between pe-2")}>
           <Brand rail={collapsed} />
+          {collapsed && <OdooStatusPill compact className="size-9" />}
           <button className="btn-ghost px-2" onClick={toggle} aria-expanded={!collapsed} aria-label={collapsed ? t("توسيع الشريط الجانبي") : t("طيّ الشريط الجانبي")}
             title={collapsed ? t("توسيع الشريط الجانبي") : t("طيّ الشريط الجانبي")}>{hideArrow}</button>
         </div>
@@ -105,6 +108,7 @@ export function Shell({
       <header className="safe-top sticky top-0 z-30 flex items-center gap-3 border-b border-line bg-surface px-4 py-3 lg:hidden">
         <button className="btn-ghost -ms-2 px-2" aria-label={t("القائمة")} onClick={() => setOpen(true)}><Menu className="size-6" /></button>
         <span className="font-extrabold">{t("أوامر التوريد")}</span>
+        <OdooStatusPill className="ms-auto min-h-10 rounded-full border border-line px-3" />
       </header>
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden">
@@ -122,11 +126,13 @@ export function Shell({
 
       <main className="safe-bottom min-w-0 p-4 sm:p-6 lg:p-8">
         <div className="mx-auto w-full max-w-[1800px]">
+          <OdooStatusBanner canSettings={permissions.includes("settings.odoo")} />
           <InstallPrompt />
           {children}
         </div>
       </main>
     </div>
+    </OdooStatusProvider>
   );
 }
 
@@ -136,9 +142,9 @@ function Brand({ rail = false }: { rail?: boolean }) {
     <div className={clsx("flex items-center gap-3", rail ? "justify-center" : "px-5 py-5")}>
       <div className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-500 text-lg font-black text-white">{t("ت")}</div>
       {!rail && (
-        <div className="leading-tight">
+        <div className="min-w-0 leading-tight">
           <p className="font-extrabold">{t("أوامر التوريد")}</p>
-          <p className="text-xs text-muted">{t("متصل بأودو")}</p>
+          <OdooStatusPill className="-ms-0.5 mt-0.5" />
         </div>
       )}
     </div>

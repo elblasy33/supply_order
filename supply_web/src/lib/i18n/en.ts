@@ -691,4 +691,19 @@ export const EN: Record<string, string> = {
   "لا مقارنة": "No comparison",
   "مقابل الفترة السابقة": "vs previous period",
   "عرض كجدول": "Show as table",
+
+  // ---- Odoo connection status
+  "تعذّر الاتصال بخادم أودو.": "Could not reach the Odoo server.",
+  "أودو بطيء": "Odoo is slow",
+  "أودو غير متاح": "Odoo is unreachable",
+  "مفتاح أودو مرفوض": "Odoo key rejected",
+  "لم يُضبط الاتصال بأودو": "Odoo connection not set",
+  "لا يوجد إنترنت": "No internet",
+  "جارٍ فحص أودو…": "Checking Odoo…",
+  "أودو يستجيب ببطء؛ قد تتأخر الشاشات.": "Odoo is answering slowly; screens may lag.",
+  "تعذّر الوصول لأودو: ما تراه قد لا يكون محدّثاً، ولن تُحفظ تغييراتك حتى يعود الاتصال.": "Odoo cannot be reached: what you see may be out of date, and your changes will not be saved until the connection returns.",
+  "رفض أودو مفتاح الربط: لن تعمل الشاشات حتى يُصحَّح من إعدادات الاتصال.": "Odoo rejected the link key: the screens will not work until it is fixed in the connection settings.",
+  "اربط التطبيق بخادم أودو لتظهر البيانات.": "Connect the app to an Odoo server to see data.",
+  "لا يوجد اتصال بالإنترنت على هذا الجهاز.": "This device has no internet connection.",
+  "إعدادات الاتصال": "Connection settings",
 };

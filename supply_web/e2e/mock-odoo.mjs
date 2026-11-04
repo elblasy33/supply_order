@@ -290,9 +290,13 @@ const handlers = {
 };
 const rebate = { state: "draft" };
 
-http.createServer((req, res) => {
+let mode = "up";
+http.createServer(async (req, res) => {
+  if (mode === "slow" && !req.url.startsWith("/__")) await new Promise((r) => setTimeout(r, 1700));
   const send = (status, body, type = "application/json") => { res.writeHead(status, { "Content-Type": type }); res.end(typeof body === "string" || Buffer.isBuffer(body) ? body : JSON.stringify(body)); };
   const url = new URL(req.url, "http://x");
+  if (url.pathname === "/__mode") { mode = url.searchParams.get("m") ?? "up"; return send(200, { mode }); } // test control: up | down | slow
+  if (mode === "down") return req.destroy();
   if (url.pathname === "/web/webclient/version_info") return send(200, { jsonrpc: "2.0", id: null, result: { server_version: "20.0", server_version_info: [20, 0, 0, "final", 0, ""] } });
   const bearer = req.headers.authorization;
   if (bearer !== `Bearer ${KEY}` && bearer !== `Bearer ${KEY_NO_USER}`) return send(401, { name: "Unauthorized" });

@@ -36,6 +36,7 @@ export function useAction() {
           if (opts.refresh !== false) start(() => router.refresh());
         } else {
           if (res.code !== "unreachable" && res.code !== "server_error") keys.current.delete(intent);
+          else window.dispatchEvent(new Event("odoo-status-refresh")); // update the connection indicator at once
           push("error", res.error);
         }
         return res;
