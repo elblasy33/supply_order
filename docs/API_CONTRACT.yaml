@@ -1,0 +1,543 @@
+openapi: 3.1.0
+info:
+  title: Supply Orders API (implemented by the Odoo module `supply_api`)
+  version: 1.0.0
+  description: |
+    Contract between the Next.js server and Odoo 20. Odoo stays the only source of truth.
+
+    **Transport.** Every operation is `POST /json/2/supply.api/<method>` (Odoo's official JSON-2 endpoint).
+    Authentication is a Bearer API key of the single *integration user*; the key lives on the Next.js server only
+    and is never sent to the browser. The body is a JSON object of named arguments (JSON-2 maps them to the
+    Python method). Odoo's own errors come back as HTTP 4xx/5xx; the methods below never raise for business
+    errors, they answer 200 with the envelope `{ok:false, error}` so the UI can show a clear message.
+
+    **Who really acted.** The Next.js server authenticates the employee, checks the role, then sends
+    `context.ext_user_id` (id of the `external.user`). Odoo honours it only for the integration user and records it
+    on the order, lines, change log and chatter ("by Ahmed via the app"). The browser never sends it.
+
+    **Why a `supply.api` model and not the models directly.** JSON-2 arguments are plain JSON; methods such as
+    `supply.order.line.action_substitute(new_product, ...)` expect records. `supply.api` is a thin abstract model
+    whose methods take ids and return dictionaries, and delegates to the real service methods (`action_confirm`,
+    `action_prepare_transfer`, `action_create_invoice`, `action_substitute`, …). No business rule lives in it.
+
+    **Writes are idempotent.** Every write accepts `idempotency_key` (UUID made by Next.js per user action). Replaying
+    the same key returns the first answer without repeating the effect.
+
+    **Lists** take `offset`, `limit` (max 200) and return `total`.
+
+    **Roles** (proposal, to confirm; the table is `ROLE_MATRIX` in `supply_api/models/supply_api.py`):
+    `sales` — create orders, confirm/cancel, create sale/purchase orders, edit items while the order is a draft;
+    `warehouse` — prepare transfers, add/change/remove/substitute items on confirmed orders, scan;
+    `accountant` — invoices, reconciliation, rebates; `manager` — everything, including closing an order.
+    Next.js checks the role first; Odoo checks again (only for the integration user) and answers
+    `access_denied`. `order_read.allowed_actions` is already filtered by the acting app user's role.
+
+    **Detail vs summary.** `order_search` returns summaries (no `lines`, `documents`, `change_log`,
+    `allowed_actions`; `line_count` instead). `order_read` and every write return the full order. When a
+    write creates a document (`prepare_transfer`, `create_*`), the full order carries
+    `created: {model, id, name}`.
+
+    **Pages.** Lists answer `{ok, data: [...], total, offset, limit}`.
+
+    **Printing.** `document_links` gives relative URLs of key-authenticated routes
+    `GET /supply_api/print/<kind>/<html|pdf|xlsx>/<id>` (Bearer key, optional `?lang=`). Next.js fetches them
+    server-side and streams the file to the browser.
+servers:
+  - url: https://odoo.example.com
+security:
+  - bearerKey: []
+paths:
+  /json/2/supply.api/order_search:
+    post:
+      summary: List supply orders
+      requestBody: {$ref: '#/components/requestBodies/OrderSearch'}
+      responses: {'200': {$ref: '#/components/responses/OrderList'}}
+  /json/2/supply.api/order_read:
+    post:
+      summary: One supply order with lines, linked documents, change log and print links
+      requestBody: {$ref: '#/components/requestBodies/OrderId'}
+      responses: {'200': {$ref: '#/components/responses/Order'}}
+  /json/2/supply.api/order_create:
+    post:
+      summary: Create a draft supply order (partner, type, supply_ref, lines)
+      requestBody: {$ref: '#/components/requestBodies/OrderCreate'}
+      responses: {'200': {$ref: '#/components/responses/Order'}}
+  /json/2/supply.api/order_from_document:
+    post:
+      summary: Create a supply order from an existing sales/purchase order (adopts its transfers and invoices)
+      requestBody: {$ref: '#/components/requestBodies/FromDocument'}
+      responses: {'200': {$ref: '#/components/responses/Order'}}
+  /json/2/supply.api/order_action:
+    post:
+      summary: Run a workflow action on an order
+      description: |
+        `action` is one of: `confirm`, `cancel`, `close`, `reset_draft`, `prepare_transfer`,
+        `create_sale_order`, `create_purchase_order`, `create_invoice`.
+        `prepare_transfer` returns the created transfer; `create_*` return the new document.
+      requestBody: {$ref: '#/components/requestBodies/OrderAction'}
+      responses: {'200': {$ref: '#/components/responses/Order'}}
+  /json/2/supply.api/line_add:
+    post:
+      summary: Add an item (after confirmation a new transfer is planned automatically)
+      requestBody: {$ref: '#/components/requestBodies/LineAdd'}
+      responses: {'200': {$ref: '#/components/responses/Order'}}
+  /json/2/supply.api/line_update:
+    post:
+      summary: Change quantity, price, discount, note or invoice group; or move the line to another number
+      description: Quantity/price changes after confirmation are logged with `reason`. `line_no` moves the line and renumbers the others.
+      requestBody: {$ref: '#/components/requestBodies/LineUpdate'}
+      responses: {'200': {$ref: '#/components/responses/Order'}}
+  /json/2/supply.api/line_remove:
+    post:
+      summary: Remove an item (refused when it already has done stock moves)
+      requestBody: {$ref: '#/components/requestBodies/LineRemove'}
+      responses: {'200': {$ref: '#/components/responses/Order'}}
+  /json/2/supply.api/line_substitute:
+    post:
+      summary: Replace an item; `return_done` also returns what was already moved
+      requestBody: {$ref: '#/components/requestBodies/LineSubstitute'}
+      responses: {'200': {$ref: '#/components/responses/Order'}}
+  /json/2/supply.api/scan:
+    post:
+      summary: Scan a product barcode or a lot number into an order
+      description: |
+        Same rules as the Scan field in Odoo: product → add or raise quantity (company setting); lot → attach to the
+        item or add its item; unknown code on a purchase → new lot name of the last tracked item.
+      requestBody: {$ref: '#/components/requestBodies/Scan'}
+      responses: {'200': {$ref: '#/components/responses/ScanResult'}}
+  /json/2/supply.api/document_links:
+    post:
+      summary: Preview URLs for printing (opened on the Odoo host or proxied)
+      description: Kinds `quotation`, `commercial_bill`, `invoice`. Each answer gives `preview`, `pdf` and `xlsx` URLs.
+      requestBody: {$ref: '#/components/requestBodies/DocumentLinks'}
+      responses: {'200': {$ref: '#/components/responses/Links'}}
+  /json/2/supply.api/alerts:
+    post:
+      summary: Expiry alerts or automatic purchase orders
+      requestBody: {$ref: '#/components/requestBodies/Alerts'}
+      responses: {'200': {$ref: '#/components/responses/AlertList'}}
+  /json/2/supply.api/lookup:
+    post:
+      summary: Search products, partners, lots (autocomplete)
+      requestBody: {$ref: '#/components/requestBodies/Lookup'}
+      responses: {'200': {$ref: '#/components/responses/Lookup'}}
+
+  /json/2/supply.api/ext_user_sync:
+    post:
+      summary: Create or update the external.user standing for an app account
+      requestBody: {$ref: '#/components/requestBodies/ExtUserSync'}
+      responses: {'200': {$ref: '#/components/responses/Lookup'}}
+  /json/2/supply.api/whoami:
+    post:
+      summary: The acting app user, its role and the operations the role allows
+      responses: {'200': {$ref: '#/components/responses/Lookup'}}
+  /json/2/supply.api/reconcile_load:
+    post:
+      summary: Open invoices and payments/credit notes of a customer or vendor in a period (nothing is pre-selected on invoices)
+      requestBody: {$ref: '#/components/requestBodies/Reconcile'}
+      responses: {'200': {$ref: '#/components/responses/Lookup'}}
+  /json/2/supply.api/reconcile_run:
+    post:
+      summary: Reconcile the chosen invoices (account.move ids) with the payments, oldest due date or oldest invoice first
+      requestBody: {$ref: '#/components/requestBodies/ReconcileRun'}
+      responses: {'200': {$ref: '#/components/responses/Lookup'}}
+  /json/2/supply.api/rebate_accruals:
+    post:
+      summary: Deferred discounts due (filter by state and applies_to)
+      responses: {'200': {$ref: '#/components/responses/AlertList'}}
+  /json/2/supply.api/rebate_action:
+    post:
+      summary: confirm (provision) | settle (credit/debit note) | cancel | reset_draft one accrual
+      responses: {'200': {$ref: '#/components/responses/Lookup'}}
+
+components:
+  securitySchemes:
+    bearerKey: {type: http, scheme: bearer, description: Odoo API key of the integration user}
+
+  schemas:
+    Context:
+      type: object
+      properties:
+        ext_user_id: {type: integer, description: id of external.user — set by Next.js only}
+        lang: {type: string, example: ar_001}
+    Write:
+      type: object
+      required: [idempotency_key]
+      properties:
+        idempotency_key: {type: string, format: uuid}
+        context: {$ref: '#/components/schemas/Context'}
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          enum: [user_error, validation_error, access_denied, not_found, conflict, nothing_to_do]
+        message: {type: string, description: Safe to show to the user (already translated)}
+        field: {type: string}
+    Envelope:
+      type: object
+      required: [ok]
+      properties:
+        ok: {type: boolean}
+        error: {$ref: '#/components/schemas/Error'}
+    Partner:
+      type: object
+      properties: {id: {type: integer}, name: {type: string}}
+    Product:
+      type: object
+      properties:
+        id: {type: integer}
+        name: {type: string}
+        barcode: {type: string}
+        tracking: {type: string, enum: [lot, serial, none]}
+        uom: {type: string}
+    SupplyLine:
+      type: object
+      properties:
+        id: {type: integer}
+        line_no: {type: integer}
+        product: {$ref: '#/components/schemas/Product'}
+        requested_product: {$ref: '#/components/schemas/Product'}
+        origin: {type: string, enum: [requested, added]}
+        note: {type: string}
+        qty_initial: {type: number, description: asked when confirmed; 0 for added items}
+        qty_requested: {type: number, description: current quantity}
+        qty_change: {type: number}
+        qty_done: {type: number, description: really delivered/received, net of returns}
+        qty_invoiced: {type: number}
+        uom: {type: string}
+        price_unit: {type: number}
+        discount: {type: number}
+        taxes: {type: array, items: {type: string}}
+        invoice_group: {type: string}
+        lot: {type: object, properties: {id: {type: integer}, name: {type: string}, expiration_date: {type: string, format: date-time}}}
+        lot_name: {type: string, description: new lot to create at reception}
+        subtotal: {type: number}
+    ChangeLogEntry:
+      type: object
+      properties:
+        date: {type: string, format: date-time}
+        type: {type: string, enum: [add, remove, substitute, qty, price]}
+        item: {type: string}
+        old: {type: string}
+        new: {type: string}
+        reason: {type: string}
+        user: {type: string}
+        app_user: {type: string}
+    LinkedDocument:
+      type: object
+      properties:
+        model: {type: string, enum: [sale.order, purchase.order, stock.picking, account.move]}
+        id: {type: integer}
+        name: {type: string}
+        state: {type: string}
+        kind: {type: string, description: 'delivery, receipt, invoice, vendor_bill, sale, purchase'}
+    SupplyOrder:
+      type: object
+      properties:
+        id: {type: integer}
+        name: {type: string}
+        supply_ref: {type: string}
+        order_type: {type: string, enum: [sale, purchase]}
+        state: {type: string, enum: [draft, confirmed, closed, cancel]}
+        fulfillment_state: {type: string, enum: [none, partial, done]}
+        invoice_state: {type: string, enum: [nothing, to_invoice, invoiced]}
+        partner: {$ref: '#/components/schemas/Partner'}
+        currency: {type: string}
+        date_order: {type: string, format: date-time}
+        amount_untaxed: {type: number}
+        amount_tax: {type: number}
+        amount_total: {type: number}
+        lines: {type: array, items: {$ref: '#/components/schemas/SupplyLine'}}
+        documents: {type: array, items: {$ref: '#/components/schemas/LinkedDocument'}}
+        change_log: {type: array, items: {$ref: '#/components/schemas/ChangeLogEntry'}}
+        allowed_actions:
+          type: array
+          description: What the UI may offer now (computed from state and Odoo rules; Next.js also applies the user's role)
+          items: {type: string}
+        grouping_warning: {type: string}
+    Page:
+      type: object
+      properties:
+        total: {type: integer}
+        offset: {type: integer}
+        limit: {type: integer}
+    LineValues:
+      type: object
+      properties:
+        product_id: {type: integer}
+        qty_requested: {type: number}
+        price_unit: {type: number}
+        discount: {type: number}
+        note: {type: string}
+        invoice_group: {type: string}
+        lot_id: {type: integer}
+        lot_name: {type: string}
+    ScanResult:
+      type: object
+      description: Carried in the envelope `data`
+      properties:
+        outcome: {type: string, enum: [product_added, quantity_increased, lot_attached, lot_added, new_lot_name, unknown, ambiguous, rejected], description: 'unknown/ambiguous/rejected come with a `message` to show; nothing changed'}
+        message: {type: string}
+        order: {$ref: '#/components/schemas/SupplyOrder'}
+
+  requestBodies:
+    OrderSearch:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              query: {type: string, description: matches name, supply_ref, partner, item}
+              state: {type: array, items: {type: string}}
+              order_type: {type: string}
+              invoice_state: {type: string}
+              offset: {type: integer, default: 0}
+              limit: {type: integer, default: 50, maximum: 200}
+              context: {$ref: '#/components/schemas/Context'}
+    OrderId:
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [id]
+            properties: {id: {type: integer}, context: {$ref: '#/components/schemas/Context'}}
+    OrderCreate:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [partner_id, order_type]
+                properties:
+                  partner_id: {type: integer}
+                  order_type: {type: string, enum: [sale, purchase]}
+                  supply_ref: {type: string}
+                  linked_supply_id: {type: integer}
+                  note: {type: string}
+                  lines: {type: array, items: {$ref: '#/components/schemas/LineValues'}}
+    FromDocument:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [model, id]
+                properties:
+                  model: {type: string, enum: [sale.order, purchase.order]}
+                  id: {type: integer}
+    OrderAction:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [id, action]
+                properties:
+                  id: {type: integer}
+                  action:
+                    type: string
+                    enum: [confirm, cancel, close, reset_draft, prepare_transfer, create_sale_order, create_purchase_order, create_invoice]
+    LineAdd:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [order_id, line]
+                properties:
+                  order_id: {type: integer}
+                  line: {$ref: '#/components/schemas/LineValues'}
+                  reason: {type: string}
+    LineUpdate:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [line_id]
+                properties:
+                  line_id: {type: integer}
+                  values: {$ref: '#/components/schemas/LineValues'}
+                  line_no: {type: integer, description: move the line to this number}
+                  reason: {type: string}
+    LineRemove:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [line_id]
+                properties: {line_id: {type: integer}, reason: {type: string}}
+    LineSubstitute:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [line_id, product_id, reason]
+                properties:
+                  line_id: {type: integer}
+                  product_id: {type: integer}
+                  reason: {type: string}
+                  return_done: {type: boolean, default: false}
+    Scan:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [order_id, code]
+                properties: {order_id: {type: integer}, code: {type: string}}
+    DocumentLinks:
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [kind]
+            properties:
+              kind: {type: string, enum: [quotation, commercial_bill, invoice]}
+              order_id: {type: integer}
+              invoice_id: {type: integer}
+              context: {$ref: '#/components/schemas/Context'}
+    Alerts:
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [kind]
+            properties:
+              kind: {type: string, enum: [expiry, auto_purchase]}
+              filter: {type: string, enum: [alert, expired, within_7, within_30, within_60, to_confirm, to_receive, late]}
+              offset: {type: integer}
+              limit: {type: integer}
+              context: {$ref: '#/components/schemas/Context'}
+    Lookup:
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [kind, query]
+            properties:
+              kind: {type: string, enum: [product, partner, lot]}
+              query: {type: string}
+              limit: {type: integer, default: 20}
+              context: {$ref: '#/components/schemas/Context'}
+
+    ExtUserSync:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [login, name, role]
+                properties:
+                  login: {type: string}
+                  name: {type: string}
+                  role: {type: string, enum: [sales, warehouse, accountant, manager]}
+                  external_id: {type: string}
+                  active: {type: boolean, default: true}
+    Reconcile:
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [partner_id, kind, date_from, date_to]
+            properties:
+              partner_id: {type: integer}
+              kind: {type: string, enum: [customer, vendor]}
+              date_from: {type: string, format: date}
+              date_to: {type: string, format: date}
+              context: {$ref: '#/components/schemas/Context'}
+    ReconcileRun:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Write'}
+              - type: object
+                required: [partner_id, kind, date_from, date_to, invoice_ids]
+                properties:
+                  partner_id: {type: integer}
+                  kind: {type: string, enum: [customer, vendor]}
+                  date_from: {type: string, format: date}
+                  date_to: {type: string, format: date}
+                  invoice_ids: {type: array, items: {type: integer}, description: account.move ids to settle}
+                  payment_ids: {type: array, items: {type: integer}, description: account.move ids to use; omitted = every open payment}
+                  allocation_order: {type: string, enum: [due, invoice], default: due}
+
+  responses:
+    Order:
+      description: Envelope with the order
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Envelope'}
+              - type: object
+                properties: {data: {$ref: '#/components/schemas/SupplyOrder'}}
+    OrderList:
+      description: Envelope with a page of orders
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Envelope'}
+              - {$ref: '#/components/schemas/Page'}
+              - type: object
+                properties: {data: {type: array, items: {$ref: '#/components/schemas/SupplyOrder'}}}
+    ScanResult:
+      description: Envelope whose data says what the scan did, with the updated order
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Envelope'}
+              - type: object
+                properties: {data: {$ref: '#/components/schemas/ScanResult'}}
+    Links:
+      description: Preview, PDF and XLSX URLs
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Envelope'}
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties: {preview: {type: string}, pdf: {type: string}, xlsx: {type: string}}
+    AlertList:
+      description: Lots near expiry, or automatic purchase orders
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Envelope'}
+              - {$ref: '#/components/schemas/Page'}
+              - type: object
+                properties: {data: {type: array, items: {type: object}}}
+    Lookup:
+      description: Matches for autocomplete
+      content:
+        application/json:
+          schema:
+            allOf:
+              - {$ref: '#/components/schemas/Envelope'}
+              - type: object
+                properties: {data: {type: array, items: {type: object}}}
+
+x-open-points:
+  - Roles and their permissions (question 7) — the matrix in `info.description` is a proposal; changing it is one table in `supply_api`.
+  - Real-time updates (barcode-scanner stations) — polling `order_read` is enough for now; websockets only if needed.
+  - Rebate programs and conditional-discount rules are configured in Odoo (not through this API); the API lists and settles the accruals only.
