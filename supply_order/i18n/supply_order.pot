@@ -1,0 +1,1375 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* supply_order
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 13:20+0000\n"
+"PO-Revision-Date: 2026-11-04 13:20+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "%(body)s — by %(user)s via the app"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid ""
+"%(qty)s of %(item)s were already invoiced: issue a credit note for them."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/inherited.py:0
+msgid "%s already has a supply order."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.actions.report,print_report_name:supply_order.action_report_supply_quotation
+msgid "'Quotation - %s' % (object.supply_ref or object.name)"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<span>Quotation # </span>"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<strong>Date:</strong>"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<strong>Supply Order No.:</strong>"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<strong>Total</strong>"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<strong>Untaxed Amount</strong>"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__external_user__role__accountant
+msgid "Accountant"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__active
+msgid "Active"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_plans_ids
+msgid "Activity Plans"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__product_id
+msgid "Actual Item"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Add at least one line before confirming."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__add
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_line__line_origin__added
+msgid "Added"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Added in transfer %s"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__return_done
+msgid "Also return what was already moved"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Amount"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__amount_tax
+msgid "Amount Tax"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__amount_total
+msgid "Amount Total"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__amount_untaxed
+msgid "Amount Untaxed"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "App"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__ext_user_id
+msgid "App User"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.actions.act_window,name:supply_order.external_user_action
+#: model:ir.ui.menu,name:supply_order.menu_external_users
+msgid "App Users"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_substitute_wizard_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Cannot cancel an order with done stock moves. Close it instead."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Cannot cancel an order with posted invoices."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Cannot delete a line that already has done stock moves."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.module.module,summary:base.module_supply_order
+msgid ""
+"Central supply order: the operational hub that drives sales, purchase, stock"
+" and invoicing"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_change
+msgid "Change"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__change_log_ids
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Change Log"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__change_type
+msgid "Change Type"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Close"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__state__closed
+msgid "Closed"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__company_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__company_id
+msgid "Company"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.ui.menu,name:supply_order.menu_supply_config
+msgid "Configuration"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Confirm"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Confirm the supply order first."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__state__confirmed
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Confirmed"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__linked_supply_id
+msgid "Counterpart order, e.g. the vendor purchase serving a customer supply."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__create_date
+msgid "Create Date"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Create Invoice"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Create Purchase Order"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Create Sales Order"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.purchase_order_form_supply
+#: model_terms:ir.ui.view,arch_db:supply_order.view_order_form_supply
+msgid "Create Supply Order"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_supply_adopt_mixin
+msgid "Create a supply order from an existing order"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__create_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__create_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__create_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__create_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_bank_statement_line__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_account_move__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_external_user_stamp__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__created_ext_user_id
+msgid "Created by (App)"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/inherited.py:0
+msgid "Created from %s."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__create_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__create_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__create_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__currency_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__old_product_id
+msgid "Current Item"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_requested
+msgid "Current Qty"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__qty_change
+msgid "Current quantity minus original quantity."
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Customer supply"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__date_order
+msgid "Date Order"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Delivery"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__delivery_count
+msgid "Delivery Count"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Description"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__discount
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Disc.%"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_move__display_name
+#: model:ir.model.fields,field_description:supply_order.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:supply_order.field_external_user__display_name
+#: model:ir.model.fields,field_description:supply_order.field_external_user_stamp__display_name
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__display_name
+#: model:ir.model.fields,field_description:supply_order.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:supply_order.field_stock_move__display_name
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_adopt_mixin__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_done
+msgid "Done"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__state__draft
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Draft"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid ""
+"Everything was already moved for %s. Tick 'Also return what was already "
+"moved' to replace it."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__external_id
+msgid "External ID"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_external_user
+msgid "External application user"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.constraint,message:supply_order.constraint_external_user_login_unique
+msgid "External login must be unique."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_external_user_stamp
+msgid "External user stamp"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__field_name
+msgid "Field Name"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__supply_ref
+msgid ""
+"Free text number of the supply order as known by the customer/vendor, e.g. "
+"11100."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__fulfillment_state
+msgid "Fulfillment State"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__fulfillment_state__done
+msgid "Fully done"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__invoice_state__invoiced
+msgid "Fully invoiced"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__has_done_moves
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__has_done_moves
+msgid "Has Done Moves"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_move__id
+#: model:ir.model.fields,field_description:supply_order.field_account_move_line__id
+#: model:ir.model.fields,field_description:supply_order.field_external_user__id
+#: model:ir.model.fields,field_description:supply_order.field_external_user_stamp__id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order_line__id
+#: model:ir.model.fields,field_description:supply_order.field_stock_move__id
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_adopt_mixin__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_has_error
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Invoice %s created from actual quantities."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__invoice_count
+msgid "Invoice Count"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__invoice_group_name
+msgid "Invoice Group"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__invoice_line_ids
+msgid "Invoice Lines"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__invoice_state
+msgid "Invoice State"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_invoiced
+msgid "Invoiced"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__invoice_ids
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Invoices"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__line_desc
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Item"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__line_note
+msgid "Item Note"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Item substituted: %(old)s → %(new)s."
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Items"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Items were added: new transfer %s created automatically."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__write_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__write_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__write_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__write_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__write_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__write_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__write_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__write_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_bank_statement_line__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_account_move__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_external_user_stamp__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__write_ext_user_id
+msgid "Last edited by (App)"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__line_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__line_id
+msgid "Line"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__line_ids
+msgid "Lines"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__linked_supply_id
+msgid "Linked Supply Order"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__login
+msgid "Login"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__external_user__role__manager
+#: model:res.groups,name:supply_order.group_supply_manager
+msgid "Manager"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__activity_type_icon
+msgid "Material Symbols icon e.g. checklist"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "More was moved than requested"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__name
+msgid "Name"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "New"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__new_value
+msgid "New Value"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: supply_order
+#: model:res.groups.privilege,placeholder:supply_order.res_groups_privilege_supply
+msgid "No"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/inherited.py:0
+msgid "No stockable/consumable item to supply on %s."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "No warehouse found for company %s."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__line_no
+msgid "No."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__fulfillment_state__none
+msgid "Not started"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__note
+msgid "Note"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Notes..."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid ""
+"Nothing left to plan: all requested quantities already have stock moves."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__invoice_state__nothing
+msgid "Nothing to invoice"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Nothing to invoice: no delivered/received quantity is left uninvoiced."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Nothing was delivered/received of %s: nothing to return."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__old_value
+msgid "Old Value"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Only a supply manager can modify a confirmed order."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Only cancelled orders can be reset to draft."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Only confirmed orders can have items substituted."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Only customer supply orders can create a sales order."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Only draft orders can be confirmed."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Only purchase supply orders can create a purchase order."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__order_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__order_id
+msgid "Order"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Order %s is %s and cannot be modified."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__order_type
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__order_type
+msgid "Order Type"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__line_origin
+msgid "Origin"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_initial
+msgid "Original Qty"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__requested_product_id
+msgid "Original item asked for. Kept when the actual item is substituted."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__fulfillment_state__partial
+msgid "Partially done"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__partner_id
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Partner"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__picking_count
+msgid "Picking Count"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Prepare Delivery"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Prepare Receipt"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__price_subtotal
+msgid "Price Subtotal"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__price_total
+msgid "Price Total"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__price_unit
+msgid "Price Unit"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__price
+msgid "Price changed"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Print Quotation"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Purchase"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__purchase_count
+msgid "Purchase Count"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__purchase_line_id
+msgid "Purchase Line"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__purchase_order_ids
+msgid "Purchase Orders"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__order_type__purchase
+msgid "Purchase from vendor"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Purchase order %s created."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_unplanned
+msgid "Qty Unplanned"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Quantity"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__qty_initial
+msgid ""
+"Quantity asked for when the order was confirmed. 0 for items added "
+"afterwards."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__qty
+msgid "Quantity changed"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__qty_done
+msgid ""
+"Quantity really delivered (sale) or received (purchase), net of returns."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.actions.report,name:supply_order.action_report_supply_quotation
+msgid "Quotation"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__reason
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__reason
+msgid "Reason"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Receipt"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__receipt_count
+msgid "Receipt Count"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Receipts"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__name
+msgid "Reference"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__remove
+msgid "Removed"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_line__line_origin__requested
+msgid "Requested"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__requested_product_id
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Requested Item"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Returned via %s."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_substitute_wizard__return_done
+msgid ""
+"Reverse what was already delivered/received of the current item with a "
+"return, and plan the full quantity again with the new item."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__role
+msgid "Role"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__sale_count
+msgid "Sale Count"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__sale_line_id
+msgid "Sale Line"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__sale_order_ids
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Sales Orders"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__external_user__role__sales
+msgid "Sales Rep"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Sales order %s created."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__state
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__order_state
+msgid "State"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Status"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__move_ids
+msgid "Stock Moves"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_substitute_wizard_view_form
+msgid "Substitute"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__new_product_id
+msgid "Substitute Item"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_supply_substitute_wizard
+msgid "Substitute a supply order item"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__substitute
+msgid "Substituted"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid ""
+"Substituting an item on a purchase order already created is not supported "
+"yet."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__substitution_reason
+msgid "Substitution Reason"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/inherited.py:0
+#: model:ir.model,name:supply_order.model_supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_bank_statement_line__supply_order_id
+#: model:ir.model.fields,field_description:supply_order.field_account_move__supply_order_id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__supply_order_id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__supply_order_id
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__supply_order_id
+#: model:ir.module.module,shortdesc:base.module_supply_order
+msgid "Supply Order"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_supply_order_line
+#: model:ir.model.fields,field_description:supply_order.field_account_move_line__supply_line_id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order_line__supply_line_id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order_line__supply_line_id
+#: model:ir.model.fields,field_description:supply_order.field_stock_move__supply_line_id
+msgid "Supply Order Line"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_bank_statement_line__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_account_move__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__supply_ref
+msgid "Supply Order No."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.actions.act_window,name:supply_order.supply_order_action
+#: model:ir.ui.menu,name:supply_order.menu_supply_orders
+#: model:ir.ui.menu,name:supply_order.menu_supply_root
+#: model:res.groups.privilege,name:supply_order.res_groups_privilege_supply
+msgid "Supply Orders"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Supply order cancelled."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_supply_order_change_log
+msgid "Supply order change log"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Supply order closed."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Supply order confirmed."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__order_type__sale
+msgid "Supply to customer"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Tax ID:"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__tax_ids
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Taxes"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_change_log.py:0
+msgid "The change log cannot be deleted."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_change_log.py:0
+msgid "The change log cannot be modified."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "The substitute is the same item."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "The substitute must use a compatible unit of measure."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__invoice_state__to_invoice
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "To invoice"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_list
+msgid "Total"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Transfer %s prepared."
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__picking_ids
+msgid "Transfers"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__uom_id
+msgid "Unit"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Unit Price"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Use the Substitute action to change an item after confirmation."
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__user_id
+#: model:res.groups,name:supply_order.group_supply_user
+msgid "User"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Vendor Bills"
+msgstr ""
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Vendor purchase"
+msgstr ""
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__external_user__role__warehouse
+msgid "Warehouse Keeper"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "draft"
+msgstr ""

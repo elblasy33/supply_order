@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_supply_order_user,supply.order user,supply.order,group_supply_user,cru,
+access_supply_order_manager,supply.order manager,supply.order,group_supply_manager,crud,
+access_supply_order_line_user,supply.order.line user,supply.order.line,group_supply_user,crud,
+access_supply_order_change_log_user,supply.order.change.log user,supply.order.change.log,group_supply_user,r,
+access_external_user_user,external.user user,external.user,group_supply_user,r,
+access_external_user_manager,external.user manager,external.user,group_supply_manager,crud,
+access_supply_substitute_wizard,supply.substitute.wizard,supply.substitute.wizard,group_supply_user,crud,
+supply_order_comp_rule,Supply Order multi-company,supply.order,,crud,"[('company_id', 'in', company_ids)]"
+supply_order_line_comp_rule,Supply Order Line multi-company,supply.order.line,,crud,"[('company_id', 'in', company_ids)]"

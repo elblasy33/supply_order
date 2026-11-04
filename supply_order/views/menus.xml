@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_supply_root" name="Supply Orders" sequence="25"
+              web_icon="supply_order,static/description/icon.png"
+              groups="supply_order.group_supply_user"/>
+    <menuitem id="menu_supply_orders" name="Supply Orders" parent="menu_supply_root"
+              action="supply_order_action" sequence="10"/>
+    <menuitem id="menu_supply_config" name="Configuration" parent="menu_supply_root" sequence="90"
+              groups="supply_order.group_supply_manager"/>
+    <menuitem id="menu_external_users" name="App Users" parent="menu_supply_config"
+              action="external_user_action" sequence="10"/>
+</odoo>

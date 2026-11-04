@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_supply" model="ir.ui.view">
+        <field name="name">sale.order.form.supply</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id'][1]" position="after">
+                <field name="supply_ref"/>
+                <field name="supply_order_id" readonly="1" invisible="not supply_order_id"/>
+            </xpath>
+            <xpath expr="//form/header" position="inside">
+                <button name="action_create_supply_order" string="Create Supply Order" type="object"
+                        invisible="supply_order_id or state == 'cancel'" groups="supply_order.group_supply_user"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="purchase_order_form_supply" model="ir.ui.view">
+        <field name="name">purchase.order.form.supply</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id'][1]" position="after">
+                <field name="supply_ref"/>
+                <field name="supply_order_id" readonly="1" invisible="not supply_order_id"/>
+            </xpath>
+            <xpath expr="//form/header" position="inside">
+                <button name="action_create_supply_order" string="Create Supply Order" type="object"
+                        invisible="supply_order_id or state == 'cancel'" groups="supply_order.group_supply_user"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_picking_form_supply" model="ir.ui.view">
+        <field name="name">stock.picking.form.supply</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id'][1]" position="after">
+                <field name="supply_ref"/>
+                <field name="supply_order_id" readonly="1" invisible="not supply_order_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_move_form_supply" model="ir.ui.view">
+        <field name="name">account.move.form.supply</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id'][1]" position="after">
+                <field name="supply_ref"/>
+                <field name="supply_order_id" readonly="1" invisible="not supply_order_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_supply" model="ir.ui.view">
+        <field name="name">sale.order.search.supply</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="supply_ref"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_picking_internal_search_supply" model="ir.ui.view">
+        <field name="name">stock.picking.search.supply</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="supply_ref"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_purchase_order_filter_supply" model="ir.ui.view">
+        <field name="name">purchase.order.search.supply</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="supply_ref"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_account_invoice_filter_supply" model="ir.ui.view">
+        <field name="name">account.move.search.supply</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="supply_ref"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,1360 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* supply_order
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "%(body)s — by %(user)s via the app"
+msgstr "%(body)s — بواسطة %(user)s عبر التطبيق"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "%(qty)s of %(item)s were already invoiced: issue a credit note for them."
+msgstr "تمت فوترة %(qty)s من %(item)s بالفعل: أصدر إشعاراً دائناً بها."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/inherited.py:0
+msgid "%s already has a supply order."
+msgstr "%s له أمر توريد بالفعل."
+
+#. module: supply_order
+#: model:ir.actions.report,print_report_name:supply_order.action_report_supply_quotation
+msgid "'Quotation - %s' % (object.supply_ref or object.name)"
+msgstr "'عرض سعر - %s' % (object.supply_ref or object.name)"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<span>Quotation # </span>"
+msgstr "<span>عرض سعر رقم </span>"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<strong>Date:</strong>"
+msgstr "<strong>التاريخ:</strong>"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<strong>Supply Order No.:</strong>"
+msgstr "<strong>رقم أمر التوريد:</strong>"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<strong>Total</strong>"
+msgstr "<strong>الإجمالي</strong>"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "<strong>Untaxed Amount</strong>"
+msgstr "<strong>المبلغ قبل الضريبة</strong>"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__external_user__role__accountant
+msgid "Accountant"
+msgstr "محاسب"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_needaction
+msgid "Action Needed"
+msgstr "إجراء مطلوب"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_ids
+msgid "Activities"
+msgstr "الأنشطة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "تزيين استثناء النشاط"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_plans_ids
+msgid "Activity Plans"
+msgstr "خطط الأنشطة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_state
+msgid "Activity State"
+msgstr "حالة النشاط"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "أيقونة نوع النشاط"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__product_id
+msgid "Actual Item"
+msgstr "الصنف الفعلي"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Add at least one line before confirming."
+msgstr "أضف سطراً واحداً على الأقل قبل التأكيد."
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__add
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_line__line_origin__added
+msgid "Added"
+msgstr "مضاف"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Added in transfer %s"
+msgstr "أُضيف في الإذن %s"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__return_done
+msgid "Also return what was already moved"
+msgstr "أرجع أيضاً ما تم تحريكه بالفعل"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Amount"
+msgstr "المبلغ"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__amount_tax
+msgid "Amount Tax"
+msgstr "مبلغ الضريبة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__amount_total
+msgid "Amount Total"
+msgstr "إجمالي المبلغ"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__amount_untaxed
+msgid "Amount Untaxed"
+msgstr "المبلغ قبل الضريبة"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "App"
+msgstr "التطبيق"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__ext_user_id
+msgid "App User"
+msgstr "مستخدم التطبيق"
+
+#. module: supply_order
+#: model:ir.actions.act_window,name:supply_order.external_user_action
+#: model:ir.ui.menu,name:supply_order.menu_external_users
+msgid "App Users"
+msgstr "مستخدمو التطبيق"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_substitute_wizard_view_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__state__cancel
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Cannot cancel an order with done stock moves. Close it instead."
+msgstr "لا يمكن إلغاء أمر له حركات مخزون منتهية. أغلقه بدلاً من ذلك."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Cannot cancel an order with posted invoices."
+msgstr "لا يمكن إلغاء أمر له فواتير مرحّلة."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Cannot delete a line that already has done stock moves."
+msgstr "لا يمكن حذف سطر له حركات مخزون منتهية."
+
+#. module: supply_order
+#: model:ir.module.module,summary:base.module_supply_order
+msgid "Central supply order: the operational hub that drives sales, purchase, stock and invoicing"
+msgstr "أمر التوريد المركزي: محور التشغيل الذي يدير المبيعات والمشتريات والمخزون والفوترة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_change
+msgid "Change"
+msgstr "التغيير"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__change_log_ids
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Change Log"
+msgstr "سجل التعديلات"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__change_type
+msgid "Change Type"
+msgstr "نوع التغيير"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Close"
+msgstr "إغلاق"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__state__closed
+msgid "Closed"
+msgstr "مغلق"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__company_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: supply_order
+#: model:ir.ui.menu,name:supply_order.menu_supply_config
+msgid "Configuration"
+msgstr "الإعدادات"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Confirm"
+msgstr "تأكيد"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Confirm the supply order first."
+msgstr "أكّد أمر التوريد أولاً."
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__state__confirmed
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Confirmed"
+msgstr "مؤكد"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__linked_supply_id
+msgid "Counterpart order, e.g. the vendor purchase serving a customer supply."
+msgstr "الأمر المقابل، مثل الشراء من المورد لخدمة توريد عميل."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__create_date
+msgid "Create Date"
+msgstr "تاريخ الإنشاء"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Create Invoice"
+msgstr "إنشاء فاتورة"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Create Purchase Order"
+msgstr "إنشاء أمر شراء"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Create Sales Order"
+msgstr "إنشاء أمر بيع"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.purchase_order_form_supply
+#: model_terms:ir.ui.view,arch_db:supply_order.view_order_form_supply
+msgid "Create Supply Order"
+msgstr "إنشاء أمر توريد"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_supply_adopt_mixin
+msgid "Create a supply order from an existing order"
+msgstr "إنشاء أمر توريد من أمر قائم"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__create_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__create_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__create_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__create_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__create_uid
+msgid "Created by"
+msgstr "أنشأه"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_bank_statement_line__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_account_move__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_external_user_stamp__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__created_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__created_ext_user_id
+msgid "Created by (App)"
+msgstr "أنشأه (التطبيق)"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/inherited.py:0
+msgid "Created from %s."
+msgstr "أُنشئ من %s."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__create_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__create_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__create_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__create_date
+msgid "Created on"
+msgstr "تاريخ الإنشاء"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__currency_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__currency_id
+msgid "Currency"
+msgstr "العملة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__old_product_id
+msgid "Current Item"
+msgstr "الصنف الحالي"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_requested
+msgid "Current Qty"
+msgstr "الكمية الحالية"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__qty_change
+msgid "Current quantity minus original quantity."
+msgstr "الكمية الحالية ناقص الكمية الأصلية."
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Customer supply"
+msgstr "توريد لعميل"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__date_order
+msgid "Date Order"
+msgstr "تاريخ الأمر"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Delivery"
+msgstr "التسليم"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__delivery_count
+msgid "Delivery Count"
+msgstr "عدد التسليمات"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Description"
+msgstr "الوصف"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__discount
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Disc.%"
+msgstr "خصم%"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_move__display_name
+#: model:ir.model.fields,field_description:supply_order.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:supply_order.field_external_user__display_name
+#: model:ir.model.fields,field_description:supply_order.field_external_user_stamp__display_name
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__display_name
+#: model:ir.model.fields,field_description:supply_order.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:supply_order.field_stock_move__display_name
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_adopt_mixin__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__display_name
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_done
+msgid "Done"
+msgstr "منفّذ"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__state__draft
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Everything was already moved for %s. Tick 'Also return what was already moved' to replace it."
+msgstr "تم تحريك كل كمية %s بالفعل. فعّل \"أرجع أيضاً ما تم تحريكه بالفعل\" لاستبداله."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__external_id
+msgid "External ID"
+msgstr "المعرّف الخارجي"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_external_user
+msgid "External application user"
+msgstr "مستخدم التطبيق الخارجي"
+
+#. module: supply_order
+#: model:ir.model.constraint,message:supply_order.constraint_external_user_login_unique
+msgid "External login must be unique."
+msgstr "اسم الدخول الخارجي يجب أن يكون فريداً."
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_external_user_stamp
+msgid "External user stamp"
+msgstr "ختم المستخدم الخارجي"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__field_name
+msgid "Field Name"
+msgstr "اسم الحقل"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (الشركاء)"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__supply_ref
+msgid "Free text number of the supply order as known by the customer/vendor, e.g. 11100."
+msgstr "رقم أمر التوريد كنص حر كما يعرفه العميل أو المورد، مثل 11100."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__fulfillment_state
+msgid "Fulfillment State"
+msgstr "حالة التنفيذ"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__fulfillment_state__done
+msgid "Fully done"
+msgstr "منفّذ بالكامل"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__invoice_state__invoiced
+msgid "Fully invoiced"
+msgstr "مفوتر بالكامل"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__has_done_moves
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__has_done_moves
+msgid "Has Done Moves"
+msgstr "له حركات منتهية"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__has_message
+msgid "Has Message"
+msgstr "له رسالة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_move__id
+#: model:ir.model.fields,field_description:supply_order.field_account_move_line__id
+#: model:ir.model.fields,field_description:supply_order.field_external_user__id
+#: model:ir.model.fields,field_description:supply_order.field_external_user_stamp__id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order_line__id
+#: model:ir.model.fields,field_description:supply_order.field_stock_move__id
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_adopt_mixin__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__id
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__id
+msgid "ID"
+msgstr "المعرّف"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_exception_icon
+msgid "Icon"
+msgstr "الأيقونة"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "أيقونة تدل على نشاط استثنائي."
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "إذا فُعّل، فهناك رسائل جديدة تتطلب انتباهك."
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_has_error
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا فُعّل، فبعض الرسائل بها خطأ في التسليم."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Invoice %s created from actual quantities."
+msgstr "أُنشئت الفاتورة %s من الكميات الفعلية."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__invoice_count
+msgid "Invoice Count"
+msgstr "عدد الفواتير"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__invoice_group_name
+msgid "Invoice Group"
+msgstr "مجموعة الفاتورة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__invoice_line_ids
+msgid "Invoice Lines"
+msgstr "بنود الفاتورة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__invoice_state
+msgid "Invoice State"
+msgstr "حالة الفوترة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_invoiced
+msgid "Invoiced"
+msgstr "مفوتر"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__invoice_ids
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Invoices"
+msgstr "الفواتير"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__line_desc
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Item"
+msgstr "الصنف"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__line_note
+msgid "Item Note"
+msgstr "ملاحظة الصنف"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Item substituted: %(old)s → %(new)s."
+msgstr "تم استبدال الصنف: %(old)s ← %(new)s."
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Items"
+msgstr "الأصناف"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Items were added: new transfer %s created automatically."
+msgstr "أُضيفت أصناف: أُنشئ الإذن %s تلقائياً."
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_account_move
+msgid "Journal Entry"
+msgstr "قيد يومية"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_account_move_line
+msgid "Journal Item"
+msgstr "بند يومية"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__write_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__write_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__write_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__write_uid
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__write_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__write_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__write_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__write_date
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_bank_statement_line__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_account_move__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_external_user_stamp__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__write_ext_user_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__write_ext_user_id
+msgid "Last edited by (App)"
+msgstr "آخر تعديل (التطبيق)"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__line_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__line_id
+msgid "Line"
+msgstr "السطر"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__line_ids
+msgid "Lines"
+msgstr "الأسطر"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__linked_supply_id
+msgid "Linked Supply Order"
+msgstr "أمر التوريد المرتبط"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__login
+msgid "Login"
+msgstr "اسم الدخول"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__external_user__role__manager
+#: model:res.groups,name:supply_order.group_supply_manager
+msgid "Manager"
+msgstr "مدير"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__activity_type_icon
+msgid "Material Symbols icon e.g. checklist"
+msgstr "أيقونة Material Symbols مثل checklist"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ تسليم الرسالة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "More was moved than requested"
+msgstr "تم تحريك كمية أكبر من المطلوبة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نشاطي"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "New"
+msgstr "جديد"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__new_value
+msgid "New Value"
+msgstr "القيمة الجديدة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد النشاط التالي"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_summary
+msgid "Next Activity Summary"
+msgstr "ملخص النشاط التالي"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع النشاط التالي"
+
+#. module: supply_order
+#: model:res.groups.privilege,placeholder:supply_order.res_groups_privilege_supply
+msgid "No"
+msgstr "لا"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/inherited.py:0
+msgid "No stockable/consumable item to supply on %s."
+msgstr "لا يوجد صنف مخزني للتوريد في %s."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "No warehouse found for company %s."
+msgstr "لا يوجد مستودع للشركة %s."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__line_no
+msgid "No."
+msgstr "م"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__fulfillment_state__none
+msgid "Not started"
+msgstr "لم يبدأ"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__note
+msgid "Note"
+msgstr "ملاحظة"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Notes..."
+msgstr "ملاحظات..."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Nothing left to plan: all requested quantities already have stock moves."
+msgstr "لا شيء للتخطيط: كل الكميات المطلوبة لها حركات مخزون بالفعل."
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__invoice_state__nothing
+msgid "Nothing to invoice"
+msgstr "لا شيء للفوترة"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Nothing to invoice: no delivered/received quantity is left uninvoiced."
+msgstr "لا شيء للفوترة: لا توجد كمية مسلّمة أو مستلمة غير مفوترة."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Nothing was delivered/received of %s: nothing to return."
+msgstr "لم يُسلَّم أو يُستلَم شيء من %s: لا شيء للإرجاع."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الأخطاء"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "عدد الرسائل التي تتطلب إجراءً"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل التي بها خطأ تسليم"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__old_value
+msgid "Old Value"
+msgstr "القيمة القديمة"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Only a supply manager can modify a confirmed order."
+msgstr "مدير التوريد فقط يمكنه تعديل أمر مؤكد."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Only cancelled orders can be reset to draft."
+msgstr "الأوامر الملغاة فقط يمكن إعادتها إلى مسودة."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Only confirmed orders can have items substituted."
+msgstr "الأوامر المؤكدة فقط يمكن استبدال أصنافها."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Only customer supply orders can create a sales order."
+msgstr "أوامر التوريد للعملاء فقط يمكنها إنشاء أمر بيع."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Only draft orders can be confirmed."
+msgstr "المسودات فقط يمكن تأكيدها."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Only purchase supply orders can create a purchase order."
+msgstr "أوامر الشراء من المورد فقط يمكنها إنشاء أمر شراء."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__order_id
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__order_id
+msgid "Order"
+msgstr "الأمر"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Order %s is %s and cannot be modified."
+msgstr "الأمر %s حالته %s ولا يمكن تعديله."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__order_type
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__order_type
+msgid "Order Type"
+msgstr "نوع الأمر"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__line_origin
+msgid "Origin"
+msgstr "الأصل"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_initial
+msgid "Original Qty"
+msgstr "الكمية الأصلية"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__requested_product_id
+msgid "Original item asked for. Kept when the actual item is substituted."
+msgstr "الصنف المطلوب أصلاً. يبقى عند استبدال الصنف الفعلي."
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__fulfillment_state__partial
+msgid "Partially done"
+msgstr "منفّذ جزئياً"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__partner_id
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Partner"
+msgstr "الشريك"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__picking_count
+msgid "Picking Count"
+msgstr "عدد الأذون"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Prepare Delivery"
+msgstr "تجهيز التسليم"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Prepare Receipt"
+msgstr "تجهيز الاستلام"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__price_subtotal
+msgid "Price Subtotal"
+msgstr "الإجمالي الفرعي"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__price_total
+msgid "Price Total"
+msgstr "إجمالي السعر"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__price_unit
+msgid "Price Unit"
+msgstr "سعر الوحدة"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__price
+msgid "Price changed"
+msgstr "تغيّر السعر"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Print Quotation"
+msgstr "طباعة عرض السعر"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Purchase"
+msgstr "الشراء"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__purchase_count
+msgid "Purchase Count"
+msgstr "عدد المشتريات"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__purchase_line_id
+msgid "Purchase Line"
+msgstr "بند الشراء"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_purchase_order
+msgid "Purchase Order"
+msgstr "أمر شراء"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "بند أمر الشراء"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__purchase_order_ids
+msgid "Purchase Orders"
+msgstr "أوامر الشراء"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__order_type__purchase
+msgid "Purchase from vendor"
+msgstr "شراء من مورد"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Purchase order %s created."
+msgstr "أُنشئ أمر الشراء %s."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__qty_unplanned
+msgid "Qty Unplanned"
+msgstr "كمية غير مخططة"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__qty_initial
+msgid "Quantity asked for when the order was confirmed. 0 for items added afterwards."
+msgstr "الكمية المطلوبة عند تأكيد الأمر. 0 للأصناف المضافة بعد ذلك."
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__qty
+msgid "Quantity changed"
+msgstr "تغيّرت الكمية"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__qty_done
+msgid "Quantity really delivered (sale) or received (purchase), net of returns."
+msgstr "الكمية المسلّمة فعلاً (بيع) أو المستلمة (شراء) بعد خصم المرتجعات."
+
+#. module: supply_order
+#: model:ir.actions.report,name:supply_order.action_report_supply_quotation
+msgid "Quotation"
+msgstr "عرض سعر"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__reason
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__reason
+msgid "Reason"
+msgstr "السبب"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Receipt"
+msgstr "الاستلام"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__receipt_count
+msgid "Receipt Count"
+msgstr "عدد الاستلامات"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Receipts"
+msgstr "الاستلامات"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__name
+msgid "Reference"
+msgstr "المرجع"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__remove
+msgid "Removed"
+msgstr "محذوف"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_line__line_origin__requested
+msgid "Requested"
+msgstr "المطلوب"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__requested_product_id
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Requested Item"
+msgstr "الصنف المطلوب"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Reset to Draft"
+msgstr "إعادة إلى مسودة"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__activity_user_id
+msgid "Responsible User"
+msgstr "المستخدم المسؤول"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Returned via %s."
+msgstr "تم الإرجاع عبر %s."
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_substitute_wizard__return_done
+msgid "Reverse what was already delivered/received of the current item with a return, and plan the full quantity again with the new item."
+msgstr "عكس ما سُلّم أو استُلم من الصنف الحالي بمرتجع، وتخطيط الكمية كاملة من جديد بالصنف البديل."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_external_user__role
+msgid "Role"
+msgstr "الدور"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ تسليم الرسالة النصية"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__sale_count
+msgid "Sale Count"
+msgstr "عدد المبيعات"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__sale_line_id
+msgid "Sale Line"
+msgstr "بند البيع"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_sale_order
+msgid "Sales Order"
+msgstr "أمر بيع"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "بند أمر البيع"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__sale_order_ids
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Sales Orders"
+msgstr "أوامر البيع"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__external_user__role__sales
+msgid "Sales Rep"
+msgstr "مندوب مبيعات"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Sales order %s created."
+msgstr "أُنشئ أمر البيع %s."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__state
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__order_state
+msgid "State"
+msgstr "الحالة"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Status"
+msgstr "الحالة"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"الحالة حسب الأنشطة\n"
+"متأخر: تجاوز تاريخ الاستحقاق\n"
+"اليوم: تاريخ النشاط اليوم\n"
+"مخطط: أنشطة مستقبلية."
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_stock_move
+msgid "Stock Move"
+msgstr "حركة مخزون"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__move_ids
+msgid "Stock Moves"
+msgstr "حركات المخزون"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_substitute_wizard_view_form
+msgid "Substitute"
+msgstr "استبدال"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_substitute_wizard__new_product_id
+msgid "Substitute Item"
+msgstr "الصنف البديل"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_supply_substitute_wizard
+msgid "Substitute a supply order item"
+msgstr "استبدال صنف في أمر توريد"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__substitute
+msgid "Substituted"
+msgstr "مستبدل"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Substituting an item on a purchase order already created is not supported yet."
+msgstr "استبدال صنف في أمر شراء تم إنشاؤه غير مدعوم حالياً."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__substitution_reason
+msgid "Substitution Reason"
+msgstr "سبب الاستبدال"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/inherited.py:0
+#: model:ir.model,name:supply_order.model_supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_bank_statement_line__supply_order_id
+#: model:ir.model.fields,field_description:supply_order.field_account_move__supply_order_id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__supply_order_id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__supply_order_id
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__supply_order_id
+#: model:ir.module.module,shortdesc:base.module_supply_order
+msgid "Supply Order"
+msgstr "أمر توريد"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_supply_order_line
+#: model:ir.model.fields,field_description:supply_order.field_account_move_line__supply_line_id
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order_line__supply_line_id
+#: model:ir.model.fields,field_description:supply_order.field_sale_order_line__supply_line_id
+#: model:ir.model.fields,field_description:supply_order.field_stock_move__supply_line_id
+msgid "Supply Order Line"
+msgstr "بند أمر التوريد"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_account_bank_statement_line__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_account_move__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_purchase_order__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_sale_order__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_stock_picking__supply_ref
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__supply_ref
+msgid "Supply Order No."
+msgstr "رقم أمر التوريد"
+
+#. module: supply_order
+#: model:ir.actions.act_window,name:supply_order.supply_order_action
+#: model:ir.ui.menu,name:supply_order.menu_supply_orders
+#: model:ir.ui.menu,name:supply_order.menu_supply_root
+#: model:res.groups.privilege,name:supply_order.res_groups_privilege_supply
+msgid "Supply Orders"
+msgstr "أوامر التوريد"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Supply order cancelled."
+msgstr "أُلغي أمر التوريد."
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_supply_order_change_log
+msgid "Supply order change log"
+msgstr "سجل تعديلات أمر التوريد"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Supply order closed."
+msgstr "أُغلق أمر التوريد."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Supply order confirmed."
+msgstr "تم تأكيد أمر التوريد."
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__order_type__sale
+msgid "Supply to customer"
+msgstr "توريد لعميل"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Tax ID:"
+msgstr "الرقم الضريبي:"
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__tax_ids
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Taxes"
+msgstr "الضرائب"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_change_log.py:0
+msgid "The change log cannot be deleted."
+msgstr "لا يمكن حذف سجل التعديلات."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_change_log.py:0
+msgid "The change log cannot be modified."
+msgstr "لا يمكن تعديل سجل التعديلات."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "The substitute is the same item."
+msgstr "البديل هو نفس الصنف."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "The substitute must use a compatible unit of measure."
+msgstr "يجب أن يستخدم البديل وحدة قياس متوافقة."
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__supply_order__invoice_state__to_invoice
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "To invoice"
+msgstr "للفوترة"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_list
+msgid "Total"
+msgstr "الإجمالي"
+
+#. module: supply_order
+#: model:ir.model,name:supply_order.model_stock_picking
+msgid "Transfer"
+msgstr "الإذن"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "Transfer %s prepared."
+msgstr "تم تجهيز الإذن %s."
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+#: model:ir.model.fields,field_description:supply_order.field_supply_order__picking_ids
+msgid "Transfers"
+msgstr "الأذون"
+
+#. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع النشاط الاستثنائي في السجل."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_line__uom_id
+msgid "Unit"
+msgstr "الوحدة"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.report_supply_quotation_document
+msgid "Unit Price"
+msgstr "سعر الوحدة"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Use the Substitute action to change an item after confirmation."
+msgstr "استخدم إجراء الاستبدال لتغيير صنف بعد التأكيد."
+
+#. module: supply_order
+#: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__user_id
+#: model:res.groups,name:supply_order.group_supply_user
+msgid "User"
+msgstr "المستخدم"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
+msgid "Vendor Bills"
+msgstr "فواتير الموردين"
+
+#. module: supply_order
+#: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_search
+msgid "Vendor purchase"
+msgstr "شراء من مورد"
+
+#. module: supply_order
+#: model:ir.model.fields.selection,name:supply_order.selection__external_user__role__warehouse
+msgid "Warehouse Keeper"
+msgstr "أمين مخزن"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order.py:0
+msgid "draft"
+msgstr "مسودة"

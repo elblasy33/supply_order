@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="supply_order_view_list" model="ir.ui.view">
+        <field name="name">supply.order.list</field>
+        <field name="model">supply.order</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state in ('cancel', 'closed')">
+                <field name="name"/>
+                <field name="supply_ref"/>
+                <field name="partner_id"/>
+                <field name="order_type" optional="show"/>
+                <field name="date_order" optional="show"/>
+                <field name="amount_total" sum="Total" optional="show"/>
+                <field name="fulfillment_state" widget="badge" optional="show"/>
+                <field name="invoice_state" widget="badge" optional="show"/>
+                <field name="state" widget="badge"/>
+                <field name="currency_id" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="supply_order_view_search" model="ir.ui.view">
+        <field name="name">supply.order.search</field>
+        <field name="model">supply.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="supply_ref"/>
+                <field name="partner_id"/>
+                <field name="line_ids" string="Item" filter_domain="[('line_ids.product_id', 'ilike', self)]"/>
+                <filter name="sale" string="Customer supply" domain="[('order_type', '=', 'sale')]"/>
+                <filter name="purchase" string="Vendor purchase" domain="[('order_type', '=', 'purchase')]"/>
+                <separator/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="to_invoice" string="To invoice" domain="[('invoice_state', '=', 'to_invoice')]"/>
+                <group>
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="supply_order_view_form" model="ir.ui.view">
+        <field name="name">supply.order.form</field>
+        <field name="model">supply.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_prepare_transfer" type="object" class="btn-primary"
+                            string="Prepare Delivery" invisible="state != 'confirmed' or order_type != 'sale'"/>
+                    <button name="action_prepare_transfer" type="object" class="btn-primary"
+                            string="Prepare Receipt" invisible="state != 'confirmed' or order_type != 'purchase'"/>
+                    <button name="action_create_sale_order" string="Create Sales Order" type="object"
+                            invisible="state != 'confirmed' or order_type != 'sale'"/>
+                    <button name="action_create_purchase_order" string="Create Purchase Order" type="object"
+                            invisible="state != 'confirmed' or order_type != 'purchase'"/>
+                    <button name="action_create_invoice" string="Create Invoice" type="object"
+                            invisible="state != 'confirmed' or invoice_state != 'to_invoice'"/>
+                    <button name="action_print_quotation" string="Print Quotation" type="object"
+                            invisible="state == 'cancel'"/>
+                    <button name="action_close" string="Close" type="object" invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('cancel', 'closed')"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_sales" type="object" class="oe_stat_button" icon="attach_money"
+                                invisible="sale_count == 0" groups="sales_team.group_sale_salesman">
+                            <field name="sale_count" widget="statinfo" string="Sales Orders"/>
+                        </button>
+                        <button name="action_view_purchases" type="object" class="oe_stat_button" icon="credit_card"
+                                invisible="purchase_count == 0" groups="purchase.group_purchase_user">
+                            <field name="purchase_count" widget="statinfo" string="Purchase"/>
+                        </button>
+                        <button name="action_view_deliveries" type="object" class="oe_stat_button" icon="local_shipping"
+                                invisible="delivery_count == 0" groups="stock.group_stock_user">
+                            <field name="delivery_count" widget="statinfo" string="Delivery"/>
+                        </button>
+                        <button name="action_view_receipts" type="object" class="oe_stat_button" icon="local_shipping"
+                                invisible="receipt_count == 0" groups="stock.group_stock_user">
+                            <field name="receipt_count" widget="statinfo" string="Receipt"/>
+                        </button>
+                        <button name="action_view_invoices" type="object" class="oe_stat_button" icon="edit_square"
+                                invisible="invoice_count == 0">
+                            <field name="invoice_count" widget="statinfo"
+                                   string="Invoices" invisible="order_type != 'sale'"/>
+                            <field name="invoice_count" widget="statinfo"
+                                   string="Vendor Bills" invisible="order_type != 'purchase'"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'"/>
+                            <field name="order_type" readonly="state != 'draft'"/>
+                            <field name="supply_ref"/>
+                        </group>
+                        <group>
+                            <field name="date_order"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="linked_supply_id"/>
+                            <field name="fulfillment_state" widget="badge"/>
+                            <field name="invoice_state" widget="badge"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Items" name="items">
+                            <field name="line_ids" readonly="state in ('closed', 'cancel')">
+                                <list editable="bottom" default_order="line_no, id"
+                                      decoration-success="line_origin == 'added'"
+                                      decoration-warning="line_origin == 'requested' and qty_change != 0">
+                                    <field name="line_no" width="50px"/>
+                                    <field name="product_id"/>
+                                    <field name="requested_product_id" optional="show" string="Requested Item"/>
+                                    <field name="line_origin" widget="badge" optional="show"
+                                           decoration-success="line_origin == 'added'"/>
+                                    <field name="line_note" optional="show"/>
+                                    <field name="qty_initial" optional="show"/>
+                                    <field name="qty_requested"/>
+                                    <field name="qty_change" optional="show"/>
+                                    <field name="qty_done"/>
+                                    <field name="qty_invoiced" optional="show"/>
+                                    <field name="uom_id" optional="show"/>
+                                    <field name="price_unit"/>
+                                    <field name="discount" optional="show"/>
+                                    <field name="tax_ids" widget="many2many_tags" optional="show"/>
+                                    <field name="invoice_group_name" optional="hide"/>
+                                    <field name="price_subtotal" sum="Total"/>
+                                    <field name="order_state" column_invisible="True"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <button name="action_open_substitute_wizard" type="object" icon="fa-exchange"
+                                            title="Substitute" invisible="order_state != 'confirmed'"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_untaxed"/>
+                                <field name="amount_tax"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                            </group>
+                            <field name="note" placeholder="Notes..."/>
+                        </page>
+                        <page string="Change Log" name="change_log">
+                            <field name="change_log_ids" readonly="1">
+                                <list>
+                                    <field name="create_date"/>
+                                    <field name="line_desc"/>
+                                    <field name="change_type"/>
+                                    <field name="old_value"/>
+                                    <field name="new_value"/>
+                                    <field name="reason"/>
+                                    <field name="user_id"/>
+                                    <field name="ext_user_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="App" name="app" groups="supply_order.group_supply_manager">
+                            <group>
+                                <field name="created_ext_user_id"/>
+                                <field name="write_ext_user_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="supply_substitute_wizard_view_form" model="ir.ui.view">
+        <field name="name">supply.substitute.wizard.form</field>
+        <field name="model">supply.substitute.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="line_id" invisible="1"/>
+                    <field name="old_product_id"/>
+                    <field name="new_product_id"/>
+                    <field name="reason"/>
+                    <field name="has_done_moves" invisible="1"/>
+                    <field name="return_done" invisible="not has_done_moves"/>
+                </group>
+                <footer>
+                    <button name="action_substitute" string="Substitute" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="supply_order_action" model="ir.actions.act_window">
+        <field name="name">Supply Orders</field>
+        <field name="res_model">supply.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="supply_order_view_search"/>
+    </record>
+</odoo>

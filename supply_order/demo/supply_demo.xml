@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="demo_customer" model="res.partner">
+        <field name="name">Demo Wholesale Customer</field>
+        <field name="is_company" eval="True"/>
+    </record>
+    <record id="demo_vendor" model="res.partner">
+        <field name="name">Demo Snacks Vendor</field>
+        <field name="is_company" eval="True"/>
+    </record>
+
+    <record id="demo_chips_hot" model="product.product">
+        <field name="name">Chips (Hot)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">10</field>
+        <field name="standard_price">6</field>
+    </record>
+    <record id="demo_chips_cheese" model="product.product">
+        <field name="name">Chips (Cheese)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">10</field>
+        <field name="standard_price">6</field>
+    </record>
+    <record id="demo_salt" model="product.product">
+        <field name="name">Salt 1kg</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="list_price">4</field>
+        <field name="standard_price">2.5</field>
+    </record>
+
+    <record id="demo_external_ahmed" model="external.user">
+        <field name="name">Ahmed (Sales)</field>
+        <field name="login">ahmed</field>
+        <field name="role">sales</field>
+    </record>
+    <record id="demo_external_mona" model="external.user">
+        <field name="name">Mona (Warehouse)</field>
+        <field name="login">mona</field>
+        <field name="role">warehouse</field>
+    </record>
+
+    <!-- Draft supply order, as typed by a sales rep -->
+    <record id="demo_supply_draft" model="supply.order">
+        <field name="partner_id" ref="demo_customer"/>
+        <field name="supply_ref">11100</field>
+        <field name="note">Deliver in two batches.</field>
+    </record>
+    <record id="demo_supply_draft_line1" model="supply.order.line">
+        <field name="order_id" ref="demo_supply_draft"/>
+        <field name="product_id" ref="demo_chips_hot"/>
+        <field name="qty_requested">100</field>
+        <field name="price_unit">10</field>
+        <field name="line_note">Weight 25 kg per box</field>
+    </record>
+    <record id="demo_supply_draft_line2" model="supply.order.line">
+        <field name="order_id" ref="demo_supply_draft"/>
+        <field name="product_id" ref="demo_salt"/>
+        <field name="qty_requested">40</field>
+        <field name="price_unit">4</field>
+    </record>
+
+    <!-- Confirmed purchase from a vendor -->
+    <record id="demo_supply_purchase" model="supply.order">
+        <field name="partner_id" ref="demo_vendor"/>
+        <field name="order_type">purchase</field>
+        <field name="supply_ref">PO-7001</field>
+    </record>
+    <record id="demo_supply_purchase_line1" model="supply.order.line">
+        <field name="order_id" ref="demo_supply_purchase"/>
+        <field name="product_id" ref="demo_chips_cheese"/>
+        <field name="qty_requested">200</field>
+        <field name="price_unit">6</field>
+    </record>
+    <function model="supply.order" name="action_confirm" eval="[[ref('demo_supply_purchase')]]"/>
+</odoo>
