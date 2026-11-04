@@ -205,6 +205,12 @@ class PurchaseOrderLine(models.Model):
     supply_line_id = fields.Many2one('supply.order.line', string='Supply Order Line', index='btree_not_null',
                                      copy=False, ondelete='set null')
 
+    def _create_or_update_picking(self):
+        """Lines pushed from a supply order must not create their own receipt: the supply order plans it."""
+        if self.env.context.get('supply_skip_picking'):
+            return
+        return super()._create_or_update_picking()
+
 
 class AccountMove(models.Model):
     _inherit = ['account.move', 'external.user.stamp']

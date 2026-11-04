@@ -1,0 +1,223 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* supply_api
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "A reason is required to substitute an item."
+msgstr "السبب مطلوب لاستبدال صنف."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Access denied."
+msgstr "الوصول مرفوض."
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__create_uid
+msgid "Created by"
+msgstr "أنشأه"
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__create_date
+msgid "Created on"
+msgstr "تاريخ الإنشاء"
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api__display_name
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api__id
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__id
+msgid "ID"
+msgstr "المعرّف"
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__key
+msgid "Key"
+msgstr "المفتاح"
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__method
+msgid "Method"
+msgstr "العملية"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "None of the chosen invoices is open in that period."
+msgstr "لا توجد أي من الفواتير المختارة مفتوحة في تلك الفترة."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Nothing was scanned."
+msgstr "لم يتم مسح أي شيء."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Only the integration user may manage app users."
+msgstr "فقط مستخدم التكامل يمكنه إدارة مستخدمي التطبيق."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Record not found."
+msgstr "السجل غير موجود."
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__response
+msgid "Response"
+msgstr "الاستجابة"
+
+#. module: supply_api
+#: model:ir.module.module,summary:base.module_supply_api
+msgid "Service layer for the Next.js app: id-based methods over JSON-2, idempotent writes, role checks and key-authenticated print/download routes"
+msgstr "طبقة الخدمة لتطبيق Next.js: عمليات بالمعرّفات عبر JSON-2، وكتابة آمنة من التكرار، وفحص الأدوار، ومسارات طباعة وتحميل بمفتاح API"
+
+#. module: supply_api
+#: model:ir.model,name:supply_api.model_supply_api_request
+msgid "Supply API request (idempotency)"
+msgstr "طلب واجهة التوريد (منع التكرار)"
+
+#. module: supply_api
+#: model:ir.model,name:supply_api.model_supply_api
+#: model:ir.module.module,shortdesc:base.module_supply_api
+msgid "Supply Orders API"
+msgstr "واجهة أوامر التوريد"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "The app user is missing or inactive."
+msgstr "مستخدم التطبيق غير موجود أو غير نشط."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "The record no longer exists."
+msgstr "السجل لم يعد موجوداً."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "The same request is already being processed."
+msgstr "الطلب نفسه قيد المعالجة بالفعل."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "These groups mix different taxes, units or discounts, so their items are not merged on the printed invoice: %s"
+msgstr "هذه المجموعات تخلط ضرائب أو وحدات أو خصومات مختلفة، لذلك لا تُدمج أصنافها في الفاتورة المطبوعة: %s"
+
+#. module: supply_api
+#: model:ir.model.constraint,message:supply_api.constraint_supply_api_request_key_unique
+msgid "This idempotency key was already used."
+msgstr "مفتاح منع التكرار هذا استُخدم من قبل."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "This idempotency key was used for another operation."
+msgstr "مفتاح منع التكرار هذا استُخدم لعملية أخرى."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Unknown action: %s"
+msgstr "إجراء غير معروف: %s"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Unknown document kind: %s"
+msgstr "نوع مستند غير معروف: %s"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Unknown line field: %s"
+msgstr "حقل سطر غير معروف: %s"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Unknown role: %s"
+msgstr "دور غير معروف: %s"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Use the substitute operation to change an item after confirmation."
+msgstr "استخدم عملية الاستبدال لتغيير صنف بعد التأكيد."
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__user_id
+msgid "User"
+msgstr "المستخدم"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Your role is not allowed to do this."
+msgstr "دورك لا يسمح بهذا الإجراء."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "allocation_order must be 'due' or 'invoice'."
+msgstr "يجب أن يكون allocation_order إما 'due' أو 'invoice'."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "kind must be 'customer' or 'vendor'."
+msgstr "يجب أن يكون kind إما 'customer' أو 'vendor'."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "kind must be 'expiry' or 'auto_purchase'."
+msgstr "يجب أن يكون kind إما 'expiry' أو 'auto_purchase'."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "kind must be product, partner or lot."
+msgstr "يجب أن يكون kind: product أو partner أو lot."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "model must be 'sale.order' or 'purchase.order'."
+msgstr "يجب أن يكون model إما 'sale.order' أو 'purchase.order'."
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "order_type must be 'sale' or 'purchase'."
+msgstr "يجب أن يكون order_type إما 'sale' أو 'purchase'."

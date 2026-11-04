@@ -24,7 +24,7 @@
             <div class="page">
                 <div class="oe_structure"/>
                 <div id="informations" class="row mb-4">
-                    <div class="col-auto" t-if="doc.supply_ref">
+                    <div class="col-auto" style="padding-right: 40px;" t-if="doc.supply_ref">
                         <strong>Supply Order No.:</strong>
                         <div t-field="doc.supply_ref"/>
                     </div>

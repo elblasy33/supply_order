@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_supply_api_request_system,supply.api.request admin,supply.api.request,base.group_system,r,

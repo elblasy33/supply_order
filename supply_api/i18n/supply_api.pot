@@ -1,0 +1,231 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* supply_api
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 14:28+0000\n"
+"PO-Revision-Date: 2026-11-04 14:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "A reason is required to substitute an item."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Access denied."
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api__display_name
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api__id
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__id
+msgid "ID"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__key
+msgid "Key"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__method
+msgid "Method"
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "None of the chosen invoices is open in that period."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Nothing was scanned."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Only the integration user may manage app users."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Record not found."
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__response
+msgid "Response"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.module.module,summary:base.module_supply_api
+msgid ""
+"Service layer for the Next.js app: id-based methods over JSON-2, idempotent "
+"writes, role checks and key-authenticated print/download routes"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model,name:supply_api.model_supply_api_request
+msgid "Supply API request (idempotency)"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model,name:supply_api.model_supply_api
+#: model:ir.module.module,shortdesc:base.module_supply_api
+msgid "Supply Orders API"
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "The app user is missing or inactive."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "The record no longer exists."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "The same request is already being processed."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid ""
+"These groups mix different taxes, units or discounts, so their items are not"
+" merged on the printed invoice: %s"
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.constraint,message:supply_api.constraint_supply_api_request_key_unique
+msgid "This idempotency key was already used."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "This idempotency key was used for another operation."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Unknown action: %s"
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Unknown document kind: %s"
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Unknown line field: %s"
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Unknown role: %s"
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Use the substitute operation to change an item after confirmation."
+msgstr ""
+
+#. module: supply_api
+#: model:ir.model.fields,field_description:supply_api.field_supply_api_request__user_id
+msgid "User"
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "Your role is not allowed to do this."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "allocation_order must be 'due' or 'invoice'."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "kind must be 'customer' or 'vendor'."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "kind must be 'expiry' or 'auto_purchase'."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "kind must be product, partner or lot."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "model must be 'sale.order' or 'purchase.order'."
+msgstr ""
+
+#. module: supply_api
+#. odoo-python
+#: code:addons/supply_api/models/supply_api.py:0
+msgid "order_type must be 'sale' or 'purchase'."
+msgstr ""

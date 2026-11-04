@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 20.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 13:51+0000\n"
-"PO-Revision-Date: 2026-11-04 13:51+0000\n"
+"POT-Creation-Date: 2026-11-04 14:28+0000\n"
+"PO-Revision-Date: 2026-11-04 14:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,14 +26,23 @@ msgid ""
 "invoices are generated from it at any time, or linked to it afterwards.\n"
 "\n"
 "## What it does\n"
+"\n"
 "- `supply.order` / `supply.order.line`, free-text **Supply Order No.** (`supply_ref`) copied to every related document.\n"
+"\n"
 "- **Prepare delivery/receipt** at any time; a sales/purchase order can be created *after* the stock moved, from the real quantities, without a second transfer (see \"Odoo 20 detail\" below).\n"
+"\n"
 "- **Create Supply Order** button on existing sales/purchase orders (adopts their transfers and invoices).\n"
+"\n"
 "- Invoice from what was really delivered/received, per actual item; the original request is kept.\n"
+"\n"
 "- Substitution before validation, or after it (the done move is returned, never edited).\n"
+"\n"
 "- Items added or changed in a transfer appear in the order; adding items creates a new transfer automatically.\n"
+"\n"
 "- Original / current / change quantities, append-only **change log**, edits after confirmation limited to managers.\n"
+"\n"
 "- Print a **Quotation** straight from the supply order (no sales order needed).\n"
+"\n"
 "- `external.user` + `ext_user_id` context stamp: the real app user is recorded when the integration account acts.\n"
 "\n"
 "## Odoo 20 detail the module depends on\n"
@@ -56,6 +65,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/supply_order/models/supply_order.py:0
 msgid "%(body)s — by %(user)s via the app"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid ""
+"%(item)s: %(done)s were already moved, the quantity cannot go below that."
 msgstr ""
 
 #. module: supply_order
@@ -1053,6 +1069,12 @@ msgstr ""
 #. module: supply_order
 #: model:ir.model.fields.selection,name:supply_order.selection__supply_order_change_log__change_type__qty
 msgid "Quantity changed"
+msgstr ""
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Quantity of %(item)s lowered: planned transfers were reduced."
 msgstr ""
 
 #. module: supply_order

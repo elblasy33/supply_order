@@ -178,6 +178,7 @@ class SupplyOrderLine(models.Model):
         lines = super().create(vals_list)
         for line in lines.filtered(lambda l: l.order_id.state != 'draft'):
             line.order_id._log(line, 'add', 'qty_requested', '', str(line.qty_requested))
+        lines._push_to_documents()
         lines.order_id._auto_plan_transfer()
         return lines
 
@@ -195,12 +196,83 @@ class SupplyOrderLine(models.Model):
                         old, new = line[fname], vals[fname]
                         if old != new:
                             changes.append((line, ctype, fname, str(old), str(new)))
+        if 'qty_requested' in vals and not self.env.context.get('supply_internal'):
+            for line in self.filtered(lambda l: l.order_state == 'confirmed'):
+                if float_compare(vals['qty_requested'], line.qty_done, precision_digits=4) < 0:
+                    raise UserError(_("%(item)s: %(done)s were already moved, the quantity cannot go below that.",
+                                      item=line.product_id.display_name, done=line.qty_done))
         res = super().write(vals)
         for line, ctype, fname, old, new in changes:
             line.order_id._log(line, ctype, fname, old, new)
         if 'qty_requested' in vals:
+            self._shrink_open_moves()
+            self._sync_document_quantities()
             self.order_id._auto_plan_transfer()
         return res
+
+    def _shrink_open_moves(self):
+        """The quantity was lowered below what is planned: reduce (or cancel) the moves not done yet,
+        newest first. Done moves are never touched."""
+        for line in self.filtered(lambda l: l.order_state == 'confirmed'):
+            excess = -line.qty_unplanned
+            if float_compare(excess, 0, precision_digits=4) <= 0:
+                continue
+            for move in line.move_ids.filtered(lambda m: m.state not in ('done', 'cancel')).sorted('id', reverse=True):
+                in_line_uom = line._signed_move_qty(move, move.product_uom_qty)
+                if float_compare(excess, 0, precision_digits=4) <= 0:
+                    break
+                if float_compare(in_line_uom, 0, precision_digits=4) <= 0:
+                    continue
+                cut = min(excess, in_line_uom)
+                if float_compare(cut, in_line_uom, precision_digits=4) >= 0:
+                    move._action_cancel()
+                else:
+                    move._do_unreserve()
+                    move.with_context(supply_internal=True).product_uom_qty -= line.uom_id._compute_quantity(
+                        cut, move.uom_id)
+                    move._action_assign()
+                excess -= cut
+            line.invalidate_recordset(['qty_unplanned'])
+            line.order_id._post_app(_("Quantity of %(item)s lowered: planned transfers were reduced.",
+                                      item=line.product_id.display_name))
+
+    def _sync_document_quantities(self):
+        """Keep the quantity of the linked sale/purchase line in step with the supply line while that
+        document still follows the supply order (no stock effect: the supply order plans the moves)."""
+        for line in self:
+            if line.sale_line_id and line.sale_line_id.order_id.state != 'cancel' \
+                    and float_compare(line.sale_line_id.product_uom_qty, line.qty_requested, precision_digits=4):
+                line.sale_line_id.with_context(skip_procurement=True).product_uom_qty = line.qty_requested
+            pol = line.purchase_line_id
+            if pol and pol.order_id.state in ('draft', 'sent') \
+                    and float_compare(pol.product_qty, line.qty_requested, precision_digits=4):
+                pol.product_qty = line.qty_requested
+
+    def _push_to_documents(self):
+        """An item added after the sales/purchase order exists is added to that order too, so the
+        document keeps matching the supply order. The stock moves stay under the supply order."""
+        for line in self.filtered(lambda l: l.order_state != 'draft'):
+            order = line.order_id
+            if line.order_type == 'sale' and not line.sale_line_id:
+                sale = order.sale_order_ids.filtered(lambda s: s.state != 'cancel')[:1]
+                if sale:
+                    line.sale_line_id = self.env['sale.order.line'].with_context(skip_procurement=True).create({
+                        'order_id': sale.id, 'product_id': line.product_id.id, 'product_uom_qty': line.qty_requested,
+                        'product_uom_id': line.uom_id.id, 'price_unit': line.price_unit, 'discount': line.discount,
+                        'tax_ids': [(6, 0, line.tax_ids.ids)], 'supply_line_id': line.id,
+                        'line_no': line.line_no, 'line_note': line.line_note})
+            elif line.order_type == 'purchase' and not line.purchase_line_id:
+                purchase = order.purchase_order_ids.filtered(lambda p: p.state != 'cancel')[:1]
+                if purchase:
+                    line.purchase_line_id = self.env['purchase.order.line'].with_context(
+                        supply_skip_picking=True).create({
+                            'order_id': purchase.id, 'product_id': line.product_id.id,
+                            'product_qty': line.qty_requested, 'uom_id': line.uom_id.id,
+                            'price_unit': line.price_unit, 'discount': line.discount,
+                            'tax_ids': [(6, 0, line.tax_ids.ids)], 'supply_line_id': line.id,
+                            'line_no': line.line_no, 'line_note': line.line_note})
+            if line.sale_line_id or line.purchase_line_id:
+                order._link_moves_to_document_lines('sale_line_id' if line.order_type == 'sale' else 'purchase_line_id')
 
     def unlink(self):
         self._check_can_edit(self.order_id)

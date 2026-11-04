@@ -22,14 +22,23 @@ msgid ""
 "invoices are generated from it at any time, or linked to it afterwards.\n"
 "\n"
 "## What it does\n"
+"\n"
 "- `supply.order` / `supply.order.line`, free-text **Supply Order No.** (`supply_ref`) copied to every related document.\n"
+"\n"
 "- **Prepare delivery/receipt** at any time; a sales/purchase order can be created *after* the stock moved, from the real quantities, without a second transfer (see \"Odoo 20 detail\" below).\n"
+"\n"
 "- **Create Supply Order** button on existing sales/purchase orders (adopts their transfers and invoices).\n"
+"\n"
 "- Invoice from what was really delivered/received, per actual item; the original request is kept.\n"
+"\n"
 "- Substitution before validation, or after it (the done move is returned, never edited).\n"
+"\n"
 "- Items added or changed in a transfer appear in the order; adding items creates a new transfer automatically.\n"
+"\n"
 "- Original / current / change quantities, append-only **change log**, edits after confirmation limited to managers.\n"
+"\n"
 "- Print a **Quotation** straight from the supply order (no sales order needed).\n"
+"\n"
 "- `external.user` + `ext_user_id` context stamp: the real app user is recorded when the integration account acts.\n"
 "\n"
 "## Odoo 20 detail the module depends on\n"
@@ -54,6 +63,12 @@ msgstr ""
 #: code:addons/supply_order/models/supply_order.py:0
 msgid "%(body)s — by %(user)s via the app"
 msgstr "%(body)s — بواسطة %(user)s عبر التطبيق"
+
+#. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "%(item)s: %(done)s were already moved, the quantity cannot go below that."
+msgstr "%(item)s: تم تحريك %(done)s بالفعل، ولا يمكن أن تقل الكمية عن ذلك."
 
 #. module: supply_order
 #. odoo-python
@@ -259,12 +274,12 @@ msgstr "نوع التغيير"
 #. module: supply_order
 #: model:product.template,name:supply_order.demo_chips_cheese_product_template
 msgid "Chips (Cheese)"
-msgstr ""
+msgstr "شيبس (جبنة)"
 
 #. module: supply_order
 #: model:product.template,name:supply_order.demo_chips_hot_product_template
 msgid "Chips (Hot)"
-msgstr ""
+msgstr "شيبس (حار)"
 
 #. module: supply_order
 #: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
@@ -1041,6 +1056,12 @@ msgid "Quantity changed"
 msgstr "تغيّرت الكمية"
 
 #. module: supply_order
+#. odoo-python
+#: code:addons/supply_order/models/supply_order_line.py:0
+msgid "Quantity of %(item)s lowered: planned transfers were reduced."
+msgstr "خُفضت كمية %(item)s: تم تقليص الأذونات المخططة."
+
+#. module: supply_order
 #: model:ir.model.fields,help:supply_order.field_supply_order_line__qty_done
 msgid "Quantity really delivered (sale) or received (purchase), net of returns."
 msgstr "الكمية المسلّمة فعلاً (بيع) أو المستلمة (شراء) بعد خصم المرتجعات."
@@ -1166,7 +1187,7 @@ msgstr "أُنشئ أمر البيع %s."
 #. module: supply_order
 #: model:product.template,name:supply_order.demo_salt_product_template
 msgid "Salt 1kg"
-msgstr ""
+msgstr "ملح 1 كجم"
 
 #. module: supply_order
 #: model:ir.model.fields,field_description:supply_order.field_supply_order__state

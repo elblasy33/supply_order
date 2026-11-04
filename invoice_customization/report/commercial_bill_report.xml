@@ -26,10 +26,10 @@
             <div class="page">
                 <div class="oe_structure"/>
                 <div class="row mb-4" name="bill_info">
-                    <div class="col-auto"><strong>Reference:</strong> <span t-field="doc.name"/></div>
-                    <div class="col-auto" t-if="doc.supply_ref"><strong>Supply Order No.:</strong> <span t-field="doc.supply_ref"/></div>
-                    <div class="col-auto"><strong>Date:</strong> <span t-field="doc.date_order" t-options='{"widget": "date"}'/></div>
-                    <div class="col-auto"><strong>Currency:</strong> <span t-field="doc.currency_id.name"/></div>
+                    <div class="col-auto" style="padding-right: 28px;"><strong>Reference:</strong> <span t-field="doc.name"/></div>
+                    <div class="col-auto" style="padding-right: 28px;" t-if="doc.supply_ref"><strong>Supply Order No.:</strong> <span t-field="doc.supply_ref"/></div>
+                    <div class="col-auto" style="padding-right: 28px;"><strong>Date:</strong> <span t-field="doc.date_order" t-options='{"widget": "date"}'/></div>
+                    <div class="col-auto" style="padding-right: 28px;"><strong>Currency:</strong> <span t-field="doc.currency_id.name"/></div>
                 </div>
                 <t t-set="rows" t-value="doc._get_commercial_lines()"/>
                 <t t-set="show_prices" t-value="company.commercial_bill_show_prices"/>

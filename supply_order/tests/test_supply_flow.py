@@ -404,3 +404,68 @@ class TestSupplyAdoptAndReturn(SupplyCase):
         order.line_ids.with_user(service).with_context(ext_user_id=ahmed.id).qty_requested = 8
         log = order.change_log_ids.filtered(lambda l: l.change_type == 'qty')
         self.assertEqual((log.ext_user_id, log.user_id), (ahmed, service))
+
+
+@tagged('post_install', '-at_install')
+class TestSupplyDocumentsFollow(SupplyCase):
+    """Lowering a quantity and adding items keep transfers and documents in step."""
+
+    def test_40_lowering_quantity_reduces_the_planned_transfer(self):
+        order = self._order(qty=10)
+        picking = order.action_prepare_transfer()
+        line = order.line_ids
+        line.qty_requested = 6
+        self.assertEqual(picking.move_ids.product_uom_qty, 6)
+        self.assertEqual(line.qty_unplanned, 0)
+        self.assertEqual(len(order.picking_ids), 1, "no extra transfer is created by lowering")
+
+    def test_41_lowering_to_zero_cancels_the_move_and_never_goes_below_done(self):
+        order = self._order(qty=10)
+        first = order.action_prepare_transfer()
+        self._validate(first, qty=4, backorder=True)
+        line = order.line_ids
+        self.assertEqual(line.qty_done, 4)
+        with self.assertRaises(UserError):
+            line.qty_requested = 3  # 4 already delivered
+        line.qty_requested = 4
+        live = order.picking_ids.filtered(lambda p: p.state not in ('done', 'cancel'))
+        self.assertFalse(live.move_ids.filtered(lambda m: m.state != 'cancel'), "the backorder has nothing left")
+        self.assertEqual(line.qty_done, 4)
+
+    def test_42_item_added_after_sale_order_goes_to_the_sale_order(self):
+        order = self._order(qty=10)
+        so = order.action_create_sale_order()
+        so.action_confirm()
+        self.env['supply.order.line'].create({
+            'order_id': order.id, 'product_id': self.chips_cheese.id, 'qty_requested': 5, 'price_unit': 10})
+        added = so.order_line.filtered(lambda l: l.product_id == self.chips_cheese)
+        self.assertEqual(added.product_uom_qty, 5)
+        live = so.picking_ids.filtered(lambda p: p.state != 'cancel')
+        self.assertEqual(len(live), 2, "the confirmed delivery plus one new transfer for the added item")
+        cheese = live.move_ids.filtered(lambda m: m.product_id == self.chips_cheese)
+        self.assertEqual(len(cheese), 1, "the sale line created no delivery of its own")
+        self.assertEqual(cheese.sale_line_id, added)
+        for picking in live:
+            self._validate(picking)
+        self.assertEqual(added.qty_delivered, 5)
+        self.assertEqual(sum(so.order_line.mapped('qty_delivered')), 15)
+        # lowering the supply line follows on the sale line
+        order.line_ids.filtered(lambda l: l.product_id == self.chips_cheese).with_context(
+            supply_internal=True).qty_requested = 7
+        order.line_ids.filtered(lambda l: l.product_id == self.chips_cheese)._sync_document_quantities()
+        self.assertEqual(added.product_uom_qty, 7)
+
+    def test_43_item_added_after_purchase_order_goes_to_it_without_own_receipt(self):
+        order = self._order('purchase', qty=10)
+        po = order.action_create_purchase_order()
+        po.button_confirm()
+        self.env['supply.order.line'].create({
+            'order_id': order.id, 'product_id': self.chips_cheese.id, 'qty_requested': 5, 'price_unit': 10})
+        added = po.order_line.filtered(lambda l: l.product_id == self.chips_cheese)
+        self.assertEqual(added.product_qty, 5)
+        moves = order.picking_ids.move_ids.filtered(lambda m: m.product_id == self.chips_cheese)
+        self.assertEqual(len(moves), 1, "the purchase line created no receipt of its own")
+        self.assertEqual(moves.purchase_line_id, added)
+        for picking in order.picking_ids.filtered(lambda p: p.state != 'cancel'):
+            self._validate(picking)
+        self.assertEqual(added.qty_received, 5)

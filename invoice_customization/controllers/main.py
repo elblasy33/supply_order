@@ -76,37 +76,41 @@ class DownloadController(http.Controller):
 
     @http.route('/ic/download/xlsx/<string:model>/<int:rid>', type='http', auth='user', readonly=True)
     def download_xlsx(self, model, rid, report=None, **kw):
-        record = self._record(model, rid)
-        data = record._ic_xlsx_data(report) if model == 'supply.order' else record._ic_xlsx_data()
-        out = io.BytesIO()
-        book = xlsxwriter.Workbook(out, {'in_memory': True})
-        sheet = book.add_worksheet(data['sheet'][:31])
-        bold = book.add_format({'bold': True})
-        head = book.add_format({'bold': True, 'bg_color': '#0d8f99', 'font_color': '#ffffff', 'border': 1})
-        money = book.add_format({'num_format': '#,##0.00'})
-        sheet.write(0, 0, data['title'], book.add_format({'bold': True, 'font_size': 14}))
-        row = 2
-        for label, value in data['info']:
-            sheet.write(row, 0, label, bold)
-            sheet.write(row, 1, value)
-            row += 1
+        return build_xlsx_response(self._record(model, rid), model, report)
+
+
+def build_xlsx_response(record, model, report=None):
+    """The XLSX of a printable document (shared with the key-authenticated routes of supply_api)."""
+    data = record._ic_xlsx_data(report) if model == 'supply.order' else record._ic_xlsx_data()
+    out = io.BytesIO()
+    book = xlsxwriter.Workbook(out, {'in_memory': True})
+    sheet = book.add_worksheet(data['sheet'][:31])
+    bold = book.add_format({'bold': True})
+    head = book.add_format({'bold': True, 'bg_color': '#0d8f99', 'font_color': '#ffffff', 'border': 1})
+    money = book.add_format({'num_format': '#,##0.00'})
+    sheet.write(0, 0, data['title'], book.add_format({'bold': True, 'font_size': 14}))
+    row = 2
+    for label, value in data['info']:
+        sheet.write(row, 0, label, bold)
+        sheet.write(row, 1, value)
         row += 1
-        for col, title in enumerate(data['columns']):
-            sheet.write(row, col, title, head)
-        for values in data['rows']:
-            row += 1
-            for col, value in enumerate(values):
-                sheet.write(row, col, value, money if isinstance(value, float) else None)
-        row += 2
-        last = len(data['columns']) - 1
-        for label, value in data['totals']:
-            sheet.write(row, max(last - 1, 0), label, bold)
-            sheet.write(row, last, value, money)
-            row += 1
-        sheet.set_column(0, 0, 6)
-        sheet.set_column(1, 1, 40)
-        sheet.set_column(2, last, 14)
-        book.close()
-        return request.make_response(out.getvalue(), headers=[
-            ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
-            ('Content-Disposition', content_disposition(data['filename'] + '.xlsx'))])
+    row += 1
+    for col, title in enumerate(data['columns']):
+        sheet.write(row, col, title, head)
+    for values in data['rows']:
+        row += 1
+        for col, value in enumerate(values):
+            sheet.write(row, col, value, money if isinstance(value, float) else None)
+    row += 2
+    last = len(data['columns']) - 1
+    for label, value in data['totals']:
+        sheet.write(row, max(last - 1, 0), label, bold)
+        sheet.write(row, last, value, money)
+        row += 1
+    sheet.set_column(0, 0, 6)
+    sheet.set_column(1, 1, 40)
+    sheet.set_column(2, last, 14)
+    book.close()
+    return request.make_response(out.getvalue(), headers=[
+        ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+        ('Content-Disposition', content_disposition(data['filename'] + '.xlsx'))])

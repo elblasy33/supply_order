@@ -12,6 +12,32 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 
 #. module: discounts_rebates
+#: model:ir.module.module,description:base.module_discounts_rebates
+msgid ""
+"# Discounts & Rebates (`discounts_rebates`)\n"
+"\n"
+"**Conditional discount** (menu *Discounts → Conditional Discounts*): \"unit price above X → discount Y\" (percentage or amount per\n"
+"unit), optional product/category scope, dates, sales/purchases/both. Applied automatically on sale, purchase and supply order\n"
+"lines; a discount that already comes from a price list is never stacked; a manual change is kept.\n"
+"\n"
+"**Rebate programs** (deferred discount, kept apart from the instant invoice discount):\n"
+"\n"
+"- per program: sales *or* purchases, period (daily, weekly, monthly, custom), partners/products/categories, tiers (percentage, fixed amount or free products). The highest tier reached applies to the whole turnover of the period.\n"
+"\n"
+"- turnover = net untaxed amount of posted invoices minus credit notes in the period; a daily cron computes every closed period once (re-running never duplicates); *Rebates Entitled* lists what each customer/vendor is owed (list + pivot).\n"
+"\n"
+"- **Provision** books it (customer: expense / accrued payable; vendor: accrued receivable / rebate income). **Issue credit note** creates the customer credit note (or vendor credit note) against the *accrued* account, so revenue/purchases are not reduced a second time and the accrued account returns to zero.\n"
+"\n"
+"- free products: a zero-price draft supply order for the partner.\n"
+"\n"
+"**Accounts**: Company → *Discounts & Rebates* has the four accounts and the journal. The button creates a *proposal*\n"
+"(codes RBT01…RBT04, journal REB) to review with the accountant; taxes on rebate notes are not applied by default.\n"
+"\n"
+"Tests: `odoo-bin -c odoo.conf -d supply_dev -u discounts_rebates --test-tags /discounts_rebates --stop-after-init`\n"
+""
+msgstr ""
+
+#. module: discounts_rebates
 #. odoo-python
 #: code:addons/discounts_rebates/models/rebate.py:0
 msgid "A custom period needs a start date before its end date."
@@ -35,7 +61,7 @@ msgid ""
 "A rebate owed to a customer is provisioned (expense / accrued payable); the customer credit note is\n"
 "                        then posted against the accrued account, so revenue is not reduced twice. Vendor rebates mirror it\n"
 "                        (accrued receivable / rebate income). The button creates a <b>proposal</b> to review with the accountant."
-msgstr ""
+msgstr "يُكوَّن مخصص للخصم المستحق للعميل (مصروف / التزام مستحق)، ثم يُرحَّل إشعار العميل الدائن مقابل الحساب المستحق، فلا يُخفَّض الإيراد مرتين. وخصومات الموردين بالعكس (أصل مستحق / إيراد خصومات). الزر ينشئ <b>مقترحاً</b> لمراجعته مع المحاسب."
 
 #. module: discounts_rebates
 #. odoo-python
@@ -736,7 +762,7 @@ msgstr "بند أمر التوريد"
 msgid ""
 "The discount is applied automatically on sales, purchase and supply order lines whose unit price\n"
 "                        is above the threshold. A discount already given by a price list is never stacked."
-msgstr ""
+msgstr "يُطبَّق الخصم تلقائياً على أسطر المبيعات والمشتريات وأوامر التوريد التي يتجاوز سعر وحدتها الحد المحدد. والخصم الذي منحته قائمة الأسعار لا يُضاف فوقه خصم آخر."
 
 #. module: discounts_rebates
 #. odoo-python
@@ -760,7 +786,7 @@ msgstr "أعلى شريحة تم بلوغها تُطبَّق على كامل م�
 msgid ""
 "The highest tier reached applies to the whole turnover of the period.\n"
 "                                Turnover is the net untaxed amount of posted invoices minus credit notes."
-msgstr ""
+msgstr "أعلى شريحة تم بلوغها تُطبَّق على كامل حجم التعامل في الفترة. وحجم التعامل هو صافي مبلغ الفواتير المرحّلة بلا ضريبة ناقص الإشعارات الدائنة."
 
 #. module: discounts_rebates
 #: model:ir.model.fields,help:discounts_rebates.field_conditional_discount_rule__min_price
