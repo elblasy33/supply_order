@@ -10,6 +10,8 @@ const ORDER: Mode[] = ["light", "dark", "system"];
 function apply(mode: Mode) {
   const dark = mode === "dark" || (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
   document.documentElement.classList.toggle("dark", dark);
+  // the status bar of an installed app follows the chosen theme
+  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => { m.content = dark ? "#161c24" : "#ffffff"; });
 }
 
 /** Light / dark / follow the system. Kept in a cookie so the server can render the right theme first. */

@@ -98,3 +98,12 @@ input, select, textarea, button { font-family: inherit; }
 @keyframes scanline { 0%, 100% { top: 8%; } 50% { top: 90%; } }
 .scan-line { animation: scanline 1.6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .scan-line { animation: none; top: 50%; } }
+
+/* App-like behaviour on phones / when installed */
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+/* no pull-to-refresh and no bounce: a swipe must never reload the screen in the middle of counting */
+body { overscroll-behavior-y: none; }
+/* keep content clear of the notch and the home bar */
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+@media (display-mode: standalone) { body { user-select: none; -webkit-user-select: none; } input, textarea { user-select: text; -webkit-user-select: text; } }

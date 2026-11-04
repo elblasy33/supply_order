@@ -9,6 +9,7 @@ import {
   ShieldCheck, Users, Warehouse, X,
 } from "lucide-react";
 import { LocaleToggle } from "@/components/locale-toggle";
+import { InstallPrompt } from "@/components/pwa";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useLocale, useT } from "@/lib/i18n/client";
 
@@ -101,14 +102,14 @@ export function Shell({
       </aside>
 
       {/* mobile bar + drawer */}
-      <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-line bg-surface px-4 py-3 lg:hidden">
+      <header className="safe-top sticky top-0 z-30 flex items-center gap-3 border-b border-line bg-surface px-4 py-3 lg:hidden">
         <button className="btn-ghost -ms-2 px-2" aria-label={t("القائمة")} onClick={() => setOpen(true)}><Menu className="size-6" /></button>
         <span className="font-extrabold">{t("أوامر التوريد")}</span>
       </header>
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <button aria-label={t("إغلاق")} className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
-          <aside className="absolute inset-y-0 start-0 flex w-72 flex-col bg-surface shadow-xl">
+          <aside className="safe-top safe-bottom absolute inset-y-0 start-0 flex w-72 flex-col bg-surface shadow-xl">
             <div className="flex items-center justify-between pe-3">
               <Brand />
               <button className="btn-ghost px-2" aria-label={t("إغلاق")} onClick={() => setOpen(false)}><X className="size-5" /></button>
@@ -119,7 +120,10 @@ export function Shell({
         </div>
       )}
 
-      <main className="min-w-0 p-4 sm:p-6 lg:p-8">{children}</main>
+      <main className="safe-bottom min-w-0 p-4 sm:p-6 lg:p-8">
+        <InstallPrompt />
+        {children}
+      </main>
     </div>
   );
 }

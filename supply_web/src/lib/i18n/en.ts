@@ -604,4 +604,17 @@ export const EN: Record<string, string> = {
   "مستمر": "Continuous",
   "واحد بواحد": "One at a time",
   "وجّه الكاميرا نحو الباركود": "Point the camera at the barcode",
+
+  // ---- install (PWA)
+  "التوريد": "Supply",
+  "أمر جديد": "New order",
+  "يتوفر إصدار جديد من التطبيق. أغلقه وافتحه من جديد للتحديث (لا يُحدَّث أثناء العمل حتى لا يضيع عدّك).": "A new version of the app is available. Close it and open it again to update (it never updates mid-work, so your count is not lost).",
+  "تثبيت التطبيق": "Install the app",
+  "ثبّت التطبيق على جوالك": "Install the app on your phone",
+  "يفتح بأيقونة على الشاشة الرئيسية كتطبيق مستقل، وأسرع في الوصول للماسح.": "It opens from an icon on the home screen as its own app, and reaches the scanner faster.",
+  "تثبيت": "Install",
+  "اضغط": "Tap",
+  "مشاركة": "Share",
+  "ثم": "then",
+  "إضافة إلى الشاشة الرئيسية": "Add to Home Screen",
 };

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لا يوجد اتصال · No connection</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, "Segoe UI", Tahoma, sans-serif; background: #f4f6f9; color: #17212b; padding: 1.5rem; }
+  @media (prefers-color-scheme: dark) { body { background: #0e1319; color: #e6ebf1; } .card { background: #161c24; border-color: #2a3340; } }
+  .card { max-width: 26rem; background: #fff; border: 1px solid #e3e8ee; border-radius: 1rem; padding: 2rem; text-align: center; }
+  img { width: 72px; height: 72px; border-radius: 16px; }
+  h1 { font-size: 1.25rem; margin: 1rem 0 .5rem; } p { margin: .25rem 0; line-height: 1.8; opacity: .8; }
+  button { margin-top: 1.25rem; background: #0d8f99; color: #fff; border: 0; border-radius: .75rem; padding: .7rem 1.4rem; font: inherit; font-weight: 700; cursor: pointer; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img src="/icons/icon-192.png" alt="">
+    <h1>لا يوجد اتصال بالإنترنت</h1>
+    <p>التطبيق يحتاج الاتصال ليعرض أحدث بيانات التوريد ويحفظ عملك.</p>
+    <p>تأكد من الشبكة ثم أعد المحاولة. لم يُفقد شيء تم حفظه.</p>
+    <p dir="ltr" lang="en" style="margin-top:1rem">No internet connection. Check your network and try again.</p>
+    <button onclick="location.reload()">إعادة المحاولة · Retry</button>
+  </div>
+</body>
+</html>

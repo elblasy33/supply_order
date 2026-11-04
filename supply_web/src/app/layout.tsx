@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import { Cairo } from "next/font/google";
+import { PwaRegister } from "@/components/pwa";
 import { ToastProvider } from "@/components/toast";
 import { I18nProvider } from "@/lib/i18n/client";
 import { DIR } from "@/lib/i18n/core";
@@ -14,8 +15,21 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { default: t("أوامر التوريد"), template: `%s · ${t("أوامر التوريد")}` },
     description: t("إدارة أوامر التوريد وربطها بأودو"),
+    applicationName: t("أوامر التوريد"),
+    appleWebApp: { capable: true, title: t("التوريد"), statusBarStyle: "default" },
+    formatDetection: { telephone: false },
   };
 }
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover", // use the whole screen behind the notch; the layout adds the safe-area padding
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#161c24" },
+  ],
+};
 
 // Runs before the first paint so a dark (or system-dark) theme never flashes light.
 const THEME_SCRIPT = `(function(){try{var m=document.cookie.match(/(?:^|; )theme=(light|dark|system)/);var t=m?m[1]:"system";
@@ -29,7 +43,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head><script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} /></head>
       <body className="min-h-screen antialiased">
         <I18nProvider locale={locale}>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <PwaRegister />
+            {children}
+          </ToastProvider>
         </I18nProvider>
       </body>
     </html>

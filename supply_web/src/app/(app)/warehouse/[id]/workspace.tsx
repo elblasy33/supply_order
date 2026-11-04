@@ -47,20 +47,22 @@ export function PickingWorkspace({ picking, can }: { picking: Picking; can: stri
   const { push } = useToast();
   const open = picking.moves.filter((m) => m.state !== "done" && m.state !== "cancel");
   const [rows, setRows] = useState<RowDraft[]>(() => open.map(initialRow));
-  // When Odoo's numbers change (after a save, scan or validation) the counting form restarts from them.
+  // When Odoo's numbers change (after a save or a validation) the counting form follows them — unless the user
+  // has counted more since the last numbers we had: then their newer count is kept, never overwritten.
   // Done while rendering, not by remounting, so the scan field keeps its text and focus between scans.
   const fingerprint = `${picking.id}-${picking.state}-${picking.moves.map((m) => `${m.id}:${m.quantity}:${m.entries.map((e) => `${e.lot?.id ?? e.lot_name}=${e.quantity}`).join(",")}`).join("|")}`;
-  const [seen, setSeen] = useState(fingerprint);
-  if (seen !== fingerprint) {
-    setSeen(fingerprint);
-    setRows(open.map(initialRow));
+  const serverPayload = JSON.stringify(payload(open.map(initialRow)));
+  const [seen, setSeen] = useState({ fingerprint, serverPayload });
+  if (seen.fingerprint !== fingerprint) {
+    const countedMore = JSON.stringify(payload(rows)) !== seen.serverPayload;
+    setSeen({ fingerprint, serverPayload });
+    if (!countedMore) setRows(open.map(initialRow));
   }
   const [ask, setAsk] = useState<null | "backorder" | "expired" | "cancel" | "return">(null);
   const [backorder, setBackorder] = useState<"create" | "none">("create");
   const editable = picking.can_edit && can.includes("warehouse.process");
 
-  const original = useMemo(() => JSON.stringify(payload(open.map(initialRow))), [open]);
-  const dirty = JSON.stringify(payload(rows)) !== original;
+  const dirty = JSON.stringify(payload(rows)) !== serverPayload;
   const rowOf = (id: number) => rows.find((r) => r.moveId === id);
   const patch = (id: number, f: (r: RowDraft) => RowDraft) => setRows((rs) => rs.map((r) => (r.moveId === id ? f(r) : r)));
 
