@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>خطة التجربة والاختبار — نظام أوامر التوريد</title>
+<link rel="stylesheet" href="style.css"><style>
+.scn { border: 1px solid var(--line); border-radius: 2.5mm; padding: 3mm 4mm; margin: 0 0 4mm; break-inside: avoid; }
+.scn-head { display:flex; gap: 3mm; align-items:center; flex-wrap: wrap; font-size: 11.5pt; margin-bottom: 1mm; }
+.scn-head .sid { background: var(--brand); color:#fff; border-radius: 1.5mm; padding: 0 2.5mm; font-family: "Noto Kufi Arabic"; font-size: 10pt; }
+.scn .cols { display:flex; gap: 6mm; } .scn .cols > div { flex:1; } .scn ol, .scn ul { margin: 1mm 0 2mm; font-size: 10.3pt; line-height: 1.8; }
+.scn .res { font-size: 9.5pt; margin: 2mm 0 0; border-top: 1px dashed var(--line); padding-top: 2mm; color: var(--muted); }
+.line { display:inline-block; border-bottom: 1px solid #94a3b8; min-width: 38mm; height: 5mm; }
+</style></head><body>
+
+<div class="cover">
+  <div class="band">
+    <img class="logo" src="../img/logo.png" alt="">
+    <h1>خطة التجربة والاختبار</h1>
+    <p class="sub">نظام أوامر التوريد — أودو 20 مع تطبيق الويب<br>دليل التجربة للإدارة والموظفين، وكيف تصلنا ملاحظاتكم</p>
+  </div>
+  <table>
+    <tr><td class="small">الإصدار</td><td><b class="num">1.0</b></td></tr>
+    <tr><td class="small">مدة التجربة</td><td><b>١٤ يوماً</b> (٢٠ ساعة تقريباً موزَّعة على المشاركين)</td></tr>
+    <tr><td class="small">الموجَّه إلى</td><td>إدارة العميل، ومندوبو المبيعات، وأمناء المخازن، والمحاسبون</td></tr>
+    <tr><td class="small">البيئة</td><td>قاعدة بيانات <b>تجريبية</b> + تطبيق ويب على نطاق فرعي بـ HTTPS — لا علاقة لها ببيانات الإنتاج</td></tr>
+    <tr><td class="small">رابط التجربة</td><td>________________________________________</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <h1>١. الغرض وما نريده منكم</h1>
+  <p>بنينا نظاماً يجعل <b>أمر التوريد</b> نقطة البداية، وتتبعه المستندات (التسليم، الفاتورة…) بحسب ما يحدث فعلاً. نريد أن نعرف قبل الإنتاج: <b>هل يطابق طريقة عملكم؟ وهل هو أسرع وأوضح من طريقتكم الحالية؟ وأين يتعثر موظفوكم؟</b></p>
+  <div class="row">
+    <div class="callout ok"><b>ما نختبره</b>
+      <ul>
+        <li>دورة الأمر كاملة: إنشاء ← تأكيد ← تسليم/استلام ← فاتورة ← تسوية.</li>
+        <li>الحالات الواقعية: تسليم ناقص، استبدال، تعديل بعد التأكيد، مرتجع، استلام بتشغيلات.</li>
+        <li>العدّ بكاميرا الجوال والتطبيق المثبَّت على الشاشة الرئيسية.</li>
+        <li>الطباعة، لوحة المؤشرات، التنبيهات، الصلاحيات.</li>
+      </ul></div>
+    <div class="callout warn"><b>ما ليس هدف التجربة</b>
+      <ul>
+        <li>استبدال عملكم الحالي: تجري التجربة <b>بالتوازي</b> وعلى قاعدة تجريبية.</li>
+        <li>اختبار الأداء بآلاف الأوامر.</li>
+        <li>نقل بيانات من نظام قديم.</li>
+        <li>تخصيصات جديدة؛ نجمعها كملاحظات لما بعد التجربة.</li>
+      </ul></div>
+  </div>
+  <div class="callout"><b>الملاحظة الأهم عندنا ليست «نجح/فشل»</b>، بل «هذا غير مريح لأن…». كل جملة من نوع <i>«كنت أتوقع كذا فحدث كذا»</i> مفيدة جداً، ولو بدت صغيرة.</div>
+</div>
+
+<div class="section">
+  <h1>٢. الجدول الزمني</h1>
+  <table>
+    <thead><tr><th>اليوم</th><th>النشاط</th><th>من يشارك</th><th>المخرج</th></tr></thead>
+    <tbody>
+      <tr><td class="num">٠ (قبل البدء)</td><td>تجهيز القاعدة التجريبية والبيانات وحسابات المستخدمين وتثبيت التطبيق على الجوالات (انظر ٤)</td><td>الفريق التقني + مسؤول التجربة لدى العميل</td><td>قائمة التجهيز مكتملة</td></tr>
+      <tr><td class="num">١</td><td>تدريب: ساعة لكل دور (عرض حي + تجربة بأيديهم) + ٣٠ دقيقة أسئلة</td><td>كل المشاركين</td><td>كل مشارك سجّل دخوله وأنهى أول سيناريو</td></tr>
+      <tr><td class="num">٢ – ٤</td><td><b>تجربة موجَّهة</b>: سيناريوهات دورك بالترتيب (القسم ٨)، وتسجيل النتيجة لكل سيناريو</td><td>كل مشارك بدوره</td><td>سجل النتائج + الملاحظات</td></tr>
+      <tr><td class="num">٥ – ١٠</td><td><b>استخدام حر</b>: حالات أقرب للواقع (أوامر حقيقية مصغَّرة)، مع تجربة الحالات الشاذة التي تعرفونها ولم نفكر بها</td><td>كل مشارك</td><td>ملاحظات يومية + السجل اليومي</td></tr>
+      <tr><td class="num">١١</td><td>إغلاق التجربة وتعبئة <b>الاستبيان</b> (القسم ٩)</td><td>كل مشارك</td><td>استبيان لكل مشارك</td></tr>
+      <tr><td class="num">١٢</td><td><b>ورشة الملاحظات</b> (ساعتان): مراجعة كل ملاحظة وترتيب أولوياتها</td><td>مسؤول التجربة + ممثل عن كل دور + الفريق التقني</td><td>قائمة أولويات متفق عليها</td></tr>
+      <tr><td class="num">١٣</td><td>خطة التعديلات وتقدير الوقت من جانبنا</td><td>الفريق التقني</td><td>خطة التعديلات</td></tr>
+      <tr><td class="num">١٤</td><td>اجتماع القرار: إنتاج، أو جولة ثانية بعد التعديلات (انظر ١٠)</td><td>الإدارة</td><td>قرار مكتوب</td></tr>
+    </tbody>
+  </table>
+  <p class="small">اجتماع يومي <b>١٠ دقائق</b> (حضوري أو مكالمة) أيام ٢–١٠ لحل العوائق السريعة، ومجموعة مراسلة للأسئلة العاجلة.</p>
+</div>
+
+<div class="section">
+  <h1>٣. المشاركون والمسؤوليات</h1>
+  <table class="form">
+    <thead><tr><th>الدور</th><th>الاسم</th><th>الجوال (لتثبيت التطبيق)</th><th>بريد/واتساب</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip mgr">A</span> مدير/مسؤول التجربة (قرارات، صلاحيات)</td><td></td><td></td><td></td></tr>
+      <tr><td><span class="chip sales">S</span> مندوب مبيعات ١</td><td></td><td></td><td></td></tr>
+      <tr><td><span class="chip sales">S</span> مندوب مبيعات ٢</td><td></td><td></td><td></td></tr>
+      <tr><td><span class="chip wh">W</span> أمين مخزن ١</td><td></td><td></td><td></td></tr>
+      <tr><td><span class="chip wh">W</span> أمين مخزن ٢</td><td></td><td></td><td></td></tr>
+      <tr><td><span class="chip acc">C</span> محاسب</td><td></td><td></td><td></td></tr>
+      <tr><td>مسؤول تقني لدى العميل (الاتصال بأودو والشبكة)</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <p>يفضَّل <b>مشاركان على الأقل</b> في دور المخزن (أكثر دور يتأثر بالسرعة وعدّ الباركود) ومشارك من كل دور آخر.</p>
+  <h2>المسؤوليات</h2>
+  <table>
+    <thead><tr><th>الجهة</th><th>تتولى</th></tr></thead>
+    <tbody>
+      <tr><td>مسؤول التجربة لدى العميل</td><td>توزيع السيناريوهات، متابعة التقدم يومياً، حضور الاجتماع اليومي والورشة، اعتماد الصلاحيات والحسابات المحاسبية</td></tr>
+      <tr><td>كل مشارك</td><td>تنفيذ سيناريوهات دوره، تسجيل النتيجة والملاحظات يومياً، حضور التدريب والورشة</td></tr>
+      <tr><td>فريقنا</td><td>تجهيز البيئة، التدريب، الدعم والإصلاح السريع أثناء التجربة حسب مستوى الخطورة، تجميع الملاحظات وترتيبها وتنفيذها</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h1>٤. التجهيز قبل البدء (اليوم ٠)</h1>
+  <h2>من جانب العميل</h2>
+  <table class="form">
+    <thead><tr><th style="width:10mm"></th><th>البند</th><th>ملاحظات</th></tr></thead>
+    <tbody>
+      <tr><td><span class="check"></span></td><td>خادم أودو 20 تجريبي، أو قاعدة بيانات تجريبية على الخادم الحالي، مع صلاحية تثبيت موديولات</td><td></td></tr>
+      <tr><td><span class="check"></span></td><td>نطاق فرعي (مثل supply.شركتكم.com) موجَّه لخادم التطبيق، ومنفذا ٨٠ و٤٤٣ مفتوحان</td><td></td></tr>
+      <tr><td><span class="check"></span></td><td>أصناف تجريبية (٣٠ تقريباً) <b>بباركودات حقيقية صحيحة (EAN-13)</b> وأسعار وضرائب وفئات</td><td>الباركود بمجموع تحقق خاطئ لا يقرؤه الماسح</td></tr>
+      <tr><td><span class="check"></span></td><td>صنفان متتبَّعان بالتشغيلات على الأقل، أحدهما بترقيم تلقائي، وتواريخ صلاحية ومهلة تنبيه على المنتج أو الفئة</td><td></td></tr>
+      <tr><td><span class="check"></span></td><td>٥ عملاء و٣ موردين، وقائمة أسعار واحدة على الأقل</td><td></td></tr>
+      <tr><td><span class="check"></span></td><td>أرصدة مخزون كافية للأصناف في المستودع الرئيسي</td><td></td></tr>
+      <tr><td><span class="check"></span></td><td>قاعدة خصم شرطي واحدة، وبرنامج خصم تراكمي واحد، وحسابات الخصومات المؤجلة (مقترحة ومراجَعة من المحاسب)</td><td></td></tr>
+      <tr><td><span class="check"></span></td><td>يومية بنك ودفعات بقيود يومية (لتجربة التسوية)</td><td>الدفعة بلا قيد لا تظهر في التسوية</td></tr>
+      <tr><td><span class="check"></span></td><td>شعار الشركة وبياناتها في أودو (تظهر في الطباعة)</td><td></td></tr>
+      <tr><td><span class="check"></span></td><td>ملصقات باركود مطبوعة للأصناف للتجربة بالكاميرا (على صناديق أو ورق)</td><td></td></tr>
+      <tr><td><span class="check"></span></td><td>جوالات حديثة بمتصفح Chrome (أندرويد) أو Safari (آيفون)، ويفضَّل جهاز لكل أمين مخزن</td><td></td></tr>
+    </tbody>
+  </table>
+  <h2>من جانبنا</h2>
+  <table class="form">
+    <tbody>
+      <tr><td style="width:10mm"><span class="check"></span></td><td>تثبيت الموديولات على القاعدة التجريبية، وإنشاء مستخدم التكامل ومفتاحه</td></tr>
+      <tr><td><span class="check"></span></td><td>نشر التطبيق على الحاوية بالنطاق وHTTPS، وفحص «الاتصال بأودو» بالنجاح الكامل</td></tr>
+      <tr><td><span class="check"></span></td><td>إنشاء مستخدمي التجربة وتسليم كلمات المرور المؤقتة بشكل آمن</td></tr>
+      <tr><td><span class="check"></span></td><td>إعداد سجل النتائج (الجدول الإلكتروني) ومجموعة المراسلة</td></tr>
+      <tr><td><span class="check"></span></td><td>إجراء سيناريوهات الفريق الداخلي كاملة قبل تسليم التجربة (فحص دخان)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h1>٥. قواعد التجربة</h1>
+  <div class="row">
+    <div class="callout ok"><b>افعل</b>
+      <ul>
+        <li>اعمل على القاعدة التجريبية فقط (الرابط في الغلاف).</li>
+        <li>نفّذ السيناريو كما هو مكتوب أولاً، ثم جرّب بطريقتك.</li>
+        <li>سجّل كل ما يدهشك: بطء، نص غير مفهوم، زر لم تجده، خطوة زائدة.</li>
+        <li>خذ لقطة شاشة للمشكلة قبل أن تغادر الشاشة.</li>
+        <li>جرّب الخطأ عمداً (كمية سالبة، إلغاء متأخر…) لترى كيف يتصرف النظام.</li>
+      </ul></div>
+    <div class="callout warn"><b>لا تفعل</b>
+      <ul>
+        <li>لا تدخل بيانات حساسة حقيقية لعملاء لا يعلمون.</li>
+        <li>لا تُعِد المحاولة مراراً عند الخطأ: سجّله مرة وانتقل.</li>
+        <li>لا تشارك كلمة المرور أو مفتاح API.</li>
+        <li>لا تُجرِ تغييرات في إعدادات أودو (محاسبة، مخزون) دون التنسيق مع مسؤول التجربة.</li>
+        <li>لا تعتمد على التجربة لتسليم فعلي لعميل حقيقي.</li>
+      </ul></div>
+  </div>
+</div>
+
+<div class="section">
+  <h1>٦. معايير النجاح</h1>
+  <p>نعتبر التجربة ناجحة ونوصي بالانتقال للإنتاج عند تحقق ما يلي (تُعدَّل بالاتفاق في اليوم الأول):</p>
+  <table>
+    <thead><tr><th>المعيار</th><th>الهدف</th><th>كيف نقيسه</th></tr></thead>
+    <tbody>
+      <tr><td>اكتمال السيناريوهات الحرجة</td><td><b>١٠٠٪</b> من السيناريوهات الحرجة منفَّذة، و<b>٩٠٪ على الأقل</b> منها «نجح» أو «نجح بملاحظة»</td><td>سجل النتائج</td></tr>
+      <tr><td>ملاحظات الخطورة «حرجة»</td><td><b>صفر</b> مفتوحة في يوم القرار</td><td>سجل الملاحظات</td></tr>
+      <tr><td>سلامة البيانات</td><td>تطابق ١٠ أوامر عيّنة بين التطبيق وأودو (الكميات والمبالغ والحالات) دون فرق</td><td>مراجعة المحاسب</td></tr>
+      <tr><td>سرعة المخزن</td><td>عدّ إذن من ٢٠ سطراً بالكاميرا في <b>٣ دقائق أو أقل</b>، وليس أبطأ من الطريقة الحالية</td><td>السيناريو X4</td></tr>
+      <tr><td>تقبّل الموظفين</td><td>متوسط الاستبيان <b>٤ من ٥ فأعلى</b> في «سهولة الاستخدام»، و«أفضّله على طريقتنا الحالية» عند أغلب المشاركين</td><td>الاستبيان (٩)</td></tr>
+      <tr><td>الاعتمادية</td><td>لا فقد لبيانات محفوظة، وانقطاع الاتصال يُعرَض بوضوح ولا يخرّب شيئاً</td><td>A2، W12</td></tr>
+      <tr><td>جودة الطباعة</td><td>يوافق مسؤول المبيعات والمحاسب على عرض السعر والفاتورة التجارية والفاتورة</td><td>S3، C2، X6</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h1>٧. كيف تُسجَّل الملاحظات وتصلنا</h1>
+  <h2>ثلاث قنوات</h2>
+  <table>
+    <thead><tr><th>القناة</th><th>متى</th><th>ما يُكتب فيها</th></tr></thead>
+    <tbody>
+      <tr><td><b>سجل نتائج التجربة</b> (الجدول الإلكتروني)</td><td>أثناء التنفيذ</td><td>ورقة «السيناريوهات»: نتيجة كل سيناريو؛ ورقة «الملاحظات»: كل مشكلة أو اقتراح بسطر</td></tr>
+      <tr><td><b>مجموعة المراسلة</b></td><td>للعاجل فقط (حرج أو «لا أستطيع المتابعة»)</td><td>سطر واحد + لقطة شاشة + الرقم في السجل</td></tr>
+      <tr><td><b>الاجتماع اليومي</b> (١٠ دقائق)</td><td>أيام ٢–١٠</td><td>العوائق، وما تعلمناه اليوم، وما نحتاج توضيحه</td></tr>
+    </tbody>
+  </table>
+  <h2>ماذا تكتب في الملاحظة؟</h2>
+  <table>
+    <thead><tr><th>الحقل</th><th>مثال</th></tr></thead>
+    <tbody>
+      <tr><td>رقم السيناريو (إن وُجد)</td><td>W3</td></tr>
+      <tr><td>الشاشة</td><td>شاشة الإذن المخزني</td></tr>
+      <tr><td>ماذا فعلتَ؟ (بالخطوات)</td><td>عددت ٦ من ١٠ ثم ضغطت «تأكيد التسليم»</td></tr>
+      <tr><td>ماذا كنت تتوقع؟</td><td>أن يسألني عن المتبقي</td></tr>
+      <tr><td>ماذا حدث؟</td><td>ظهرت النافذة لكن لم أفهم الفرق بين الخيارين</td></tr>
+      <tr><td>الخطورة</td><td>متوسطة</td></tr>
+      <tr><td>لقطة شاشة + الوقت + الجهاز</td><td>الصورة مرفقة · ١٠:٢٠ · آيفون ١٣</td></tr>
+    </tbody>
+  </table>
+  <h2>مستويات الخطورة وزمن الاستجابة</h2>
+  <table>
+    <thead><tr><th>المستوى</th><th>التعريف</th><th>استجابتنا</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge b-bad">حرج</span></td><td>يمنع العمل، أو يُفسد/يُضيع بيانات، أو أرقام خاطئة في فاتورة أو مخزون</td><td>خلال <b>٤ ساعات عمل</b>: تشخيص، وحل أو حل بديل</td></tr>
+      <tr><td><span class="badge b-warn">عالٍ</span></td><td>يُبطئ العمل كثيراً أو يتطلب حيلة للإنجاز، ولا يُفسد البيانات</td><td>خلال <b>يوم عمل</b></td></tr>
+      <tr><td><span class="badge b-grey">متوسط</span></td><td>مزعج أو غير واضح، ويمكن العمل رغمه</td><td>يدخل في خطة التعديلات (يوم ١٣)</td></tr>
+      <tr><td><span class="badge b-grey">منخفض</span></td><td>تجميلي أو صياغة</td><td>يُجمَّع للتحسين</td></tr>
+      <tr><td><span class="badge b-ok">اقتراح</span></td><td>«لو كان يفعل كذا لكان أفضل»</td><td>يُناقش في الورشة</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><b>كيف تأخذ لقطة شاشة؟</b> على الجوال: زر الطاقة + خفض الصوت (أندرويد) أو الطاقة + رفع الصوت (آيفون). على الحاسوب: <span class="code">Win + Shift + S</span>. أرفقها في الجدول أو أرسلها في المجموعة.</div>
+</div>
+
+<div class="section newpage">
+  <h1>٨. السيناريوهات حسب الدور</h1>
+  <p>لكل دور سيناريوهاته؛ ويُنصح أن يجرّب كل مشارك سيناريوهات دوره <b>ثم</b> يطّلع على سيناريوهات الأدوار الأخرى ليفهم الدورة كاملة. «حرج» يعني أنه لا يمكن اعتماد النظام دون نجاحه.</p>
+  <table><thead><tr><th>الدور</th><th>السيناريوهات</th><th>منها حرجة</th><th>الدقائق التقريبية</th></tr></thead><tbody><tr><td><span class='chip mgr'>A</span> مدير النظام / الإدارة</td><td class='num'>3</td><td class='num'>2</td><td class='num'>55</td></tr><tr><td><span class='chip sales'>S</span> مندوب المبيعات</td><td class='num'>8</td><td class='num'>4</td><td class='num'>110</td></tr><tr><td><span class='chip wh'>W</span> أمين المخزن</td><td class='num'>12</td><td class='num'>6</td><td class='num'>175</td></tr><tr><td><span class='chip acc'>C</span> المحاسب</td><td class='num'>5</td><td class='num'>2</td><td class='num'>105</td></tr><tr><td><span class='chip mgr'>X</span> الجميع (عبر الأدوار)</td><td class='num'>6</td><td class='num'>0</td><td class='num'>100</td></tr><tr><td><b>المجموع</b></td><td class='num'><b>34</b></td><td class='num'><b>14</b></td><td class='num'><b>545</b></td></tr></tbody></table>
+  <p class="small">تُسجَّل نتيجة كل سيناريو في الجدول الإلكتروني (ورقة «السيناريوهات»)، وتُترك هذه الصفحات للطباعة والتعبئة على الورق إن فُضِّل.</p>
+</div>
+
+<div class="section newpage" style="margin-top:0">
+  <h2><span class="chip mgr">A</span> مدير النظام / الإدارة <span class="small">— 3 سيناريوهات، حوالي <span class="num">55</span> دقيقة</span></h2>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">A1</span><b>المستخدمون والأدوار والصلاحيات</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">20</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> حساب مدير النظام</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>افتح عنوان التطبيق وسجّل الدخول بحساب المدير.</li><li>من «الإعدادات ← المستخدمون» أنشئ مستخدماً لكل دور (مندوب، أمين مخزن، محاسب) بكلمة مرور مؤقتة.</li><li>من «الأدوار والصلاحيات» راجع صلاحيات كل دور وعدّل ما يلزم لتناسب عملكم.</li><li>سجّل الدخول بكل مستخدم على حدة (متصفح خاص).</li><li>جرّب فتح صفحة غير مسموحة بكتابة عنوانها مباشرة.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>كل مستخدم يرى القوائم المسموحة له فقط.</li><li>الصفحة غير المسموحة تعرض «ليست لديك صلاحية لهذه الصفحة».</li><li>تعديل الصلاحية يسري فوراً دون إعادة دخول.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">A2</span><b>حالة الاتصال بأودو</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> بالتنسيق مع الفريق التقني</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>لاحظ مؤشر الاتصال بأعلى الشريط الجانبي (وبأعلى الشاشة على الجوال).</li><li>من «الإعدادات ← الاتصال بأودو» اضغط «فحص الاتصال» وراجع الخطوات الخمس.</li><li>اطلب من الفريق التقني إيقاف أودو لدقيقة (أو إدخال مفتاح خاطئ في نسخة اختبار).</li><li>لاحظ المؤشر وشريط التحذير، ثم اضغط «إعادة المحاولة» بعد عودة الخدمة.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>المؤشر أخضر مع زمن الاستجابة عند السلامة.</li><li>عند الانقطاع يتحول لأحمر ويظهر شريط يشرح أن التغييرات لن تُحفظ.</li><li>بعد العودة يعود للأخضر دون إعادة تحميل يدوي للتطبيق.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">A3</span><b>قراءة لوحة المؤشرات</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">20</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> بيانات أوامر لعدة أيام</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>افتح «لوحة التحكم».</li><li>بدّل الفترة بين ٧ و٣٠ و٩٠ و٣٦٥ يوماً وراقب تغيّر كل الرسوم.</li><li>مرّر المؤشر على الخط والأعمدة والخريطة الحرارية، واضغط زر الجدول في رسمين.</li><li>قارن ٣ أرقام (عدد الأوامر، المسودات، التسليمات الجاهزة) بما في أودو.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>الأرقام تطابق أودو.</li><li>كل رسم مفهوم دون شرح: سجّل أي رسم غير مفهوم أو ناقص (في الملاحظات).</li><li>الجدول البديل يعرض الأرقام نفسها.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+<h2><span class="chip sales">S</span> مندوب المبيعات <span class="small">— 8 سيناريوهات، حوالي <span class="num">110</span> دقيقة</span></h2>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">S1</span><b>إنشاء أمر توريد لعميل برقم توريد</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> عميل وثلاثة أصناف في أودو</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>«أمر توريد جديد» ← النوع «توريد لعميل» ← اختر العميل.</li><li>اكتب رقم التوريد كما يعرفه العميل (مثل 11100).</li><li>أضف ثلاثة أصناف بالبحث بالاسم وبالكود، وعدّل الكمية والسعر، واكتب ملاحظة على صنف.</li><li>اضغط «إنشاء الأمر (مسودة)» ثم ابحث عن الأمر برقم التوريد من قائمة الأوامر.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يُنشأ الأمر مسودة بالإجمالي الصحيح.</li><li>البحث برقم التوريد يجد الأمر.</li><li>الملاحظة محفوظة على الصنف.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">S2</span><b>إضافة الأصناف بمسح الباركود</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أصناف بباركود EAN-13 صحيح، وجوال</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>في «أمر جديد» اضغط «مسح بكاميرا الجوال» ووجّه الكاميرا لباركود ثلاثة أصناف.</li><li>امسح الصنف نفسه مرتين (صندوقان).</li><li>جرّب باركوداً غير موجود، ثم جرّب ماسح لوحة المفاتيح إن توفر.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>كل مسح يضيف الصنف أو يزيد كميته بصوت/اهتزاز نجاح.</li><li>الباركود غير المعروف يعطي رسالة خطأ واضحة.</li><li>لا يُعدّ الباركود الواحد أكثر من مرة وهو أمام الكاميرا.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">S3</span><b>طباعة عرض السعر دون أمر بيع</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر مسودة</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>من صفحة الأمر: «طباعة ← عرض السعر ← معاينة».</li><li>نزّل PDF ثم XLSX.</li><li>تحقق من الترقيم والملاحظات ورقم التوريد في الطباعة.</li><li>تأكد في أودو أنه لم يُنشأ أمر بيع.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>المعاينة والملفان يعملان.</li><li>المحتوى مطابق للأمر، والتنسيق مقبول للإرسال للعميل.</li><li>لم يُنشأ أي أمر بيع.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">S4</span><b>تأكيد الأمر وقيود التعديل</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر مسودة</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>اضغط «تأكيد الأمر».</li><li>بحساب المندوب حاول تعديل كمية صنف.</li><li>بحساب أمين المخزن أو المدير عدّل الكمية مع كتابة سبب.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>بعد التأكيد تظهر الكمية «الأصلية» ثابتة.</li><li>المندوب لا يستطيع التعديل (حسب الصلاحيات المعتمدة).</li><li>التعديل المصرّح به يظهر في «سجل التعديلات» باسم صاحبه وسببه.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">S5</span><b>الخصم الشرطي بالسعر</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> قاعدة خصم شرطي معدّة في أودو (سعر فوق حد معين)</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>أضف صنفاً سعره فوق الحد في أمر جديد.</li><li>راقب ظهور الخصم في السطر وإجمالي الأمر.</li><li>عدّل الخصم يدوياً ثم احفظ.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يُطبَّق الخصم تلقائياً بحسب القاعدة.</li><li>التعديل اليدوي يبقى ولا تعيد القاعدة كتابته.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">S6</span><b>إنشاء أمر بيع بعد التسليم دون تكرار</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر مؤكد وتم تسليمه (W1)</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>من الأمر: «إنشاء أمر بيع».</li><li>افتح الأمر في أودو وراجع المسلَّم على أسطره وإذن التسليم المرتبط.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>أمر البيع يحمل الكميات والأسعار نفسها.</li><li>لا يُنشأ إذن تسليم ثانٍ، والمسلَّم يظهر على أمر البيع.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">S7</span><b>إنشاء أمر توريد من أمر بيع موجود</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر بيع مؤكد في أودو (له تسليم أو فاتورة)</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>في أودو افتح أمر بيع قائماً واضغط «إنشاء أمر توريد».</li><li>افتح الأمر الجديد في التطبيق وراجع المستندات المرتبطة.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يتبنّى الأمر حركات التسليم والفواتير القائمة ويظهرها.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">S8</span><b>أمر شراء من مورد</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> مورد وأصناف</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>أنشئ أمراً من نوع «شراء من مورد» وأكّده.</li><li>اضغط «إنشاء أمر شراء» وراجعه في أودو.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>ينشأ أمر الشراء بالكميات والأسعار، ويرتبط بالأمر.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+<h2><span class="chip wh">W</span> أمين المخزن <span class="small">— 12 سيناريوهات، حوالي <span class="num">175</span> دقيقة</span></h2>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W1</span><b>تجهيز التسليم وتأكيده كاملاً</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر مؤكد وأصناف متوفرة بالمخزون</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>افتح الأمر واضغط «تجهيز التسليم/الاستلام».</li><li>في شاشة الإذن راجع الكميات (تبدأ من المحجوز).</li><li>اضغط «تأكيد التسليم».</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يُنشأ الإذن ويفتح مباشرة.</li><li>بعد التأكيد: المنفّذ في الأمر = المطلوب، والإذن «منفّذ».</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W2</span><b>العدّ بكاميرا الجوال</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">25</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> جوال، HTTPS، أصناف بباركود، إذن جاهز</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>اضغط «الكاميرا» في شاشة الإذن، واسمح بإذن الكاميرا.</li><li>امسح ١٠ وحدات من ٣ أصناف (انقل الكاميرا بين الصناديق).</li><li>جرّب المصباح والتكبير والتبديل لنمط «واحد بواحد».</li><li>جرّب باركوداً غريباً ثم أغلق الكاميرا واضغط «حفظ الكميات».</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>كل مسح = وحدة، بصوت ولون، والنتيجة «الاسم — المعدود/المطلوب».</li><li>الباركود الظاهر باستمرار لا يُعدّ مراراً.</li><li>الكميات المحفوظة تطابق ما مسحتَ.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W3</span><b>تسليم ناقص مع إذن للمتبقي</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر مؤكد بكمية ١٠ على الأقل</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>جهّز الإذن وعُدّ ٦ فقط.</li><li>اضغط «تأكيد التسليم»، واختر «إنشاء إذن للمتبقي».</li><li>افتح إذن المتبقي وسلّم الباقي.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>الأمر يعرض المنفّذ ٦ ثم ١٠ بعد الدفعة الثانية.</li><li>الإذنان مرتبطان بالأمر ويظهر «متبقٍ من …».</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W4</span><b>إسقاط المتبقي</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر مؤكد</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>عُدّ أقل من المطلوب وأكّد، واختر «إسقاط المتبقي».</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>لا يُنشأ إذن متبقٍ، والمنفّذ يبقى كما عُدّ.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W5</span><b>صنف إضافي أثناء التجهيز</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر مؤكد فيه إذن</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>من صفحة الأمر (حساب أمين المخزن) «إضافة صنف» مع سبب.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يظهر الصنف «مضافاً»، وينشأ إذن جديد تلقائياً له، والتعديل في السجل.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W6</span><b>استبدال صنف</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر مؤكد قبل التسليم، ثم بعد تسليم جزئي</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>اضغط أيقونة الاستبدال، اختر الصنف البديل واكتب السبب.</li><li>كرّر بعد تسليم كامل لصنف مع تفعيل «أرجع أيضاً ما تم تحريكه».</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يظهر «المطلوب أصلاً» والسبب، ويُسجَّل في السجل.</li><li>الفاتورة لاحقاً تحمل الصنف الفعلي.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W7</span><b>استلام من مورد بتشغيلات وتواريخ صلاحية</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">25</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر شراء/توريد من مورد وصنف متتبَّع بالتشغيلات</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>جهّز الاستلام، امسح باركود الصنف ثم رقم التشغيلة (أو كود GS1 إن توفر).</li><li>أضف تشغيلتين بكميتين مختلفتين، وصنفاً بترقيم تلقائي للتشغيلات.</li><li>أكّد الاستلام وراجع التشغيلات وتواريخ الصلاحية في أودو.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>تُنشأ التشغيلات بأرقامها وكمياتها.</li><li>الصنف ذو الترقيم التلقائي يأخذ رقماً حسب النمط المتفق عليه.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W8</span><b>استلام أكبر من المطلوب</b>
+    <span class="badge b-grey">عادي</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر استلام</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>عُدّ أكثر من المطلوب وأكّد.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>تنبيه «زيادة»، ويرتفع المطلوب في الأمر إلى ما استُلم فعلاً وتُسجَّل الزيادة.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W9</span><b>مرتجع جزئي</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> إذن منفّذ</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>من الإذن المنفّذ اضغط «إنشاء مرتجع» وأدخل كمية لصنف.</li><li>راجع المنفّذ في الأمر وجرّب إنشاء فاتورة.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يعود الصنف للمخزن وينقص المنفّذ.</li><li>الفاتورة لا تشمل المرتجع.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W10</span><b>إلغاء الإذن وإعادة التجهيز</b>
+    <span class="badge b-grey">عادي</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> إذن غير منفّذ</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>اضغط «إلغاء الإذن» ثم أعد «تجهيز التسليم» من الأمر.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يعود المطلوب «غير مخطَّط» ويُنشأ إذن جديد.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W11</span><b>تثبيت التطبيق على الجوال</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> جوال أندرويد أو آيفون، HTTPS</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>افتح الرابط في Chrome (أندرويد) أو Safari (آيفون) وسجّل الدخول.</li><li>ثبّت التطبيق (زر «تثبيت» أو «إضافة إلى الشاشة الرئيسية»).</li><li>افتحه من الأيقونة، وجرّب الضغط المطوّل على الأيقونة لاختصار «المخزن».</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يفتح كتطبيق مستقل بلا شريط المتصفح.</li><li>الاختصاران يعملان، والكاميرا تعمل من داخله.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">W12</span><b>انقطاع الإنترنت أثناء العمل</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> جوال</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>أثناء عدّ إذن اقطع الواي فاي ثم أعده.</li><li>افتح التطبيق وهو بلا اتصال.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>تظهر صفحة «لا يوجد اتصال» مع زر إعادة المحاولة بدل خطأ المتصفح.</li><li>لا تضيع بيانات محفوظة؛ سجّل ما ضاع من عدّ غير محفوظ.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+<h2><span class="chip acc">C</span> المحاسب <span class="small">— 5 سيناريوهات، حوالي <span class="num">105</span> دقيقة</span></h2>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">C1</span><b>فاتورة من الكميات الفعلية</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> أمر سُلِّم جزئياً (W3)</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>اضغط «إنشاء فاتورة من الفعلي» بعد الدفعة الأولى.</li><li>بعد الدفعة الثانية أنشئ فاتورة ثانية.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>الفاتورة الأولى = الدفعة الأولى، والثانية = الباقي فقط، دون تكرار.</li><li>الأسعار والخصومات والضرائب كما في الأمر.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">C2</span><b>الفاتورة التجارية ودمج الأصناف</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">20</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> صنفان بمفتاح تجميع واحد على الأمر</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>اطبع «الفاتورة التجارية» (معاينة، PDF، XLSX).</li><li>في أودو فعّل «دمج الأصناف عند الطباعة» واطبع الفاتورة.</li><li>جرّب دمج صنفين بضريبة مختلفة.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>الأصناف المجمَّعة تظهر سطراً واحداً بالكمية والمبلغ المجموعين، والفاتورة الأصلية لم تتغير.</li><li>عند اختلاف الضريبة أو الخصم لا يُدمج ويظهر تحذير.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">C3</span><b>التسوية الجماعية</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">20</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> عميل بثلاث فواتير مفتوحة ودفعة بقيد يومية</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>«التسوية الجماعية»: اختر العميل والفترة ← «تحميل».</li><li>حدّد فاتورتين فقط (لاحظ أن شيئاً لا يُحدَّد تلقائياً).</li><li>اختر ترتيب التوزيع ثم «تسوية».</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>توزَّع الدفعة على الفاتورتين فقط، والثالثة لا تُمَسّ.</li><li>المتبقي مكتوب بوضوح وتظهر كل مطابقة في سجل التسويات.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">C4</span><b>الخصومات المؤجلة: من الاحتساب إلى الإشعار</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">30</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> برنامج خصم تراكمي مضبوط في أودو، وحسابات الخصومات مراجَعة</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>راجع «الخصومات المؤجلة» لما حُسب عن الفترة المنتهية.</li><li>اضغط «تكوين المخصص» ثم «إصدار إشعار».</li><li>افتح القيود في أودو وراجع الحسابات.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>مبلغ الخصم = نسبة/مبلغ الشريحة المبلوغة على كامل الحجم.</li><li>المخصص يُصفّى بالإشعار ولا يتكرر أثره على الإيراد.</li><li>يوافق المحاسب على الحسابات المستخدمة.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">C5</span><b>خصم من مورد (المرآة)</b>
+    <span class="badge b-grey">عادي</span><span class="small">حوالي <span class="num">20</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> برنامج خصم على المشتريات</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>كرّر C4 على مورد.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>القيود معكوسة بالشكل الصحيح (أصل مستحق / إيراد خصومات).</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+<h2><span class="chip mgr">X</span> الجميع (عبر الأدوار) <span class="small">— 6 سيناريوهات، حوالي <span class="num">100</span> دقيقة</span></h2>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">X1</span><b>اللغة والمظهر</b>
+    <span class="badge b-grey">عادي</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> —</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>بدّل بين العربية والإنجليزية، والوضع الفاتح والغامق.</li><li>تجوّل في 6 شاشات على الأقل في كل وضع.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>لا نص مقطوع أو ناقص الترجمة؛ سجّل أي عبارة غير مناسبة.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">X2</span><b>الأحجام المختلفة للشاشات</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> جوال وتابلت وحاسوب</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>افتح الشاشات الرئيسية على كل جهاز.</li><li>جرّب أزرار الشاشات بإبهام واحد على الجوال.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>لا تمرير أفقي ولا زر صعب اللمس، والقوائم على الجوال بطاقات واضحة.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">X3</span><b>تنبيهات الصلاحية والمشتريات التلقائية</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> تشغيلات بتواريخ قريبة وصنف بقاعدة MTO</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>افتح «التنبيهات» وراجع الصلاحية والمشتريات التلقائية.</li><li>قارنها بلوحة المؤشرات وبأودو.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>التشغيلات القريبة والمنتهية تظهر بالتصنيف الصحيح.</li><li>أمر الشراء التلقائي مرتبط بالأمر المسبب له.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">X4</span><b>قياس السرعة</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">30</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> إذن من ٢٠ سطراً تقريباً</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>أنجز عدّ الإذن بالأزرار وسجّل الزمن.</li><li>أنجز إذناً مماثلاً بالكاميرا وسجّل الزمن.</li><li>كرّر بماسح لوحة المفاتيح إن توفر.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يُسجَّل الزمن لكل طريقة؛ الهدف ألا تزيد الكاميرا عن ٣ دقائق لعشرين سطراً.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">X5</span><b>وضوح الرسائل</b>
+    <span class="badge b-grey">عادي</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> —</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>جرّب إجراءات غير صحيحة: إلغاء أمر فيه تسليم، حذف صنف مُسلَّم، استبدال بصنف بوحدة مختلفة، تسوية بلا فاتورة محددة.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>كل خطأ برسالة عربية مفهومة تقول ما الخطأ وماذا تفعل، بلا رسائل تقنية.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">X6</span><b>التقارير المطبوعة</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> —</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>اطبع عرض السعر والفاتورة التجارية والفاتورة (PDF).</li><li>راجع الشعار والعنوان والأرقام والترقيم والملاحظات وكتابة المبلغ بالحروف.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>التقارير تصلح للإرسال للعميل دون تعديل، أو سجّل التعديلات المطلوبة.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+</div>
+
+<div class="section newpage">
+  <h1>٩. الاستبيان النهائي (اليوم ١١)</h1>
+  <p>عبّئه كل مشارك على حدة. التقدير من ١ (لا أوافق إطلاقاً) إلى ٥ (أوافق تماماً).</p>
+  <table class="form">
+    <thead><tr><th>العبارة</th><th style="width:9mm">١</th><th style="width:9mm">٢</th><th style="width:9mm">٣</th><th style="width:9mm">٤</th><th style="width:9mm">٥</th></tr></thead>
+    <tbody>
+      <tr><td>فهمت ما أفعله في كل شاشة دون مساعدة</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>أنجز مهامي بسرعة تكفي ضغط العمل الحقيقي</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>الرسائل والتنبيهات واضحة وتقول لي ماذا أفعل</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>أثق في الأرقام والكميات التي يعرضها</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>استخدام الجوال (الكاميرا/التطبيق) مريح في ظروف عملي الفعلية</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>الطباعة (عرض السعر/الفاتورة) تصلح للإرسال كما هي</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>الدورة تطابق الطريقة التي نعمل بها فعلاً</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>أفضّل هذا النظام على طريقتنا الحالية</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>أستطيع تدريب زميل جديد عليه في ساعة</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>أوصي بتشغيله في العمل الفعلي</td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <h2>أسئلة مفتوحة</h2>
+  <table class="form">
+    <tbody>
+      <tr><td>أكثر شيء أعجبك؟</td></tr><tr><td style="height:14mm"></td></tr>
+      <tr><td>أكثر شيء أزعجك أو أبطأك؟</td></tr><tr><td style="height:14mm"></td></tr>
+      <tr><td>ما الذي ينقص ولا بد منه قبل التشغيل الفعلي؟</td></tr><tr><td style="height:14mm"></td></tr>
+      <tr><td>موقف في عملكم لم تغطّه السيناريوهات وتتمنى أن نجرّبه:</td></tr><tr><td style="height:14mm"></td></tr>
+    </tbody>
+  </table>
+  <p>الاسم (اختياري): <span class="line"></span> &nbsp; الدور: <span class="line"></span> &nbsp; التاريخ: <span class="line" style="min-width:25mm"></span></p>
+</div>
+
+<div class="section">
+  <h1>١٠. ورشة الملاحظات والقرار</h1>
+  <h2>جدول الورشة (ساعتان، اليوم ١٢)</h2>
+  <table>
+    <thead><tr><th>الوقت</th><th>البند</th></tr></thead>
+    <tbody>
+      <tr><td class="num">١٠ د</td><td>نتائج السيناريوهات والاستبيان بالأرقام</td></tr>
+      <tr><td class="num">٣٠ د</td><td>الملاحظات الحرجة والعالية: لكل واحدة نتفق على ما نفعله ومتى</td></tr>
+      <tr><td class="num">٣٠ د</td><td>الملاحظات المتوسطة: نصنّف «قبل التشغيل» أو «بعده»</td></tr>
+      <tr><td class="num">٢٠ د</td><td>الاقتراحات والتحسينات الجديدة (بأولوية من القائمة)</td></tr>
+      <tr><td class="num">٢٠ د</td><td>القرارات المفتوحة: الصلاحيات، الحسابات، العملات، الاحتياجات الإضافية</td></tr>
+      <tr><td class="num">١٠ د</td><td>ملخص وموعد اجتماع القرار</td></tr>
+    </tbody>
+  </table>
+  <h2>خيارات القرار (اليوم ١٤)</h2>
+  <table>
+    <thead><tr><th>القرار</th><th>متى</th><th>التالي</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge b-ok">انتقال للإنتاج</span></td><td>تحققت معايير النجاح، وما تبقى لا يمنع العمل</td><td>خطة نقل البيانات الفعلية، تدريب كل الموظفين، تشغيل متوازٍ أسبوعاً ثم قطع</td></tr>
+      <tr><td><span class="badge b-warn">جولة ثانية</span></td><td>ملاحظات جوهرية تحتاج تعديلاً قبل الإنتاج</td><td>تنفيذ التعديلات، ثم تجربة أقصر (٥ أيام) على السيناريوهات الفاشلة والمعدّلة</td></tr>
+      <tr><td><span class="badge b-bad">إعادة نظر</span></td><td>الدورة لا تطابق عملكم في نقطة أساسية</td><td>جلسة تصميم مع المسؤولين لتعديل الفكرة</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section newpage">
+  <h1>ملحق أ: السجل اليومي (يُعبَّأ آخر كل يوم)</h1>
+  <p>الاسم: <span class="line"></span> &nbsp; الدور: <span class="line"></span></p>
+  <table class="form">
+    <thead><tr><th style="width:22mm">اليوم</th><th>السيناريوهات التي أنجزتها</th><th>الزمن</th><th>أهم ملاحظة/مشكلة</th></tr></thead>
+    <tbody><tr><td class='num'>2</td><td></td><td></td><td></td></tr><tr><td class='num'>3</td><td></td><td></td><td></td></tr><tr><td class='num'>4</td><td></td><td></td><td></td></tr><tr><td class='num'>5</td><td></td><td></td><td></td></tr><tr><td class='num'>6</td><td></td><td></td><td></td></tr><tr><td class='num'>7</td><td></td><td></td><td></td></tr><tr><td class='num'>8</td><td></td><td></td><td></td></tr><tr><td class='num'>9</td><td></td><td></td><td></td></tr><tr><td class='num'>10</td><td></td><td></td><td></td></tr><tr><td class='num'>11</td><td></td><td></td><td></td></tr></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h1>ملحق ب: نموذج ملاحظة (للطباعة)</h1>
+  <table class="form">
+    <tbody>
+      <tr><td style="width:40mm">رقم السيناريو</td><td></td><td style="width:30mm">التاريخ/الوقت</td><td></td></tr>
+      <tr><td>الشاشة</td><td colspan="3"></td></tr>
+      <tr><td>ماذا فعلتُ (بالخطوات)</td><td colspan="3" style="height:22mm"></td></tr>
+      <tr><td>ماذا كنت أتوقع</td><td colspan="3" style="height:14mm"></td></tr>
+      <tr><td>ماذا حدث</td><td colspan="3" style="height:14mm"></td></tr>
+      <tr><td>الخطورة</td><td colspan="3"><span class="check"></span> حرج &nbsp; <span class="check"></span> عالٍ &nbsp; <span class="check"></span> متوسط &nbsp; <span class="check"></span> منخفض &nbsp; <span class="check"></span> اقتراح</td></tr>
+      <tr><td>الجهاز والمتصفح</td><td colspan="3"></td></tr>
+      <tr><td>لقطة شاشة مرفقة</td><td colspan="3"><span class="check"></span> نعم &nbsp; <span class="check"></span> لا</td></tr>
+    </tbody>
+  </table>
+  <h2>أسئلة شائعة قبل التجربة</h2>
+  <ul>
+    <li><b>هل التجربة تؤثر على بياناتنا الحقيقية؟</b> لا. هي على قاعدة بيانات وتطبيق منفصلين.</li>
+    <li><b>هل يتأثر عملنا اليومي؟</b> لا. التجربة بالتوازي، والتدريب ساعة لكل دور فقط.</li>
+    <li><b>ماذا لو وجدتُ مشكلة ولم أعرف إن كانت مشكلة؟</b> سجّلها كملاحظة «اقتراح» أو «أسئلة»، وسنقرر معكم.</li>
+    <li><b>لا تعمل الكاميرا؟</b> الأسباب الشائعة: الرابط ليس HTTPS، أو رُفض إذن الكاميرا (يظهر شرح على الشاشة)، أو الباركود بمجموع تحقق خاطئ.</li>
+    <li><b>من أتصل به عند التعطل؟</b> مجموعة المراسلة، وللحرج: __________________________</li>
+  </ul>
+</div>
+
+</body></html>

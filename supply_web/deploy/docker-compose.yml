@@ -2,6 +2,7 @@
 #   1. cp .env.example .env   and fill DOMAIN, SESSION_SECRET (and optionally ODOO_*)
 #   2. docker compose up -d --build
 #   3. open https://<DOMAIN>  → first visit creates the administrator → Settings → Odoo connection
+name: supply-orders   # fixed project name: volumes are supply-orders_app-data etc.
 services:
   web:
     build:
