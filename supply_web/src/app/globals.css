@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-@theme inline {
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
   --font-sans: var(--font-cairo), system-ui, "Segoe UI", Tahoma, sans-serif;
   --color-brand-50: #e8f7f8;
   --color-brand-100: #c6ecee;
@@ -17,6 +19,41 @@
   --color-warn: #b45309;
   --color-bad: #b91c1c;
 }
+
+/* Dark theme: the same names, other values (utilities read the variables, so nothing else changes). */
+.dark {
+  color-scheme: dark;
+  --color-brand-50: #12383c;
+  --color-brand-100: #17494e;
+  --color-brand-200: #1d6169;
+  --color-brand-500: #14a3ae;
+  --color-brand-600: #2bb8c3;
+  --color-brand-700: #6fd6de;
+  --color-ink: #e6ebf1;
+  --color-muted: #98a4b3;
+  --color-line: #2a3340;
+  --color-surface: #161c24;
+  --color-canvas: #0e1319;
+  --color-ok: #4ade80;
+  --color-warn: #fbbf24;
+  --color-bad: #f87171;
+  --color-slate-100: #232c38;
+  --color-slate-700: #c3ccd8;
+  --color-slate-600: #aab5c3;
+  --color-green-50: #11301f;
+  --color-green-200: #1d5a37;
+  --color-green-700: #86efac;
+  --color-green-800: #a7f3d0;
+  --color-red-50: #3a1717;
+  --color-red-200: #6b2a2a;
+  --color-red-700: #fca5a5;
+  --color-red-800: #fecaca;
+  --color-amber-50: #38290e;
+  --color-amber-200: #6b4c14;
+  --color-amber-700: #fcd34d;
+  --color-amber-800: #fde68a;
+}
+:root { color-scheme: light; }
 
 html { background: var(--color-canvas); color: var(--color-ink); }
 body { font-family: var(--font-sans); font-feature-settings: "tnum"; }
@@ -39,7 +76,7 @@ input, select, textarea, button { font-family: inherit; }
   @apply btn border border-line bg-surface text-ink hover:bg-canvas;
 }
 @utility btn-danger {
-  @apply btn bg-bad text-white hover:opacity-90;
+  @apply btn bg-[#b91c1c] text-white hover:bg-[#991b1b];
 }
 @utility btn-ghost {
   @apply btn text-muted hover:bg-canvas hover:text-ink;

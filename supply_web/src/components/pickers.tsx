@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Loader2, Search } from "lucide-react";
 import { lookup } from "@/app/actions/orders";
 import type { LookupPartner, LookupProduct } from "@/lib/types";
+import { useT } from "@/lib/i18n/client";
 
 type Kind = "product" | "partner";
 
@@ -14,6 +15,7 @@ function Picker<T extends { id: number; name: string }>({
   kind: Kind; placeholder: string; onPick: (item: T) => void; render: (item: T) => React.ReactNode;
   autoFocus?: boolean; clearOnPick?: boolean; initial?: string;
 }) {
+  const t = useT();
   const [q, setQ] = useState(initial ?? "");
   const [items, setItems] = useState<T[]>([]);
   const [open, setOpen] = useState(false);
@@ -89,17 +91,18 @@ function Picker<T extends { id: number; name: string }>({
         </ul>
       )}
       {open && !loading && !error && searching && shown.length === 0 && (
-        <div className="card absolute inset-x-0 top-full z-20 mt-1 px-3 py-3 text-sm text-muted">لا نتائج</div>
+        <div className="card absolute inset-x-0 top-full z-20 mt-1 px-3 py-3 text-sm text-muted">{t("لا نتائج")}</div>
       )}
     </div>
   );
 }
 
 export function ProductPicker(props: { onPick: (p: LookupProduct) => void; autoFocus?: boolean; clearOnPick?: boolean; placeholder?: string }) {
+  const t = useT();
   return (
     <Picker<LookupProduct>
       kind="product"
-      placeholder={props.placeholder ?? "ابحث عن صنف بالاسم أو الكود أو الباركود…"}
+      placeholder={props.placeholder ?? t("ابحث عن صنف بالاسم أو الكود أو الباركود…")}
       onPick={props.onPick}
       autoFocus={props.autoFocus}
       clearOnPick={props.clearOnPick}
@@ -114,10 +117,11 @@ export function ProductPicker(props: { onPick: (p: LookupProduct) => void; autoF
 }
 
 export function PartnerPicker(props: { onPick: (p: LookupPartner) => void; placeholder?: string }) {
+  const t = useT();
   return (
     <Picker<LookupPartner>
       kind="partner"
-      placeholder={props.placeholder ?? "ابحث عن عميل أو مورد…"}
+      placeholder={props.placeholder ?? t("ابحث عن عميل أو مورد…")}
       onPick={props.onPick}
       render={(p) => (
         <div className="flex items-center justify-between gap-3">

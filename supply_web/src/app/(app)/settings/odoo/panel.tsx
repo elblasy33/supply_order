@@ -8,6 +8,7 @@ import { resyncUsers, saveConnectionAction, testConnection, type ConnectionResul
 import { useToast } from "@/components/toast";
 import { Badge, Field } from "@/components/ui";
 import type { CheckStep } from "@/lib/odoo-check";
+import { useT } from "@/lib/i18n/client";
 
 type Initial = { url: string; database: string; hasKey: boolean; source: "saved" | "env" | "none" };
 
@@ -19,6 +20,7 @@ const ICON: Record<CheckStep["status"], React.ReactNode> = {
 };
 
 export function OdooPanel({ initial }: { initial: Initial }) {
+  const t = useT();
   const router = useRouter();
   const { push } = useToast();
   const [url, setUrl] = useState(initial.url);
@@ -41,7 +43,7 @@ export function OdooPanel({ initial }: { initial: Initial }) {
     setResult(res);
     setBusy("");
     if (res.saved) {
-      push("ok", "تم حفظ الاتصال. التطبيق يعمل الآن مع هذا الخادم.");
+      push("ok", t("تم حفظ الاتصال. التطبيق يعمل الآن مع هذا الخادم."));
       setApiKey("");
       router.refresh();
     } else if (res.error) push("error", res.error);
@@ -50,7 +52,7 @@ export function OdooPanel({ initial }: { initial: Initial }) {
     setBusy("sync");
     const r = await resyncUsers();
     setBusy("");
-    push(r.ok ? "ok" : "error", r.ok ? (r.message ?? "تمت المزامنة.") : r.error);
+    push(r.ok ? "ok" : "error", r.ok ? (r.message ?? t("تمت المزامنة.")) : r.error);
   }
 
   const info = result?.check?.info;
@@ -58,46 +60,46 @@ export function OdooPanel({ initial }: { initial: Initial }) {
     <div className="grid gap-5 xl:grid-cols-[26rem_1fr]">
       <section className="card h-fit p-5">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-extrabold">بيانات الاتصال</h2>
+          <h2 className="font-extrabold">{t("بيانات الاتصال")}</h2>
           <Badge tone={initial.source === "none" ? "amber" : "green"}>
-            {initial.source === "saved" ? "محفوظ في التطبيق" : initial.source === "env" ? "من ملف البيئة" : "غير مضبوط"}
+            {initial.source === "saved" ? t("محفوظ في التطبيق") : initial.source === "env" ? t("من ملف البيئة") : t("غير مضبوط")}
           </Badge>
         </div>
         <div className="space-y-4">
-          <Field label="عنوان خادم أودو">
+          <Field label={t("عنوان خادم أودو")}>
             <input dir="ltr" className="input" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://odoo.example.com" autoComplete="off" />
           </Field>
-          <Field label="اسم قاعدة البيانات (اختياري، مطلوب إن كان للخادم أكثر من قاعدة)">
-            <input dir="ltr" className="input" value={database} onChange={(e) => setDatabase(e.target.value)} placeholder="مثال: supply_prod" autoComplete="off" />
+          <Field label={t("اسم قاعدة البيانات (اختياري، مطلوب إن كان للخادم أكثر من قاعدة)")}>
+            <input dir="ltr" className="input" value={database} onChange={(e) => setDatabase(e.target.value)} placeholder={t("مثال: supply_prod")} autoComplete="off" />
           </Field>
-          <Field label="مفتاح API لمستخدم التكامل">
+          <Field label={t("مفتاح API لمستخدم التكامل")}>
             <input dir="ltr" type="password" className="input font-mono" value={apiKey} onChange={(e) => setApiKey(e.target.value)} autoComplete="new-password"
-              placeholder={initial.hasKey ? "•••••••• محفوظ — اتركه فارغاً للإبقاء عليه" : "الصق المفتاح هنا"} />
+              placeholder={initial.hasKey ? t("•••••••• محفوظ — اتركه فارغاً للإبقاء عليه") : t("الصق المفتاح هنا")} />
           </Field>
-          <p className="text-xs leading-6 text-muted">يُحفظ المفتاح مشفّراً على خادم التطبيق ولا يعود للمتصفح أبداً.</p>
+          <p className="text-xs leading-6 text-muted">{t("يُحفظ المفتاح مشفّراً على خادم التطبيق ولا يعود للمتصفح أبداً.")}</p>
         </div>
         <div className="mt-5 flex flex-wrap gap-2">
           <button className="btn-secondary" onClick={test} disabled={!canTry || !!busy}>
-            {busy === "test" ? <Loader2 className="size-4 animate-spin" /> : <Plug className="size-4" />} فحص الاتصال
+            {busy === "test" ? <Loader2 className="size-4 animate-spin" /> : <Plug className="size-4" />}  {t("فحص الاتصال")}
           </button>
           <button className="btn-primary" onClick={save} disabled={!canTry || !!busy}>
-            {busy === "save" ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />} فحص وحفظ
+            {busy === "save" ? <Loader2 className="size-4 animate-spin" /> : <Save className="size-4" />}  {t("فحص وحفظ")}
           </button>
         </div>
         <div className="mt-5 border-t border-line pt-4">
           <button className="btn-ghost -ms-2" onClick={resync} disabled={!!busy || initial.source === "none"}>
-            {busy === "sync" ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />} إعادة مزامنة المستخدمين مع أودو
+            {busy === "sync" ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />}  {t("إعادة مزامنة المستخدمين مع أودو")}
           </button>
         </div>
       </section>
 
       <section className="space-y-5">
         <div className="card p-5">
-          <h2 className="mb-3 font-extrabold">نتيجة الفحص</h2>
+          <h2 className="mb-3 font-extrabold">{t("نتيجة الفحص")}</h2>
           {!result ? (
-            <p className="flex items-center gap-2 text-sm text-muted"><CircleDashed className="size-5" /> لم يُجرَ فحص بعد. اضغط «فحص الاتصال».</p>
+            <p className="flex items-center gap-2 text-sm text-muted"><CircleDashed className="size-5" />  {t("لم يُجرَ فحص بعد. اضغط «فحص الاتصال».")}</p>
           ) : result.error && !result.check ? (
-            <p role="alert" className="text-sm text-bad">{result.error}</p>
+            <p role="alert" className="text-sm text-bad">{t(result.error)}</p>
           ) : (
             <>
               <ol className="space-y-3" aria-live="polite">
@@ -105,14 +107,14 @@ export function OdooPanel({ initial }: { initial: Initial }) {
                   <li key={s.id} className="flex items-start gap-3">
                     {ICON[s.status]}
                     <div className="min-w-0">
-                      <p className={clsx("text-sm font-bold", s.status === "skip" && "text-muted")}>{s.label}</p>
-                      <p className={clsx("text-sm leading-6", s.status === "fail" ? "text-bad" : s.status === "warn" ? "text-warn" : "text-muted")}>{s.detail}</p>
+                      <p className={clsx("text-sm font-bold", s.status === "skip" && "text-muted")}>{t(s.label)}</p>
+                      <p className={clsx("text-sm leading-6", s.status === "fail" ? "text-bad" : s.status === "warn" ? "text-warn" : "text-muted")}>{t(s.detail)}</p>
                     </div>
                   </li>
                 ))}
               </ol>
               <p role="status" className={clsx("mt-4 rounded-xl px-4 py-3 text-sm font-bold", result.check!.ok ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800")}>
-                {result.saved ? "تم الحفظ — الاتصال سليم." : result.check!.ok ? "الاتصال سليم." : "الاتصال غير جاهز بعد."}
+                {result.saved ? t("تم الحفظ — الاتصال سليم.") : result.check!.ok ? t("الاتصال سليم.") : t("الاتصال غير جاهز بعد.")}
               </p>
             </>
           )}
@@ -120,12 +122,12 @@ export function OdooPanel({ initial }: { initial: Initial }) {
 
         {info && (
           <div className="card p-5">
-            <h2 className="mb-3 font-extrabold">الموديولات على هذا الخادم</h2>
+            <h2 className="mb-3 font-extrabold">{t("الموديولات على هذا الخادم")}</h2>
             <ul className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
               {Object.entries(info.modules).map(([name, m]) => (
                 <li key={name} className="flex items-center justify-between border-b border-line/60 py-1.5 text-sm">
                   <span dir="ltr" className="font-mono text-xs">{name}</span>
-                  {m.state === "installed" ? <Badge tone="green">مثبّت <span className="num">{m.version.split(".").slice(2).join(".") || ""}</span></Badge> : <Badge tone="red">{m.state === "missing" ? "غير موجود" : m.state}</Badge>}
+                  {m.state === "installed" ? <Badge tone="green">{t("مثبّت")} <span className="num">{m.version.split(".").slice(2).join(".") || ""}</span></Badge> : <Badge tone="red">{m.state === "missing" ? t("غير موجود") : m.state}</Badge>}
                 </li>
               ))}
             </ul>
@@ -133,12 +135,12 @@ export function OdooPanel({ initial }: { initial: Initial }) {
         )}
 
         <div className="card p-5 text-sm leading-7">
-          <h2 className="mb-2 font-extrabold">تجهيز أي خادم أودو 20</h2>
+          <h2 className="mb-2 font-extrabold">{t("تجهيز أي خادم أودو 20")}</h2>
           <ol className="list-decimal space-y-1.5 ps-5">
-            <li>ثبّت موديولات المشروع، والأساسي منها <b dir="ltr">supply_order</b> و<b dir="ltr">supply_api</b>.</li>
-            <li>أنشئ مستخدماً داخلياً للتكامل (مجموعة <b>Supply Orders / Manager</b> مع صلاحيات المحاسبة والمخزون).</li>
-            <li>من ملفه الشخصي ← <b>Account Security</b> ← <b>New API Key</b> وانسخ المفتاح.</li>
-            <li>في أودو: الإعدادات ← تقني ← معاملات النظام، اضبط <b dir="ltr">supply_order.service_user_id</b> برقم هذا المستخدم (يخبرك الفحص برقمه).</li>
+            <li>{t("ثبّت موديولات المشروع، والأساسي منها")} <b dir="ltr">supply_order</b>  {t("و")}<b dir="ltr">supply_api</b>.</li>
+            <li>{t("أنشئ مستخدماً داخلياً للتكامل (مجموعة")} <b>Supply Orders / Manager</b>  {t("مع صلاحيات المحاسبة والمخزون).")}</li>
+            <li>{t("من ملفه الشخصي ←")} <b>Account Security</b> ← <b>New API Key</b>  {t("وانسخ المفتاح.")}</li>
+            <li>{t("في أودو: الإعدادات ← تقني ← معاملات النظام، اضبط")} <b dir="ltr">supply_order.service_user_id</b>  {t("برقم هذا المستخدم (يخبرك الفحص برقمه).")}</li>
           </ol>
         </div>
       </section>

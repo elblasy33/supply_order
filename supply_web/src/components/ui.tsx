@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import type { OrderState } from "@/lib/types";
 
 export const nf = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 0 });
 export const money = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
@@ -12,41 +11,9 @@ export function formatDate(iso: string | null | undefined, withTime = false) {
   if (!iso) return "—";
   const d = new Date(iso.length === 10 ? `${iso}T00:00:00` : iso);
   if (Number.isNaN(d.getTime())) return iso;
-  const date = new Intl.DateTimeFormat("ar-EG-u-nu-latn", { day: "numeric", month: "short", year: "numeric" }).format(d);
-  if (!withTime) return date;
-  const time = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false }).format(d);
-  return `${date} — ${time}`;
-}
-
-const STATE: Record<OrderState, { label: string; cls: string }> = {
-  draft: { label: "مسودة", cls: "bg-slate-100 text-slate-700" },
-  confirmed: { label: "مؤكد", cls: "bg-brand-50 text-brand-700" },
-  closed: { label: "مغلق", cls: "bg-green-50 text-green-700" },
-  cancel: { label: "ملغي", cls: "bg-red-50 text-red-700" },
-};
-
-export function Badge({ children, tone = "slate", className }: { children: React.ReactNode; tone?: "slate" | "brand" | "green" | "amber" | "red"; className?: string }) {
-  const tones = {
-    slate: "bg-slate-100 text-slate-700", brand: "bg-brand-50 text-brand-700", green: "bg-green-50 text-green-700",
-    amber: "bg-amber-50 text-amber-700", red: "bg-red-50 text-red-700",
-  };
-  return <span className={clsx("inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-bold", tones[tone], className)}>{children}</span>;
-}
-
-export function StateBadge({ state }: { state: OrderState }) {
-  const s = STATE[state];
-  return <span className={clsx("inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold", s.cls)}>{s.label}</span>;
-}
-
-export const FULFILL = { none: "لم يبدأ", partial: "جزئي", done: "منفّذ" } as const;
-export const INVOICE = { nothing: "لا شيء للفوترة", to_invoice: "جاهز للفوترة", invoiced: "مفوتر" } as const;
-export const TYPE = { sale: "توريد لعميل", purchase: "شراء من مورد" } as const;
-
-export function Fulfillment({ s }: { s: keyof typeof FULFILL }) {
-  return <Badge tone={s === "done" ? "green" : s === "partial" ? "amber" : "slate"}>{FULFILL[s]}</Badge>;
-}
-export function InvoiceBadge({ s }: { s: keyof typeof INVOICE }) {
-  return <Badge tone={s === "invoiced" ? "green" : s === "to_invoice" ? "amber" : "slate"}>{INVOICE[s]}</Badge>;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const date = `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`; // neutral: reads the same in Arabic and English
+  return withTime ? `${date} ${pad(d.getHours())}:${pad(d.getMinutes())}` : date;
 }
 
 export function PageHeader({ title, subtitle, actions }: { title: React.ReactNode; subtitle?: React.ReactNode; actions?: React.ReactNode }) {
@@ -57,25 +24,6 @@ export function PageHeader({ title, subtitle, actions }: { title: React.ReactNod
         {subtitle && <p className="mt-1 text-sm text-muted">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
-    </div>
-  );
-}
-
-export function Empty({ title, hint }: { title: string; hint?: string }) {
-  return (
-    <div className="px-6 py-14 text-center">
-      <p className="font-bold">{title}</p>
-      {hint && <p className="mt-1 text-sm text-muted">{hint}</p>}
-    </div>
-  );
-}
-
-export function ErrorBox({ message }: { message: string }) {
-  return (
-    <div className="card border-red-200 bg-red-50 p-5 text-sm text-red-800" role="alert">
-      <p className="font-bold">تعذّر تحميل البيانات من أودو</p>
-      <p className="mt-1">{message}</p>
-      <a href="/settings/odoo" className="mt-3 inline-block font-bold underline">افتح إعدادات الاتصال بأودو</a>
     </div>
   );
 }
@@ -98,3 +46,7 @@ export function Field({ label, className, children }: { label: React.ReactNode; 
     </label>
   );
 }
+
+export const TYPE = { sale: "توريد لعميل", purchase: "شراء من مورد" } as const;
+export { Badge } from "./badge";
+export { StateBadge, Fulfillment, InvoiceBadge, Empty, ErrorBox } from "./ui-text";

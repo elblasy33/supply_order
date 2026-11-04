@@ -1,6 +1,8 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
 import { getConnection, type OdooConnection } from "./settings";
+import { ODOO_LANG } from "./i18n/core";
+import { getLocale } from "./i18n/server";
 
 /** Error code of the supply.api contract (docs/API_CONTRACT.yaml) plus the transport failures. */
 export type OdooErrorCode =
@@ -72,7 +74,7 @@ export async function odooCall<T = unknown>(
 ): Promise<{ data: T; page?: { total: number; offset: number; limit: number } }> {
   const context: Record<string, unknown> = {};
   if (opts.extUserId) context.ext_user_id = opts.extUserId;
-  if (opts.lang) context.lang = opts.lang;
+  context.lang = opts.lang ?? ODOO_LANG[await getLocale().catch(() => "ar" as const)];
   const body: Record<string, unknown> = { ...args, context };
   if (opts.idempotencyKey) body.idempotency_key = opts.idempotencyKey;
   const res = await raw(`/json/2/supply.api/${method}`, {

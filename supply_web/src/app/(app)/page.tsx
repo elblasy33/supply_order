@@ -5,10 +5,15 @@ import { odooPage } from "@/lib/odoo";
 import { attempt } from "@/lib/safe";
 import { Badge, ErrorBox, Fulfillment, InvoiceBadge, Num, PageHeader, StateBadge, TYPE, formatDate, money } from "@/components/ui";
 import type { AutoPurchase, ExpiryAlert, OrderSummary, PickingSummary } from "@/lib/types";
+import { getT } from "@/lib/i18n/server";
 
-export const metadata = { title: "لوحة التحكم" };
+export async function generateMetadata() {
+  const t = await getT();
+  return { title: t("لوحة التحكم") };
+}
 
 export default async function Dashboard() {
+  const t = await getT();
   const user = await requirePermission("orders.view");
   const ext = { extUserId: user.odooExtId };
   const canAlerts = user.permissions.has("alerts.view");
@@ -23,24 +28,24 @@ export default async function Dashboard() {
       canAlerts ? odooPage<ExpiryAlert>("alerts", { kind: "expiry", limit: 1 }, ext) : null,
       canAlerts ? odooPage<AutoPurchase>("alerts", { kind: "auto_purchase", filter: "to_confirm", limit: 1 }, ext) : null,
   ]));
-  if (!loaded.ok) return <><PageHeader title="لوحة التحكم" /><ErrorBox message={loaded.error} /></>;
+  if (!loaded.ok) return <><PageHeader title={t("لوحة التحكم")} /><ErrorBox message={loaded.error} /></>;
   const [recent, drafts, open, toInvoice, deliveries, receipts, expiry, autos] = loaded.data;
   {
     const cards = [
-      { href: "/orders?state=draft", label: "مسودات تنتظر التأكيد", value: drafts.total, icon: <FileText className="size-5" />, tone: "text-slate-600 bg-slate-100" },
-      { href: "/orders?state=confirmed", label: "أوامر قيد التنفيذ", value: open.total, icon: <Truck className="size-5" />, tone: "text-brand-700 bg-brand-50" },
-      { href: "/orders?state=confirmed&invoice=to_invoice", label: "جاهزة للفوترة", value: toInvoice.total, icon: <ClipboardCheck className="size-5" />, tone: "text-amber-700 bg-amber-50" },
-      ...(deliveries ? [{ href: "/warehouse?kind=delivery", label: "تسليمات جاهزة للتنفيذ", value: deliveries.total, icon: <Truck className="size-5" />, tone: "text-brand-700 bg-brand-50" }] : []),
-      ...(receipts ? [{ href: "/warehouse?kind=receipt", label: "استلامات جاهزة للتنفيذ", value: receipts.total, icon: <PackageCheck className="size-5" />, tone: "text-green-700 bg-green-50" }] : []),
-      ...(expiry ? [{ href: "/alerts", label: "تشغيلات تنبّه صلاحيتها", value: expiry.total, icon: <AlertTriangle className="size-5" />, tone: "text-red-700 bg-red-50" }] : []),
-      ...(autos ? [{ href: "/alerts?tab=purchases", label: "مشتريات تلقائية للتأكيد", value: autos.total, icon: <PackageCheck className="size-5" />, tone: "text-green-700 bg-green-50" }] : []),
+      { href: "/orders?state=draft", label: t("مسودات تنتظر التأكيد"), value: drafts.total, icon: <FileText className="size-5" />, tone: "text-slate-600 bg-slate-100" },
+      { href: "/orders?state=confirmed", label: t("أوامر قيد التنفيذ"), value: open.total, icon: <Truck className="size-5" />, tone: "text-brand-700 bg-brand-50" },
+      { href: "/orders?state=confirmed&invoice=to_invoice", label: t("جاهزة للفوترة"), value: toInvoice.total, icon: <ClipboardCheck className="size-5" />, tone: "text-amber-700 bg-amber-50" },
+      ...(deliveries ? [{ href: "/warehouse?kind=delivery", label: t("تسليمات جاهزة للتنفيذ"), value: deliveries.total, icon: <Truck className="size-5" />, tone: "text-brand-700 bg-brand-50" }] : []),
+      ...(receipts ? [{ href: "/warehouse?kind=receipt", label: t("استلامات جاهزة للتنفيذ"), value: receipts.total, icon: <PackageCheck className="size-5" />, tone: "text-green-700 bg-green-50" }] : []),
+      ...(expiry ? [{ href: "/alerts", label: t("تشغيلات تنبّه صلاحيتها"), value: expiry.total, icon: <AlertTriangle className="size-5" />, tone: "text-red-700 bg-red-50" }] : []),
+      ...(autos ? [{ href: "/alerts?tab=purchases", label: t("مشتريات تلقائية للتأكيد"), value: autos.total, icon: <PackageCheck className="size-5" />, tone: "text-green-700 bg-green-50" }] : []),
     ];
     return (
       <>
         <PageHeader
-          title={`أهلاً ${user.name}`}
-          subtitle="نظرة سريعة على التوريد اليوم"
-          actions={user.permissions.has("orders.create") && <Link href="/orders/new" className="btn-primary"><Plus className="size-4" /> أمر توريد جديد</Link>}
+          title={t(`أهلاً ${user.name}`)}
+          subtitle={t("نظرة سريعة على التوريد اليوم")}
+          actions={user.permissions.has("orders.create") && <Link href="/orders/new" className="btn-primary"><Plus className="size-4" />  {t("أمر توريد جديد")}</Link>}
         />
         <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-7">
           {cards.map((c) => (
@@ -53,14 +58,14 @@ export default async function Dashboard() {
         </div>
         <section className="card overflow-hidden">
           <div className="flex items-center justify-between border-b border-line px-5 py-4">
-            <h2 className="font-extrabold">آخر الأوامر</h2>
-            <Link href="/orders" className="text-sm font-semibold text-brand-600 hover:underline">عرض الكل</Link>
+            <h2 className="font-extrabold">{t("آخر الأوامر")}</h2>
+            <Link href="/orders" className="text-sm font-semibold text-brand-600 hover:underline">{t("عرض الكل")}</Link>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-canvas/60"><tr>
-                <th className="th">الأمر</th><th className="th">الشريك</th><th className="th">النوع</th><th className="th">الحالة</th>
-                <th className="th">التنفيذ</th><th className="th">الفوترة</th><th className="th">الإجمالي</th>
+                <th className="th">{t("الأمر")}</th><th className="th">{t("الشريك")}</th><th className="th">{t("النوع")}</th><th className="th">{t("الحالة")}</th>
+                <th className="th">{t("التنفيذ")}</th><th className="th">{t("الفوترة")}</th><th className="th">{t("الإجمالي")}</th>
               </tr></thead>
               <tbody className="divide-y divide-line">
                 {recent.data.map((o) => (
@@ -68,7 +73,7 @@ export default async function Dashboard() {
                     <td className="td"><Link href={`/orders/${o.id}`} className="font-bold text-brand-700 hover:underline">{o.name}</Link>
                       {o.supply_ref && <span className="ms-2 text-xs text-muted">#{o.supply_ref}</span>}</td>
                     <td className="td">{o.partner.name}</td>
-                    <td className="td"><Badge>{TYPE[o.order_type]}</Badge></td>
+                    <td className="td"><Badge>{t(TYPE[o.order_type])}</Badge></td>
                     <td className="td"><StateBadge state={o.state} /></td>
                     <td className="td"><Fulfillment s={o.fulfillment_state} /></td>
                     <td className="td"><InvoiceBadge s={o.invoice_state} /></td>
@@ -77,10 +82,10 @@ export default async function Dashboard() {
                 ))}
               </tbody>
             </table>
-            {recent.data.length === 0 && <p className="px-6 py-12 text-center text-muted">لا توجد أوامر بعد. أنشئ أول أمر توريد.</p>}
+            {recent.data.length === 0 && <p className="px-6 py-12 text-center text-muted">{t("لا توجد أوامر بعد. أنشئ أول أمر توريد.")}</p>}
           </div>
         </section>
-        <p className="mt-4 text-xs text-muted">آخر تحديث {formatDate(new Date().toISOString(), true)}</p>
+        <p className="mt-4 text-xs text-muted">{t("آخر تحديث")} {formatDate(new Date().toISOString(), true)}</p>
       </>
     );
   }

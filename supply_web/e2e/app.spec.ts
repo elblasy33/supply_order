@@ -332,6 +332,69 @@ test("mobile layout works", async ({ page }) => {
   await shot(page, "11-mobile-menu");
 });
 
+test("appearance: dark mode and the collapsible sidebar are remembered", async ({ page }) => {
+  await login(page, "admin", "secret-pass-1");
+  const html = page.locator("html");
+  await expect(html).not.toHaveClass(/dark/);
+  const theme = page.getByRole("button", { name: /المظهر/ }).first();
+  await theme.click(); // system -> light
+  await theme.click(); // light -> dark
+  await expect(html).toHaveClass(/dark/);
+  await page.reload();
+  await expect(html).toHaveClass(/dark/); // the server renders it, no flash
+  await expect(page.locator("body")).toHaveCSS("background-color", /rgb\(14, 19, 25\)|rgba\(0, 0, 0, 0\)/);
+  await shot(page, "17-dark-dashboard");
+  await page.goto("/orders?state=confirmed");
+  await page.getByRole("link", { name: /SUP\/2026\// }).first().click();
+  await shot(page, "18-dark-order");
+
+  const aside = page.locator("aside[data-collapsed]");
+  await expect(aside).toHaveAttribute("data-collapsed", "false");
+  const wide = (await aside.boundingBox())!.width;
+  await page.getByRole("button", { name: "طيّ الشريط الجانبي" }).click();
+  await expect(aside).toHaveAttribute("data-collapsed", "true");
+  await expect.poll(async () => (await aside.boundingBox())!.width).toBeLessThan(wide / 2);
+  await expect(aside.getByRole("link", { name: "أوامر التوريد" })).toBeVisible(); // icons only, still named
+  await shot(page, "19-sidebar-collapsed");
+  await page.reload();
+  await expect(aside).toHaveAttribute("data-collapsed", "true"); // remembered
+  await page.getByRole("button", { name: "توسيع الشريط الجانبي" }).click();
+  await expect(aside).toHaveAttribute("data-collapsed", "false");
+});
+
+test("English: the whole screen switches to English and left-to-right, and back", async ({ page }) => {
+  await login(page, "admin", "secret-pass-1");
+  await page.getByRole("button", { name: "English" }).first().click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+  await expect(page.getByRole("heading", { name: /Welcome, / })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Supply orders" }).first()).toBeVisible();
+  await shot(page, "20-english-dashboard");
+
+  await page.goto("/orders");
+  await expect(page.getByRole("heading", { name: "Supply orders" })).toBeVisible();
+  await expect(page.getByText("Customer supply").first()).toBeVisible();
+  await page.getByRole("link", { name: /SUP\/2026\// }).first().click();
+  await expect(page.getByRole("heading", { name: "Linked documents" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Change log" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Print/ })).toBeVisible();
+  await shot(page, "21-english-order");
+
+  await page.goto("/warehouse");
+  await expect(page.getByRole("heading", { name: "Warehouse" })).toBeVisible();
+  await page.goto("/settings/odoo");
+  await page.getByRole("button", { name: "Test connection" }).click();
+  await expect(page.getByText("Reaching the server")).toBeVisible();
+  await shot(page, "22-english-settings");
+  await page.goto("/login");
+  await expect(page).toHaveURL("/"); // still signed in
+
+  // the choice survives a reload and can be switched back
+  await page.getByRole("button", { name: "العربية" }).first().click();
+  await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+  await expect(page.getByRole("heading", { name: /أهلاً/ })).toBeVisible();
+});
+
 test("double clicking an action does the work once (idempotency)", async ({ page }) => {
   await login(page, "admin", "secret-pass-1");
   await page.goto("/orders/new");
