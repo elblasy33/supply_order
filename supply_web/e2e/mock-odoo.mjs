@@ -73,12 +73,101 @@ seed.state = "confirmed"; seed.lines.forEach((l) => { l.qty_initial = l.qty_requ
 const seed2 = newOrder({ partner_id: 11, order_type: "purchase", supply_ref: "PO-77", lines: [{ product_id: 4, qty_requested: 200, price_unit: 3 }] });
 void seed2;
 
+
+const pickings = new Map();
+function makePicking(o, items, backorderOf = null) {
+  const id = ++seq;
+  const kind = o.order_type === "sale" ? "delivery" : "receipt";
+  const p = { id, name: `WH/${kind === "delivery" ? "OUT" : "IN"}/${String(id).padStart(5, "0")}`, state: "assigned", kind, order: o,
+    partner: o.partner, origin: o.name, scheduled_date: new Date().toISOString(), date_done: null, backorder_of: backorderOf,
+    moves: items.map(({ l, demand }) => ({ id: ++seq, line: l, line_no: l.line_no, product: l.product, uom: l.uom, demand, quantity: l.product.tracking === "none" && kind === "delivery" ? demand : 0, entries: [], state: "assigned" })) };
+  pickings.set(id, p);
+  return p;
+}
+const pEntry = (e, i) => ({ id: i + 1, quantity: e.quantity, lot_name: e.lot ? "" : e.lot_name ?? "", lot: e.lot ?? null });
+const pickingData = (p, detail = true) => {
+  const base = { id: p.id, name: p.name, state: p.state, kind: p.kind, partner: p.partner, origin: p.origin, scheduled_date: p.scheduled_date, date_done: p.date_done,
+    supply_order: { id: p.order.id, name: p.order.name, supply_ref: p.order.supply_ref }, backorder_of: p.backorder_of ? { id: p.backorder_of.id, name: p.backorder_of.name } : null, move_count: p.moves.length };
+  if (!detail) return base;
+  const open = p.state === "assigned";
+  return { ...base, moves: p.moves.map((m) => ({ id: m.id, line_no: m.line_no, note: "", state: m.state, product: m.product, uom: m.uom, demand: m.demand, quantity: m.quantity,
+      picked: m.quantity > 0, entries: m.entries.map(pEntry), auto_lot: false, supply_line_id: m.line.id })),
+    backorders: [...pickings.values()].filter((b) => b.backorder_of?.id === p.id).map((b) => ({ id: b.id, name: b.name, state: b.state })),
+    can_edit: open, can_validate: open, can_cancel: open, can_return: p.state === "done" && p.moves.some((m) => m.quantity - (m.returned ?? 0) > 0) };
+};
+const getPicking = (id) => { const p = pickings.get(id); if (!p) throw new Err("not_found", "السجل لم يعد موجوداً.", "id"); return p; };
+const syncDoc = (p) => { const d = p.order.documents.find((x) => x.id === p.id); if (d) d.state = p.state; };
+const openPicking = (id) => { const p = getPicking(id); if (p.state !== "assigned") throw new Err("user_error", `هذا الإذن ${p.state}: لا يمكن تغيير كمياته.`); return p; };
+const setEntries = (m, entries) => {
+  m.entries = entries.filter((e) => e.quantity > 0).map((e) => ({ quantity: e.quantity, lot_name: e.lot_name ?? "", lot: null }));
+  m.quantity = m.entries.reduce((s, e) => s + e.quantity, 0);
+};
 const SUITE = ["document_enhancement", "supply_order", "product_tracking_plus", "smart_alerts", "invoice_customization", "discounts_rebates", "smart_reconciliation", "supply_api"];
 const handlers = {
   info: (b, ctx) => ({ version: "20.0", major: 20, edition: "enterprise", database: "mock_db",
     modules: Object.fromEntries(SUITE.map((n) => [n, { state: "installed", version: "20.0.1.0.0" }])),
     service_user: { id: 7, login: "supply_integration", name: "Supply Integration", configured: true, is_service_user: ctx.bearer === `Bearer ${KEY}` },
     company: { id: 1, name: "Mock Co", currency: "EGP" } }),
+  picking_search: (b) => {
+    let list = [...pickings.values()].reverse();
+    if (b.kind) list = list.filter((p) => p.kind === b.kind);
+    if (b.state) list = list.filter((p) => b.state.includes(p.state));
+    if (b.supply_order_id) list = list.filter((p) => p.order.id === b.supply_order_id);
+    if (b.query) list = list.filter((p) => [p.name, p.origin, p.partner.name, p.order.supply_ref].join(" ").includes(b.query));
+    const limit = Math.min(b.limit ?? 50, 200), offset = b.offset ?? 0;
+    return { page: { total: list.length, offset, limit }, data: list.slice(offset, offset + limit).map((p) => pickingData(p, false)) };
+  },
+  picking_read: (b) => pickingData(getPicking(b.id)),
+  picking_save: (b) => {
+    const p = openPicking(b.id);
+    for (const it of b.lines) {
+      const m = p.moves.find((x) => x.id === it.move_id); if (!m) throw new Err("not_found", "هذا الصنف ليس على الإذن.", "move_id");
+      const entries = it.entries ?? [{ quantity: it.quantity ?? 0 }];
+      if (entries.some((e) => e.quantity < 0)) throw new Err("validation_error", "الكمية لا يمكن أن تكون سالبة.", "quantity");
+      if (m.product.tracking === "none") { m.quantity = entries.reduce((s, e) => s + e.quantity, 0); m.entries = []; } else {
+        if (p.kind === "delivery" && entries.some((e) => e.lot_name && !["LOT-A1", "LOT-D1"].includes(e.lot_name))) throw new Err("validation_error", `الدفعة ${entries.find((e) => e.lot_name && !["LOT-A1", "LOT-D1"].includes(e.lot_name)).lot_name} غير موجودة للصنف ${m.product.name}.`, "lot_name");
+        setEntries(m, entries);
+      }
+    }
+    return pickingData(p);
+  },
+  picking_scan: (b) => {
+    const p = openPicking(b.id); const code = (b.code ?? "").trim(); if (!code) throw new Err("validation_error", "لم يتم مسح أي شيء.", "code");
+    const m = p.moves.find((x) => x.product.barcode === code);
+    if (m) { if (m.product.tracking !== "none") return { outcome: "need_lot", message: `${m.product.name} متتبَّع: امسح رقم التشغيلة.`, picking: pickingData(p) }; m.quantity += 1; return { outcome: "quantity_increased", message: "", picking: pickingData(p) }; }
+    const tracked = p.moves.find((x) => x.product.tracking !== "none");
+    if (tracked && p.kind === "receipt") { setEntries(tracked, [...tracked.entries.map((e) => ({ quantity: e.quantity, lot_name: e.lot_name })), { quantity: 1, lot_name: code }]); return { outcome: "new_lot_name", message: "", picking: pickingData(p) }; }
+    return { outcome: "unknown", message: `لا يوجد شيء لـ "${code}" على هذا الإذن.`, picking: pickingData(p) };
+  },
+  picking_validate: (b) => {
+    const p = openPicking(b.id);
+    if (!p.moves.some((m) => m.quantity > 0)) throw new Err("nothing_to_do", "عُدّ صنفاً واحداً على الأقل قبل التأكيد.", "quantity");
+    const short = p.moves.filter((m) => m.quantity < m.demand);
+    if (short.length && !["create", "none"].includes(b.backorder)) throw new Err("validation_error", "بعض الكميات ناقصة: اختر إبقاء المتبقي (متبقٍ) أو إسقاطه.", "backorder");
+    if (b.expired_demo && !b.allow_expired) throw new Err("conflict", "بعض التشغيلات منتهية الصلاحية.", "expired");
+    const rest = [];
+    for (const m of p.moves) {
+      const l = m.line; const q = m.quantity;
+      l.qty_done += q;
+      if (q > m.demand) l.qty_requested = Math.max(l.qty_requested, l.qty_done);
+      if (q < m.demand) { if (b.backorder === "create" && q < m.demand) rest.push({ l, demand: m.demand - q }); else l.planned_qty_hidden_or_0 -= m.demand - q; }
+      m.state = q > 0 ? "done" : "cancel";
+    }
+    p.state = "done"; p.date_done = new Date().toISOString(); syncDoc(p);
+    let created = [];
+    if (rest.length) { const bo = makePicking(p.order, rest, p); p.order.documents.push({ model: "stock.picking", id: bo.id, name: bo.name, state: bo.state, kind: bo.kind }); created = [{ id: bo.id, name: bo.name }]; }
+    recompute(p.order);
+    return { ...pickingData(p), created_backorders: created };
+  },
+  picking_cancel: (b) => { const p = getPicking(b.id); if (["done", "cancel"].includes(p.state)) throw new Err("user_error", `هذا الإذن ${p.state} بالفعل.`); p.state = "cancel"; p.moves.forEach((m) => { m.line.planned_qty_hidden_or_0 -= m.demand; m.state = "cancel"; }); syncDoc(p); recompute(p.order); return pickingData(p); },
+  picking_return: (b) => {
+    const p = getPicking(b.id); if (p.state !== "done") throw new Err("user_error", "فقط الإذن المنفّذ يمكن إرجاعه.");
+    for (const it of b.lines ?? []) { const m = p.moves.find((x) => x.id === it.move_id); const left = m.quantity - (m.returned ?? 0);
+      if (it.quantity > left) throw new Err("validation_error", `${m.product.name}: يمكن إرجاع ${left} فقط.`, "quantity");
+      m.returned = (m.returned ?? 0) + it.quantity; m.line.qty_done -= it.quantity; m.line.planned_qty_hidden_or_0 -= it.quantity; }
+    recompute(p.order);
+    return { ...pickingData(p), return_picking: { id: ++seq, name: `WH/RET/${seq}` } };
+  },
   whoami: (b, ctx) => ({ service_user: true, app_user: ctx.ext ? { id: ctx.ext.id, name: ctx.ext.name, login: ctx.ext.login, role: "manager" } : null, operations: [], company: { id: 1, name: "Mock Co", currency: "EGP" } }),
   ext_user_sync: (b) => { const u = users.get(b.login) ?? { id: users.size + 1, login: b.login }; Object.assign(u, { name: b.name, role: b.role, active: b.active }); users.set(b.login, u); return { id: u.id, login: u.login, name: u.name, role: u.role, active: u.active }; },
   order_search: (b) => {
@@ -102,9 +191,10 @@ const handlers = {
     else if (a === "prepare_transfer") {
       const todo = o.lines.filter((l) => l.qty_unplanned > 0);
       if (!todo.length) throw new Err("user_error", "لا شيء للتخطيط: كل الكميات لها حركات بالفعل.");
-      todo.forEach((l) => { l.planned_qty_hidden_or_0 = l.qty_requested; l.qty_done = l.qty_requested; }); // the mock delivers at once
-      const d = { model: "stock.picking", id: ++seq, name: `WH/OUT/${seq}`, state: "done", kind: o.order_type === "sale" ? "delivery" : "receipt" };
-      o.documents.push(d); recompute(o); const r = clean(o); r.created = { model: d.model, id: d.id, name: d.name }; return r;
+      const p = makePicking(o, todo.map((l) => ({ l, demand: l.qty_unplanned })));
+      todo.forEach((l) => { l.planned_qty_hidden_or_0 = l.qty_requested - 0; });
+      o.documents.push({ model: "stock.picking", id: p.id, name: p.name, state: p.state, kind: p.kind }); recompute(o);
+      const r = clean(o); r.created = { model: "stock.picking", id: p.id, name: p.name }; return r;
     } else if (a === "create_invoice") {
       const todo = o.lines.filter((l) => l.qty_done > l.qty_invoiced);
       if (!todo.length) throw new Err("user_error", "لا شيء للفوترة: لا توجد كمية منفذة غير مفوترة.");

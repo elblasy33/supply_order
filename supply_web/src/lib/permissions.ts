@@ -15,6 +15,11 @@ export const PERMISSIONS = {
   "orders.create_purchase": "إنشاء أمر شراء من الأمر",
   "orders.invoice": "إنشاء فاتورة من الكميات الفعلية",
   "orders.print": "طباعة وتنزيل المستندات",
+  "warehouse.view": "عرض أذونات المخزن (التسليم والاستلام)",
+  "warehouse.process": "تحديد الكميات والتشغيلات ومسح الباركود في الأذونات",
+  "warehouse.validate": "تأكيد التسليم / الاستلام",
+  "warehouse.return": "إنشاء مرتجع من إذن منفّذ",
+  "warehouse.cancel": "إلغاء إذن",
   "alerts.view": "عرض التنبيهات (الصلاحية والمشتريات التلقائية)",
   "accounting.reconcile": "التسوية الجماعية للفواتير",
   "rebates.view": "عرض الخصومات المؤجلة",
@@ -36,6 +41,7 @@ export const PERMISSION_GROUPS: { title: string; keys: Permission[] }[] = [
       "orders.prepare_transfer", "orders.create_sale", "orders.create_purchase", "orders.invoice", "orders.print",
     ],
   },
+  { title: "المخزن (التسليم والاستلام)", keys: ["warehouse.view", "warehouse.process", "warehouse.validate", "warehouse.return", "warehouse.cancel"] },
   { title: "التنبيهات", keys: ["alerts.view"] },
   { title: "المحاسبة", keys: ["accounting.reconcile", "rebates.view", "rebates.manage"] },
   { title: "الإعدادات", keys: ["settings.users", "settings.roles", "settings.odoo"] },
@@ -52,7 +58,7 @@ export const DEFAULT_ROLES: { name: string; permissions: Permission[] }[] = [
     name: "مندوب مبيعات",
     permissions: [
       "orders.view", "orders.create", "orders.from_document", "orders.edit_draft", "orders.confirm",
-      "orders.cancel", "orders.scan", "orders.create_sale", "orders.create_purchase", "orders.print",
+      "orders.cancel", "orders.scan", "orders.create_sale", "orders.create_purchase", "orders.print", "warehouse.view",
     ],
   },
   {
@@ -60,12 +66,13 @@ export const DEFAULT_ROLES: { name: string; permissions: Permission[] }[] = [
     permissions: [
       "orders.view", "orders.edit_draft", "orders.edit_confirmed", "orders.substitute", "orders.scan",
       "orders.prepare_transfer", "orders.print", "alerts.view",
+      "warehouse.view", "warehouse.process", "warehouse.validate", "warehouse.return", "warehouse.cancel",
     ],
   },
   {
     name: "محاسب",
     permissions: [
-      "orders.view", "orders.invoice", "orders.print", "accounting.reconcile", "rebates.view", "rebates.manage",
+      "orders.view", "orders.invoice", "orders.print", "accounting.reconcile", "rebates.view", "rebates.manage", "warehouse.view",
     ],
   },
 ];

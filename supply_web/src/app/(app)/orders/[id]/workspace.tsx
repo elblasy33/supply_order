@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import {
   ArrowLeftRight, Ban, Barcode, Check, CheckCheck, ChevronDown, CircleSlash, FileDown, FilePlus2, FileSpreadsheet,
@@ -16,7 +17,7 @@ import type { LookupProduct, ScanResult, SupplyLine, SupplyOrder } from "@/lib/t
 
 const ACTION_UI: Record<string, { label: string; icon: React.ReactNode; tone: "primary" | "secondary" | "danger"; confirm?: string; success: string }> = {
   confirm: { label: "تأكيد الأمر", icon: <CheckCheck className="size-4" />, tone: "primary", success: "تم تأكيد الأمر." },
-  prepare_transfer: { label: "تجهيز التسليم/الاستلام", icon: <Truck className="size-4" />, tone: "primary", success: "تم تجهيز الإذن." },
+  prepare_transfer: { label: "تجهيز التسليم/الاستلام", icon: <Truck className="size-4" />, tone: "primary", success: "تم تجهيز الإذن. نفّذه من شاشة المخزن." },
   create_invoice: { label: "إنشاء فاتورة من الفعلي", icon: <ReceiptText className="size-4" />, tone: "primary", success: "تم إنشاء الفاتورة من الكميات الفعلية." },
   create_sale_order: { label: "إنشاء أمر بيع", icon: <FilePlus2 className="size-4" />, tone: "secondary", success: "تم إنشاء أمر البيع." },
   create_purchase_order: { label: "إنشاء أمر شراء", icon: <ShoppingCart className="size-4" />, tone: "secondary", success: "تم إنشاء أمر الشراء." },
@@ -62,7 +63,7 @@ export function OrderWorkspace({ order, can, odooUrl }: { order: SupplyOrder; ca
       </div>
       <aside className="space-y-5">
         <Totals order={order} />
-        <Documents order={order} odooUrl={odooUrl} canPrint={has("orders.print")} />
+        <Documents order={order} odooUrl={odooUrl} canPrint={has("orders.print")} can={can} />
         <ChangeLog order={order} />
       </aside>
     </div>
@@ -80,9 +81,13 @@ function ActionBar({ order, allowed, can }: { order: SupplyOrder; allowed: Set<s
   };
   const actions = ORDER_OF_ACTIONS.filter((a) => allowed.has(a) && can.includes(perms[a]));
 
-  function go(action: string) {
+  const router = useRouter();
+  async function go(action: string) {
     const ui = ACTION_UI[action];
-    return run(`order-${action}`, (k) => orderAction(order.id, action, k), { success: ui.success });
+    const res = await run(`order-${action}`, (k) => orderAction(order.id, action, k), { success: ui.success });
+    // the new transfer is where the next step happens: counting what really moves
+    if (res.ok && res.data.created?.model === "stock.picking" && can.includes("warehouse.view")) router.push(`/warehouse/${res.data.created.id}`);
+    return res;
   }
 
   return (
@@ -469,7 +474,7 @@ function Totals({ order }: { order: SupplyOrder }) {
   );
 }
 
-function Documents({ order, odooUrl, canPrint }: { order: SupplyOrder; odooUrl: string; canPrint: boolean }) {
+function Documents({ order, odooUrl, canPrint, can }: { order: SupplyOrder; odooUrl: string; canPrint: boolean; can: string[] }) {
   const open = (d: SupplyOrder["documents"][number]) => `${odooUrl}/odoo/action-${d.model}/${d.id}`;
   return (
     <section className="card p-5">
@@ -480,6 +485,7 @@ function Documents({ order, odooUrl, canPrint }: { order: SupplyOrder; odooUrl: 
             <li key={`${d.model}-${d.id}`} className="flex items-center justify-between gap-2 rounded-xl bg-canvas/70 px-3 py-2 text-sm">
               <div className="min-w-0"><p className="truncate font-bold">{d.name || "—"}</p><p className="text-xs text-muted">{DOC_KIND[d.kind] ?? d.kind} · {d.state}</p></div>
               <div className="flex shrink-0 gap-1">
+                {d.model === "stock.picking" && can.includes("warehouse.view") && <a className="btn-ghost px-2 py-1 text-xs font-bold text-brand-700" href={`/warehouse/${d.id}`}>فتح</a>}
                 {canPrint && d.model === "account.move" && <a className="btn-ghost px-2 py-1 text-xs" target="_blank" rel="noreferrer" href={`/api/print/invoice/html/${d.id}`}>طباعة</a>}
                 <a className="btn-ghost px-2 py-1 text-xs" target="_blank" rel="noreferrer" href={open(d)}>أودو</a>
               </div>

@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import clsx from "clsx";
-import { Bell, ClipboardList, Gift, LayoutDashboard, LogOut, Menu, Scale, ShieldCheck, Users, X, Plug } from "lucide-react";
+import { Bell, ClipboardList, Warehouse, Gift, LayoutDashboard, LogOut, Menu, Scale, ShieldCheck, Users, X, Plug } from "lucide-react";
 
 type Item = { href: string; label: string; icon: React.ReactNode; perm: string | string[]; section?: string };
 
 const ITEMS: Item[] = [
   { href: "/", label: "لوحة التحكم", icon: <LayoutDashboard className="size-5" />, perm: "orders.view" },
   { href: "/orders", label: "أوامر التوريد", icon: <ClipboardList className="size-5" />, perm: "orders.view" },
+  { href: "/warehouse", label: "المخزن (تسليم/استلام)", icon: <Warehouse className="size-5" />, perm: "warehouse.view" },
   { href: "/alerts", label: "التنبيهات", icon: <Bell className="size-5" />, perm: "alerts.view" },
   { href: "/accounting/reconcile", label: "التسوية الجماعية", icon: <Scale className="size-5" />, perm: "accounting.reconcile", section: "المحاسبة" },
   { href: "/rebates", label: "الخصومات المؤجلة", icon: <Gift className="size-5" />, perm: "rebates.view", section: "المحاسبة" },

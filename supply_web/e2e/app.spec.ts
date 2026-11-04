@@ -60,8 +60,18 @@ test("create an order, confirm it, deliver, invoice", async ({ page }) => {
   await page.getByRole("button", { name: /تأكيد الأمر/ }).click();
   await expect(page.getByText("مؤكد").first()).toBeVisible();
   await page.getByRole("button", { name: /تجهيز التسليم/ }).click();
-  await expect(page.getByText("WH/OUT/").first()).toBeVisible();
-  await expect(page.getByRole("button", { name: /إنشاء فاتورة/ })).toBeVisible();
+  // the transfer opens right away: this is where the real quantities are counted
+  await expect(page).toHaveURL(/\/warehouse\/\d+$/);
+  await expect(page.getByRole("heading", { name: /WH\/OUT\// })).toBeVisible();
+  await expect(page.getByRole("spinbutton", { name: "كمية شيبس حار", exact: true })).toHaveValue("2"); // reserved quantity is the starting point
+  await page.getByRole("button", { name: "تعبئة كل المطلوب" }).click();
+  await page.getByLabel(/رقم التشغيلة عصير/).fill("LOT-D1"); // lot-tracked item needs its lot
+  await shot(page, "13-picking-counting");
+  await page.getByRole("button", { name: /تأكيد التسليم/ }).click();
+  await expect(page.getByText("تم التنفيذ.")).toBeVisible();
+  await expect(page.getByText("منفّذ").first()).toBeVisible();
+  await page.getByRole("link", { name: /SUP\/2026\// }).first().click();
+  await expect(page.getByRole("button", { name: /إنشاء فاتورة/ })).toBeVisible(); // only what was delivered is invoiceable
   await page.getByRole("button", { name: /إنشاء فاتورة/ }).click();
   await expect(page.getByText("INV/2026/").first()).toBeVisible();
   await shot(page, "04-order-delivered-invoiced");
@@ -118,6 +128,83 @@ test("printing goes through the app and keeps the Odoo key server-side", async (
   expect(html).not.toContain("test-key");
 });
 
+async function newOrder(page: Page, items: [string, number][]) {
+  await page.goto("/orders/new");
+  await page.getByPlaceholder("ابحث عن عميل…").fill("النور");
+  await page.getByRole("option", { name: /شركة النور/ }).click();
+  for (const [name, qty] of items) {
+    await page.getByPlaceholder(/ابحث عن صنف/).fill(name);
+    await page.getByRole("option", { name: new RegExp(name) }).first().click();
+    await page.getByLabel("الكمية").last().fill(String(qty));
+  }
+  await page.getByRole("button", { name: /إنشاء الأمر/ }).click();
+  await expect(page).toHaveURL(/\/orders\/\d+$/);
+  await page.getByRole("button", { name: /تأكيد الأمر/ }).click();
+  await expect(page.getByText("مؤكد").first()).toBeVisible();
+  await page.getByRole("button", { name: /تجهيز التسليم/ }).click();
+  await expect(page).toHaveURL(/\/warehouse\/\d+$/);
+}
+
+test("warehouse: short delivery with a backorder, scanning, then a return", async ({ page }) => {
+  await login(page, "admin", "secret-pass-1");
+  await newOrder(page, [["شيبس حار", 10], ["ملح", 4]]);
+  const hot = page.getByRole("spinbutton", { name: "كمية شيبس حار", exact: true });
+  const salt = page.getByRole("spinbutton", { name: "كمية ملح 1 كجم", exact: true });
+  await expect(hot).toHaveValue("10"); // deliveries start from what is reserved
+  await hot.fill("6");
+  await salt.fill("4");
+  await page.getByRole("button", { name: "حفظ الكميات" }).click();
+  await expect(page.getByText("تم حفظ الكميات.")).toBeVisible();
+  await expect(page.getByText(/ناقص/).first()).toBeVisible();
+
+  // scanning counts one unit per scan
+  const scan = page.getByLabel(/امسح باركود الصنف/);
+  await scan.fill("6221000000011");
+  await scan.press("Enter");
+  await expect(page.getByRole("spinbutton", { name: "كمية شيبس حار", exact: true })).toHaveValue("7");
+  await scan.fill("not-a-code");
+  await scan.press("Enter");
+  await expect(page.getByText(/لا يوجد شيء لـ/)).toBeVisible();
+
+  await page.getByRole("button", { name: /تأكيد التسليم/ }).click();
+  await expect(page.getByRole("dialog")).toContainText("بعض الكميات ناقصة");
+  await shot(page, "14-picking-short");
+  await page.getByRole("dialog").getByRole("button", { name: "تأكيد" }).click();
+  await expect(page.getByText("تم التنفيذ.")).toBeVisible();
+  await expect(page.getByText(/أُنشئ إذن للمتبقي/)).toBeVisible();
+  await expect(page.getByText("أذونات المتبقي:")).toBeVisible();
+
+  // the order shows what really moved; the backorder holds the rest
+  await page.getByRole("link", { name: /SUP\/2026\// }).first().click();
+  await expect(page.getByRole("row", { name: /شيبس حار/ })).toContainText("7");
+  await shot(page, "15-order-after-delivery");
+
+  // return part of it from the done transfer
+  await page.getByRole("link", { name: "فتح" }).first().click();
+  await expect(page.getByRole("button", { name: "إنشاء مرتجع" })).toBeVisible();
+  await page.getByRole("button", { name: "إنشاء مرتجع" }).click();
+  await page.getByRole("spinbutton", { name: "مرتجع شيبس حار" }).fill("2");
+  await page.getByRole("dialog").getByRole("button", { name: "إنشاء المرتجع" }).click();
+  await expect(page.getByText("تم إنشاء المرتجع وتنفيذه.")).toBeVisible();
+
+  // the warehouse list finds the open backorder
+  await page.goto("/warehouse");
+  await expect(page.getByText(/متبقٍ من WH\/OUT/).first()).toBeVisible();
+  await shot(page, "16-warehouse-list");
+  await page.goto("/warehouse?state=done&kind=delivery");
+  await expect(page.getByText("منفّذ").first()).toBeVisible();
+});
+
+test("warehouse: cancelling a transfer frees the order to plan another", async ({ page }) => {
+  await login(page, "admin", "secret-pass-1");
+  await newOrder(page, [["ملح", 3]]);
+  await page.getByRole("button", { name: "إلغاء الإذن" }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "نعم، ألغِ" }).click();
+  await expect(page.getByText("أُلغي الإذن.")).toBeVisible();
+  await page.getByRole("link", { name: /SUP\/2026\// }).first().click();
+  await expect(page.getByRole("button", { name: /تجهيز التسليم/ })).toBeVisible();
+});
+
 test("permissions are decided in the app: roles, users, and enforcement", async ({ page }) => {
   await login(page, "admin", "secret-pass-1");
   await page.goto("/settings/roles");
@@ -148,6 +235,8 @@ test("permissions are decided in the app: roles, users, and enforcement", async 
   await page.goto("/settings/users");
   await expect(page).toHaveURL(/forbidden/);
   await page.goto("/orders/new");
+  await expect(page).toHaveURL(/forbidden/);
+  await page.goto("/warehouse");
   await expect(page).toHaveURL(/forbidden/);
   await page.goto("/orders?state=confirmed");
   await page.getByRole("link", { name: /SUP\/2026\/00101/ }).click();

@@ -10,6 +10,7 @@ import odoo.release as release
 from odoo import api, fields, models, _
 from odoo.exceptions import AccessDenied, AccessError, MissingError, UserError, ValidationError
 from odoo.fields import Domain
+from odoo.tools import float_compare, float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -33,6 +34,11 @@ ROLE_MATRIX = {
     'scan': {'sales', 'warehouse', 'manager'},
     'reconcile': {'accountant', 'manager'},
     'rebate_action': {'accountant', 'manager'},
+    'picking_save': {'warehouse', 'manager'},
+    'picking_scan': {'warehouse', 'manager'},
+    'picking_validate': {'warehouse', 'manager'},
+    'picking_return': {'warehouse', 'manager'},
+    'picking_cancel': {'warehouse', 'manager'},
 }
 # After confirmation the sales role can no longer change items (warehouse and managers can).
 DRAFT_ONLY_ROLES = {'sales'}
@@ -674,3 +680,314 @@ class SupplyApi(models.AbstractModel):
         return {'id': accrual.id, 'state': accrual.state, 'amount': accrual.amount,
                 'credit_note': {'id': accrual.credit_note_id.id, 'name': accrual.credit_note_id.name}
                 if accrual.credit_note_id else None}
+
+
+class SupplyApiWarehouse(models.AbstractModel):
+    """Receipts and deliveries: counting what really moved, lots, validation, returns."""
+    _inherit = 'supply.api'
+
+    PICKING_STATES = ('draft', 'waiting', 'confirmed', 'assigned', 'done', 'cancel')
+
+    # ---- serialisation ------------------------------------------------------------------
+    def _entry(self, line):
+        lot = line.lot_id
+        return {'id': line.id, 'quantity': line.quantity, 'lot_name': line.lot_name or '',
+                'lot': {'id': lot.id, 'name': lot.name, 'expiration_date': self._iso(lot.expiration_date)} if lot else None}
+
+    def _move(self, move):
+        return {
+            'id': move.id, 'line_no': move.line_no, 'note': move.line_note or '', 'state': move.state,
+            'product': self._product(move.product_id), 'uom': move.uom_id.name,
+            'demand': move.product_uom_qty, 'quantity': move.quantity, 'picked': move.picked,
+            'entries': [self._entry(l) for l in move.move_line_ids.sorted('id')],
+            'auto_lot': bool(move.product_id.tracking and move.product_id.lot_auto_generate),
+            'supply_line_id': move.supply_line_id.id or None,
+        }
+
+    def _picking_data(self, picking, detail=True):
+        kind = {'outgoing': 'delivery', 'incoming': 'receipt'}.get(picking.picking_type_code, 'internal')
+        open_moves = picking.move_ids.filtered(lambda m: m.state not in ('done', 'cancel'))
+        data = {
+            'id': picking.id, 'name': picking.name, 'state': picking.state, 'kind': kind,
+            'partner': {'id': picking.partner_id.id, 'name': picking.partner_id.name} if picking.partner_id else None,
+            'origin': picking.origin or '', 'scheduled_date': self._iso(picking.scheduled_date),
+            'date_done': self._iso(picking.date_done),
+            'supply_order': {'id': picking.supply_order_id.id, 'name': picking.supply_order_id.name,
+                             'supply_ref': picking.supply_order_id.supply_ref or ''} if picking.supply_order_id else None,
+            'backorder_of': {'id': picking.backorder_id.id, 'name': picking.backorder_id.name} if picking.backorder_id else None,
+            'move_count': len(picking.move_ids),
+        }
+        if detail:
+            done_moves = picking.move_ids.filtered(lambda m: m.state == 'done')
+            data.update(
+                moves=[self._move(m) for m in picking.move_ids.sorted(lambda m: (m.line_no, m.id)) if m.state != 'cancel'],
+                backorders=[{'id': b.id, 'name': b.name, 'state': b.state} for b in picking.backorder_ids],
+                can_edit=picking.state in ('confirmed', 'assigned', 'waiting') and bool(open_moves),
+                can_validate=picking.state in ('confirmed', 'assigned', 'waiting') and bool(open_moves),
+                can_cancel=picking.state not in ('done', 'cancel'),
+                can_return=picking.state == 'done' and picking.picking_type_code in ('incoming', 'outgoing')
+                and any(self._returnable(m) > 0 for m in done_moves),
+            )
+        return data
+
+    def _returnable(self, move):
+        returned = sum(move.returned_move_ids.filtered(lambda r: r.state == 'done').mapped('quantity'))
+        return move.quantity - returned
+
+    # ---- queries -----------------------------------------------------------------------------
+    @api.model
+    @api.readonly
+    @endpoint()
+    def picking_search(self, query=None, kind=None, state=None, supply_order_id=None, offset=0, limit=50):
+        domain = Domain('picking_type_code', 'in', ['incoming', 'outgoing'])
+        if kind in ('delivery', 'receipt'):
+            domain &= Domain('picking_type_code', '=', 'outgoing' if kind == 'delivery' else 'incoming')
+        if state:
+            domain &= Domain('state', 'in', state)
+        if supply_order_id:
+            domain &= Domain('supply_order_id', '=', int(supply_order_id))
+        if query:
+            domain &= (Domain('name', 'ilike', query) | Domain('origin', 'ilike', query)
+                       | Domain('partner_id.name', 'ilike', query) | Domain('supply_ref', 'ilike', query)
+                       | Domain('supply_order_id.name', 'ilike', query))
+        Picking = self.env['stock.picking']
+        limit = max(1, min(int(limit or 50), 200))
+        rows = Picking.search(domain, offset=int(offset or 0), limit=limit, order='scheduled_date desc, id desc')
+        return {'_page': {'data': [self._picking_data(p, detail=False) for p in rows],
+                          'total': Picking.search_count(domain), 'offset': int(offset or 0), 'limit': limit}}
+
+    @api.model
+    @api.readonly
+    @endpoint()
+    def picking_read(self, id):
+        return self._picking_data(self._get('stock.picking', id))
+
+    # ---- counting -------------------------------------------------------------------------------
+    def _editable_picking(self, picking_id):
+        picking = self._get('stock.picking', picking_id, 'id')
+        if picking.state in ('done', 'cancel', 'draft'):
+            raise ApiError('user_error', _("This transfer is %s: its quantities can no longer be changed.", picking.state))
+        return picking
+
+    def _apply_entries(self, move, entries):
+        """Make the move lines of ``move`` equal to ``entries`` (quantity per lot) and mark it picked."""
+        Lot = self.env['stock.lot']
+        product = move.product_id
+        tracked = bool(product.tracking)
+        outgoing = move.picking_id.picking_type_code == 'outgoing'
+        clean = []
+        for entry in entries:
+            qty = float(entry.get('quantity') or 0)
+            if qty < 0:
+                raise ApiError('validation_error', _("A quantity cannot be negative."), 'quantity')
+            if qty == 0:
+                continue
+            vals = {'quantity': qty, 'lot_id': False, 'lot_name': False}
+            if tracked and entry.get('lot_id'):
+                lot = Lot.browse(int(entry['lot_id'])).exists()
+                if not lot or lot.product_id != product:
+                    raise ApiError('validation_error', _("This lot does not belong to %s.", product.display_name), 'lot_id')
+                vals['lot_id'] = lot.id
+            elif tracked and (entry.get('lot_name') or '').strip():
+                name = entry['lot_name'].strip()
+                lot = Lot.search([('name', '=', name), ('product_id', '=', product.id)], limit=1)
+                if lot:
+                    vals['lot_id'] = lot.id
+                elif outgoing:
+                    raise ApiError('validation_error', _("Lot %(lot)s does not exist for %(product)s.", lot=name,
+                                                         product=product.display_name), 'lot_name')
+                else:
+                    vals['lot_name'] = name
+            elif not tracked and (entry.get('lot_id') or entry.get('lot_name')):
+                raise ApiError('validation_error', _("%s is not tracked by lot.", product.display_name), 'lot_id')
+            if tracked and product.tracking == 'serial' and qty != 1:
+                raise ApiError('validation_error', _("A serial number is one unit: %s", product.display_name), 'quantity')
+            clean.append(vals)
+        lines = move.move_line_ids
+        used = self.env['stock.move.line']
+        for vals in clean:
+            has_lot = bool(vals['lot_id'] or vals['lot_name'])
+            same = lines.filtered(lambda l: l not in used and (
+                (vals['lot_id'] and l.lot_id.id == vals['lot_id']) or (vals['lot_name'] and l.lot_name == vals['lot_name'])))[:1]
+            blank = lines.filtered(lambda l: l not in used and not l.lot_id and not l.lot_name)[:1]
+            # a lot entry may take over any free reserved line; a lot-less entry only ever uses a lot-less one
+            line = (same or blank or lines.filtered(lambda l: l not in used)[:1]) if has_lot else blank
+            if line:
+                line.write(vals)
+            else:
+                line = self.env['stock.move.line'].create(dict(move._prepare_move_line_vals(), **vals))
+            used |= line
+        (lines - used).unlink()
+        move.picked = bool(clean)
+        return move
+
+    @api.model
+    @endpoint(write=True)
+    def picking_save(self, id, lines):
+        """``lines``: ``[{move_id, quantity}]`` or, for tracked items, ``[{move_id, entries: [{quantity, lot_id | lot_name}]}]``."""
+        picking = self._editable_picking(id)
+        self._require('picking_save')
+        for item in lines or []:
+            move = picking.move_ids.filtered(lambda m: m.id == int(item.get('move_id') or 0))
+            if not move or move.state in ('done', 'cancel'):
+                raise ApiError('not_found', _("This item is not on the transfer."), 'move_id')
+            if 'entries' in item:
+                entries = item['entries'] or []
+            elif move.product_id.tracking and float(item.get('quantity') or 0) > 0:
+                entries = [{'quantity': item['quantity']}]  # lot-less quantity: valid for auto-numbered lots
+            else:
+                entries = [{'quantity': item.get('quantity') or 0}]
+            if not move.product_id.tracking:
+                qty = sum(float(e.get('quantity') or 0) for e in entries)
+                if qty < 0:
+                    raise ApiError('validation_error', _("A quantity cannot be negative."), 'quantity')
+                move.quantity = qty
+                move.picked = qty > 0
+            else:
+                self._apply_entries(move, entries)
+        return self._picking_data(picking)
+
+    @api.model
+    @endpoint(write=True)
+    def picking_scan(self, id, code):
+        picking = self._editable_picking(id)
+        self._require('picking_scan')
+        code = (code or '').strip()
+        if not code:
+            raise ApiError('validation_error', _("Nothing was scanned."), 'code')
+        moves = picking.move_ids.filtered(lambda m: m.state not in ('done', 'cancel'))
+        product = moves.product_id.filtered(lambda p: code in (p.barcode, p.default_code))[:1]
+        outcome, message = 'unknown', _("Nothing found for “%s” on this transfer.", code)
+
+        def entries_of(move):
+            return [{'quantity': l.quantity, 'lot_id': l.lot_id.id, 'lot_name': l.lot_name} for l in move.move_line_ids]
+
+        if product:
+            move = moves.filtered(lambda m: m.product_id == product)[:1]
+            if bool(product.tracking) and not product.lot_auto_generate:
+                outcome, message = 'need_lot', _("%s is tracked: scan its lot number.", product.display_name)
+            elif not product.tracking:
+                move.quantity = move.quantity + 1
+                move.picked = True
+                outcome, message = 'quantity_increased', ''
+            else:
+                self._apply_entries(move, [dict(e) for e in entries_of(move) if e['lot_id'] or e['lot_name']]
+                                    + [{'quantity': sum(l.quantity for l in move.move_line_ids if not l.lot_id and not l.lot_name) + 1}])
+                outcome, message = 'quantity_increased', ''
+        else:
+            lots = self.env['stock.lot'].search([('name', '=', code), ('product_id', 'in', moves.product_id.ids)])
+            if len(lots) > 1:
+                outcome, message = 'ambiguous', _("This lot number exists for several items on the transfer.")
+            elif lots:
+                move = moves.filtered(lambda m: m.product_id == lots.product_id)[:1]
+                entries = entries_of(move)
+                hit = next((e for e in entries if e['lot_id'] == lots.id), None)
+                if hit:
+                    if lots.product_id.tracking == 'serial':
+                        outcome, message = 'rejected', _("Serial number %s was already scanned.", code)
+                    else:
+                        hit['quantity'] += 1
+                        self._apply_entries(move, entries)
+                        outcome, message = 'lot_entry', ''
+                else:
+                    entries = [e for e in entries if e['lot_id'] or e['lot_name']] + [{'lot_id': lots.id, 'quantity': 1}]
+                    self._apply_entries(move, entries)
+                    outcome, message = 'lot_entry', ''
+            elif picking.picking_type_code == 'incoming':
+                pending = moves.filtered(lambda m: m.product_id.tracking
+                                         and not m.move_line_ids.filtered(lambda l: l.lot_id or l.lot_name))[:1] \
+                    or moves.filtered(lambda m: m.product_id.tracking)[-1:]
+                if pending:
+                    entries = [e for e in entries_of(pending) if e['lot_id'] or e['lot_name']] + [{'lot_name': code, 'quantity': 1}]
+                    self._apply_entries(pending, entries)
+                    outcome, message = 'new_lot_name', ''
+        return {'outcome': outcome, 'message': message, 'picking': self._picking_data(picking)}
+
+    # ---- validation, cancellation, returns ------------------------------------------------------------
+    @api.model
+    @endpoint(write=True)
+    def picking_validate(self, id, backorder=None, allow_expired=False):
+        """Validate what was counted. When something is short, ``backorder`` must say ``create`` (the rest stays
+        to be moved in a new transfer) or ``none`` (the rest is dropped)."""
+        picking = self._editable_picking(id)
+        self._require('picking_validate')
+        moves = picking.move_ids.filtered(lambda m: m.state not in ('done', 'cancel'))
+        counted = moves.filtered(lambda m: float_compare(m.quantity, 0, precision_digits=4) > 0)
+        if not counted:
+            raise ApiError('nothing_to_do', _("Count at least one item before validating."), 'quantity')
+        short = counted.filtered(lambda m: float_compare(m.quantity, m.product_uom_qty, precision_digits=4) < 0) \
+            or (moves - counted)
+        if short and backorder not in ('create', 'none'):
+            raise ApiError('validation_error', _("Some quantities are short: choose whether the rest stays open "
+                                                 "(backorder) or is dropped."), 'backorder')
+        counted.picked = True
+        ctx = {'skip_backorder': True, 'skip_sms': True}
+        if backorder == 'none':
+            ctx['picking_ids_not_to_backorder'] = picking.ids
+        if allow_expired:
+            ctx['skip_expired'] = True
+        result = picking.with_context(**ctx).button_validate()
+        if isinstance(result, dict):
+            if result.get('res_model') == 'expiry.picking.confirmation':
+                raise ApiError('conflict', _("Some lots are expired. Confirm to receive/deliver them anyway."), 'expired')
+            raise ApiError('user_error', _("Odoo asked for an extra confirmation on this transfer; complete it in Odoo."))
+        picking.invalidate_recordset()
+        data = self._picking_data(picking)
+        data['created_backorders'] = [{'id': b.id, 'name': b.name} for b in picking.backorder_ids]
+        return data
+
+    @api.model
+    @endpoint(write=True)
+    def picking_cancel(self, id):
+        picking = self._get('stock.picking', id)
+        self._require('picking_cancel')
+        if picking.state in ('done', 'cancel'):
+            raise ApiError('user_error', _("This transfer is already %s.", picking.state))
+        picking.action_cancel()
+        return self._picking_data(picking)
+
+    @api.model
+    @endpoint(write=True)
+    def picking_return(self, id, lines=None):
+        """Return what a done transfer moved (all of it, or ``[{move_id, quantity}]``) through a return transfer."""
+        picking = self._get('stock.picking', id)
+        self._require('picking_return')
+        if picking.state != 'done' or picking.picking_type_code not in ('incoming', 'outgoing'):
+            raise ApiError('user_error', _("Only a done receipt or delivery can be returned."))
+        wanted = {int(l['move_id']): float(l['quantity']) for l in lines} if lines else None
+        ret = picking._create_return()
+        for rmove in ret.move_ids:
+            orig = rmove.origin_returned_move_id
+            left = self._returnable(orig) if orig.state == 'done' else 0.0
+            qty = left if wanted is None else wanted.get(orig.id, 0.0)
+            if float_compare(qty, left, precision_digits=4) > 0:
+                raise ApiError('validation_error', _("%(item)s: only %(left)s can still be returned.",
+                                                     item=orig.product_id.display_name, left=left), 'quantity')
+            if float_is_zero(qty, precision_digits=4):
+                rmove.unlink()
+                continue
+            rmove.write({'product_uom_qty': qty, 'to_refund': True, 'supply_line_id': orig.supply_line_id.id,
+                         'sale_line_id': orig.sale_line_id.id, 'purchase_line_id': orig.purchase_line_id.id,
+                         'rule_id': orig.rule_id.id, 'warehouse_id': orig.warehouse_id.id})
+        if not ret.move_ids:
+            ret.unlink()
+            raise ApiError('nothing_to_do', _("Nothing to return."), 'lines')
+        ret.action_confirm()
+        ret.action_assign()
+        for rmove in ret.move_ids:
+            orig = rmove.origin_returned_move_id
+            if rmove.product_id.tracking:
+                entries, remaining = [], rmove.product_uom_qty
+                for line in orig.move_line_ids:
+                    take = min(line.quantity, remaining)
+                    if take > 0:
+                        entries.append({'lot_id': line.lot_id.id, 'lot_name': False if line.lot_id else line.lot_name, 'quantity': take})
+                        remaining -= take
+                self._apply_entries(rmove, entries)
+            else:
+                rmove.quantity = rmove.product_uom_qty
+                rmove.picked = True
+        ret.with_context(skip_backorder=True, skip_sms=True).button_validate()
+        data = self._picking_data(picking)
+        data['return_picking'] = {'id': ret.id, 'name': ret.name}
+        return data

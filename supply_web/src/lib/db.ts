@@ -2,7 +2,7 @@ import "server-only";
 import type { DatabaseSync as DatabaseSyncType } from "node:sqlite";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
-import { DEFAULT_ROLES } from "./permissions";
+import { ALL_PERMISSIONS, DEFAULT_ROLES } from "./permissions";
 
 /** The app's own small database (users, roles, audit). Everything about orders stays in Odoo. */
 type DatabaseSync = DatabaseSyncType;
@@ -49,7 +49,31 @@ function open(): DatabaseSync {
     const ins = db.prepare("INSERT INTO roles (name, permissions) VALUES (?, ?)");
     for (const r of DEFAULT_ROLES) ins.run(r.name, JSON.stringify(r.permissions));
   }
+  migrate(db);
   return db;
+}
+
+/**
+ * New permissions reach databases created by an older version once: they are added to the roles that
+ * should have them (and to the system administrator, who has everything). Edited roles keep their edits.
+ */
+function migrate(db: DatabaseSync) {
+  const done = (key: string) => db.prepare("SELECT 1 FROM settings WHERE key = ?").get(key) !== undefined;
+  const mark = (key: string) => db.prepare("INSERT OR IGNORE INTO settings (key, value) VALUES (?, '1')").run(key);
+  const grant = (roleName: string, perms: string[]) => {
+    const row = db.prepare("SELECT id, permissions FROM roles WHERE name = ?").get(roleName) as { id: number; permissions: string } | undefined;
+    if (!row) return;
+    const merged = [...new Set([...(JSON.parse(row.permissions) as string[]), ...perms])];
+    db.prepare("UPDATE roles SET permissions = ? WHERE id = ?").run(JSON.stringify(merged), row.id);
+  };
+  if (!done("migrated.warehouse.v1")) {
+    const wh = ["warehouse.view", "warehouse.process", "warehouse.validate", "warehouse.return", "warehouse.cancel"];
+    grant("مدير النظام", ALL_PERMISSIONS);
+    grant("مدير توريد", wh);
+    grant("أمين مخزن", wh);
+    for (const r of ["مندوب مبيعات", "محاسب"]) grant(r, ["warehouse.view"]);
+    mark("migrated.warehouse.v1");
+  }
 }
 
 export function db(): DatabaseSync {

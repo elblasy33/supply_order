@@ -142,3 +142,59 @@ export type RebateAccrual = {
 
 export type LookupProduct = Product & { code: string; sale_price: number; cost: number };
 export type LookupPartner = { id: number; name: string; ref: string; phone: string };
+
+export type PickingKind = "delivery" | "receipt" | "internal";
+export type PickingState = "draft" | "waiting" | "confirmed" | "assigned" | "done" | "cancel";
+
+export type MoveEntry = {
+  id: number;
+  quantity: number;
+  lot_name: string;
+  lot: { id: number; name: string; expiration_date: string | null } | null;
+};
+
+export type PickingMove = {
+  id: number;
+  line_no: number;
+  note: string;
+  state: string;
+  product: Product;
+  uom: string;
+  demand: number;
+  quantity: number;
+  picked: boolean;
+  entries: MoveEntry[];
+  auto_lot: boolean;
+  supply_line_id: number | null;
+};
+
+export type PickingSummary = {
+  id: number;
+  name: string;
+  state: PickingState;
+  kind: PickingKind;
+  partner: Partner | null;
+  origin: string;
+  scheduled_date: string | null;
+  date_done: string | null;
+  supply_order: { id: number; name: string; supply_ref: string } | null;
+  backorder_of: { id: number; name: string } | null;
+  move_count: number;
+};
+
+export type Picking = PickingSummary & {
+  moves: PickingMove[];
+  backorders: { id: number; name: string; state: string }[];
+  can_edit: boolean;
+  can_validate: boolean;
+  can_cancel: boolean;
+  can_return: boolean;
+  created_backorders?: { id: number; name: string }[];
+  return_picking?: { id: number; name: string };
+};
+
+export type PickingScan = {
+  outcome: "quantity_increased" | "lot_entry" | "new_lot_name" | "need_lot" | "unknown" | "ambiguous" | "rejected";
+  message: string;
+  picking: Picking;
+};
