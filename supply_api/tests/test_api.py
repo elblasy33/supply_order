@@ -285,6 +285,18 @@ class TestSupplyApi(ApiCase):
         self.assertEqual(self.ok(api.lookup(kind='lot', query='LKP'))[0]['name'], 'LKP-1')
         self.bad(api.lookup(kind='ghost', query='x'), 'validation_error')
 
+    def test_25_info_describes_the_server_and_the_key_user(self):
+        info = self.ok(self.api().info())
+        self.assertEqual(info['major'], 20)
+        self.assertIn(info['edition'], ('community', 'enterprise'))
+        self.assertEqual(info['modules']['supply_api']['state'], 'installed')
+        self.assertEqual(info['modules']['supply_order']['state'], 'installed')
+        self.assertEqual(set(info['modules']), set(self.env['supply.api'].SUITE))
+        self.assertTrue(info['service_user']['is_service_user'])
+        self.assertEqual(info['database'], self.env.cr.dbname)
+        other = self.env['supply.api'].with_user(self.env.user).info()
+        self.assertFalse(other['data']['service_user']['is_service_user'])
+
     def test_24_app_users_and_whoami(self):
         api = self.api()
         created = self.ok(api.ext_user_sync(login='api.new', name='New One', role='warehouse', external_id='ext-9'))

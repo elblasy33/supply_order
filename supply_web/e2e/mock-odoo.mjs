@@ -3,6 +3,7 @@
 import http from "node:http";
 
 const KEY = "test-key";
+const KEY_NO_USER = "no-user-key"; // valid key whose user is not the configured integration user
 const PORT = Number(process.env.MOCK_PORT ?? 8070);
 const products = [
   { id: 1, name: "شيبس حار", barcode: "6221000000011", tracking: "none", uom: "وحدة", code: "CH-H", sale_price: 10, cost: 6 },
@@ -72,7 +73,12 @@ seed.state = "confirmed"; seed.lines.forEach((l) => { l.qty_initial = l.qty_requ
 const seed2 = newOrder({ partner_id: 11, order_type: "purchase", supply_ref: "PO-77", lines: [{ product_id: 4, qty_requested: 200, price_unit: 3 }] });
 void seed2;
 
+const SUITE = ["document_enhancement", "supply_order", "product_tracking_plus", "smart_alerts", "invoice_customization", "discounts_rebates", "smart_reconciliation", "supply_api"];
 const handlers = {
+  info: (b, ctx) => ({ version: "20.0", major: 20, edition: "enterprise", database: "mock_db",
+    modules: Object.fromEntries(SUITE.map((n) => [n, { state: "installed", version: "20.0.1.0.0" }])),
+    service_user: { id: 7, login: "supply_integration", name: "Supply Integration", configured: true, is_service_user: ctx.bearer === `Bearer ${KEY}` },
+    company: { id: 1, name: "Mock Co", currency: "EGP" } }),
   whoami: (b, ctx) => ({ service_user: true, app_user: ctx.ext ? { id: ctx.ext.id, name: ctx.ext.name, login: ctx.ext.login, role: "manager" } : null, operations: [], company: { id: 1, name: "Mock Co", currency: "EGP" } }),
   ext_user_sync: (b) => { const u = users.get(b.login) ?? { id: users.size + 1, login: b.login }; Object.assign(u, { name: b.name, role: b.role, active: b.active }); users.set(b.login, u); return { id: u.id, login: u.login, name: u.name, role: u.role, active: u.active }; },
   order_search: (b) => {
@@ -164,8 +170,10 @@ const rebate = { state: "draft" };
 
 http.createServer((req, res) => {
   const send = (status, body, type = "application/json") => { res.writeHead(status, { "Content-Type": type }); res.end(typeof body === "string" || Buffer.isBuffer(body) ? body : JSON.stringify(body)); };
-  if (req.headers.authorization !== `Bearer ${KEY}`) return send(401, { name: "Unauthorized" });
   const url = new URL(req.url, "http://x");
+  if (url.pathname === "/web/webclient/version_info") return send(200, { jsonrpc: "2.0", id: null, result: { server_version: "20.0", server_version_info: [20, 0, 0, "final", 0, ""] } });
+  const bearer = req.headers.authorization;
+  if (bearer !== `Bearer ${KEY}` && bearer !== `Bearer ${KEY_NO_USER}`) return send(401, { name: "Unauthorized" });
   if (url.pathname === "/__calls") return send(200, calls);
   let m = url.pathname.match(/^\/supply_api\/print\/(\w+)\/(\w+)\/(\d+)$/);
   if (m) {
@@ -189,7 +197,7 @@ http.createServer((req, res) => {
     const ext = body.context?.ext_user_id ? [...users.values()].find((u) => u.id === body.context.ext_user_id) : null;
     let out;
     try {
-      const data = h(body, { ext });
+      const data = h(body, { ext, bearer });
       out = data && data.page ? { ok: true, data: data.data, ...data.page } : { ok: true, data };
       if (key) seen.set(key, out);
     } catch (e) {

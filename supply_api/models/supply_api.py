@@ -6,6 +6,7 @@ from datetime import timedelta
 
 from psycopg2 import IntegrityError
 
+import odoo.release as release
 from odoo import api, fields, models, _
 from odoo.exceptions import AccessDenied, AccessError, MissingError, UserError, ValidationError
 from odoo.fields import Domain
@@ -542,6 +543,30 @@ class SupplyApi(models.AbstractModel):
         else:
             user = User.create(dict(vals, login=login))
         return {'id': user.id, 'login': user.login, 'name': user.name, 'role': user.role, 'active': user.active}
+
+    SUITE = ('document_enhancement', 'supply_order', 'product_tracking_plus', 'smart_alerts', 'invoice_customization',
+             'discounts_rebates', 'smart_reconciliation', 'supply_api')
+
+    @api.model
+    @api.readonly
+    @endpoint()
+    def info(self):
+        """What the app needs to know before using this Odoo: version, edition, our modules, the key's user."""
+        Module = self.env['ir.module.module'].sudo()
+        modules = {m.name: {'state': m.state, 'version': m.latest_version or ''}
+                   for m in Module.search([('name', 'in', list(self.SUITE))])}
+        enterprise = bool(Module.search_count([('name', '=', 'web_enterprise'), ('state', '=', 'installed')]))
+        service_id = self._service_user_id()
+        return {
+            'version': release.version, 'major': release.version_info[0],
+            'edition': 'enterprise' if enterprise else 'community',
+            'database': self.env.cr.dbname,
+            'modules': {name: modules.get(name, {'state': 'missing', 'version': ''}) for name in self.SUITE},
+            'service_user': {'id': self.env.uid, 'login': self.env.user.login, 'name': self.env.user.name,
+                             'configured': bool(service_id), 'is_service_user': service_id == self.env.uid},
+            'company': {'id': self.env.company.id, 'name': self.env.company.name,
+                        'currency': self.env.company.currency_id.name},
+        }
 
     @api.model
     @api.readonly

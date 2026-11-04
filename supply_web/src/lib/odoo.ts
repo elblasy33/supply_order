@@ -1,5 +1,6 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
+import { getConnection, type OdooConnection } from "./settings";
 
 /** Error code of the supply.api contract (docs/API_CONTRACT.yaml) plus the transport failures. */
 export type OdooErrorCode =
@@ -25,13 +26,12 @@ export class OdooError extends Error {
 
 export type Page<T> = { data: T[]; total: number; offset: number; limit: number };
 
-function config() {
-  const url = (process.env.ODOO_URL ?? "").replace(/\/+$/, "");
-  const key = process.env.ODOO_API_KEY ?? "";
-  if (!url || !key) {
-    throw new OdooError("unauthorized", "إعدادات الاتصال بأودو غير مكتملة (ODOO_URL / ODOO_API_KEY).");
+function config(): OdooConnection {
+  const c = getConnection();
+  if (!c.url || !c.apiKey) {
+    throw new OdooError("unauthorized", "لم يُضبط الاتصال بأودو بعد. اضبطه من الإعدادات ← الاتصال بأودو.");
   }
-  return { url, key };
+  return c;
 }
 
 type CallOptions = {
@@ -45,12 +45,12 @@ type CallOptions = {
 type Envelope<T> = { ok: true; data: T } | { ok: false; error: { code: OdooErrorCode; message: string; field?: string } };
 
 async function raw(path: string, init: RequestInit) {
-  const { url, key } = config();
+  const { url, apiKey: key, database } = config();
   try {
     return await fetch(`${url}${path}`, {
       ...init,
       cache: "no-store",
-      headers: { Authorization: `Bearer ${key}`, ...(init.headers ?? {}) },
+      headers: { Authorization: `Bearer ${key}`, ...(database ? { "X-Odoo-Database": database } : {}), ...(init.headers ?? {}) },
       signal: AbortSignal.timeout(60_000),
     });
   } catch {

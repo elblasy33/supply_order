@@ -6,7 +6,9 @@ import { assertPermission, PermissionError } from "@/lib/auth";
 import { audit, db } from "@/lib/db";
 import { hashPassword } from "@/lib/password";
 import { ALL_PERMISSIONS } from "@/lib/permissions";
-import { odooPing, OdooError, odooData } from "@/lib/odoo";
+import { OdooError, odooData } from "@/lib/odoo";
+import { diagnose, normalizeUrl, type CheckResult } from "@/lib/odoo-check";
+import { getConnection, saveConnection } from "@/lib/settings";
 
 export type Result = { ok: true; message?: string } | { ok: false; error: string };
 
@@ -116,12 +118,38 @@ export async function deleteRole(id: number): Promise<Result> {
   });
 }
 
-export async function testOdoo(): Promise<Result & { details?: unknown }> {
-  return wrap("settings.odoo", async () => {
-    const res = await odooPing();
-    if (!res.ok) return { ok: false, error: res.error };
-    return { ok: true, message: "الاتصال سليم.", details: res.whoami } as Result;
-  });
+export type ConnectionInput = { url: string; database: string; apiKey: string };
+export type ConnectionResult = { ok: boolean; saved?: boolean; error?: string; check?: CheckResult };
+
+/** Fills in the saved key when the form left it empty ("keep the current key"). */
+function withSavedKey(input: ConnectionInput): ConnectionInput {
+  return { ...input, apiKey: input.apiKey.trim() || getConnection().apiKey };
+}
+
+export async function testConnection(input: ConnectionInput): Promise<ConnectionResult> {
+  try {
+    await assertPermission("settings.odoo");
+    const check = await diagnose(withSavedKey(input));
+    return { ok: check.ok, check };
+  } catch (e) {
+    return { ok: false, error: e instanceof PermissionError ? e.message : "حدث خطأ غير متوقع أثناء الفحص." };
+  }
+}
+
+/** Saves only a connection that passes every check, so the app is never pointed at something unusable. */
+export async function saveConnectionAction(input: ConnectionInput): Promise<ConnectionResult> {
+  try {
+    const user = await assertPermission("settings.odoo");
+    const full = withSavedKey(input);
+    const check = await diagnose(full);
+    if (!check.ok) return { ok: false, check, error: "لم يُحفظ الاتصال: أصلح الخطوات الفاشلة ثم أعد المحاولة." };
+    saveConnection({ url: normalizeUrl(full.url)!, database: full.database.trim(), apiKey: full.apiKey });
+    audit(user.id, "odoo.connection.save", { url: full.url, database: full.database });
+    revalidatePath("/", "layout");
+    return { ok: true, saved: true, check };
+  } catch (e) {
+    return { ok: false, error: e instanceof PermissionError ? e.message : "حدث خطأ غير متوقع أثناء الحفظ." };
+  }
 }
 
 /** Re-sends every active app user to Odoo (e.g. after Odoo was restored from a backup). */

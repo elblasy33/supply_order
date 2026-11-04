@@ -187,11 +187,55 @@ test("alerts, reconciliation and rebates", async ({ page }) => {
   await shot(page, "10-rebates");
 });
 
-test("Odoo settings page tests the connection; mobile layout works", async ({ page }) => {
+test("connection settings: every failure is explained, only a working connection is saved", async ({ page }) => {
   await login(page, "admin", "secret-pass-1");
   await page.goto("/settings/odoo");
-  await page.getByRole("button", { name: "اختبار الاتصال" }).click();
-  await expect(page.getByText("الاتصال سليم.")).toBeVisible();
+  const url = page.getByLabel("عنوان خادم أودو");
+  const key = page.getByLabel("مفتاح API لمستخدم التكامل");
+  const test = page.getByRole("button", { name: "فحص الاتصال" });
+  await expect(page.getByText("من ملف البيئة")).toBeVisible();
+
+  await url.fill("http://localhost:9"); // nothing listens there
+  await key.fill("whatever");
+  await test.click();
+  await expect(page.getByText(/تعذّر الاتصال/)).toBeVisible();
+  await expect(page.getByText("لم يُفحص بسبب خطأ سابق.").first()).toBeVisible();
+
+  await url.fill("http://localhost:3100"); // an HTTP server that is not Odoo
+  await test.click();
+  await expect(page.getByText(/لا يبدو خادم أودو/)).toBeVisible();
+
+  await url.fill("localhost:8070"); // scheme is optional
+  await key.fill("wrong-key");
+  await test.click();
+  await expect(page.getByText(/رفض أودو المفتاح/)).toBeVisible();
+  await page.getByRole("button", { name: "فحص وحفظ" }).click();
+  await expect(page.getByText(/لم يُحفظ الاتصال/).first()).toBeVisible();
+
+  await key.fill("no-user-key");
+  await test.click();
+  await expect(page.getByText(/service_user_id/).first()).toBeVisible();
+
+  await key.fill("test-key");
+  await page.getByRole("button", { name: "فحص وحفظ" }).click();
+  await expect(page.getByText("تم الحفظ — الاتصال سليم.")).toBeVisible();
+  await expect(page.getByText(/mock_db/)).toBeVisible();
+  await expect(page.locator("li", { hasText: "supply_api" }).first()).toBeVisible();
+  await shot(page, "12-odoo-settings");
+  await page.reload();
+  await expect(page.getByText("محفوظ في التطبيق")).toBeVisible();
+  await expect(page.getByLabel("مفتاح API لمستخدم التكامل")).toHaveAttribute("placeholder", /محفوظ/);
+  expect(await page.content()).not.toContain("test-key");
+
+  // the saved connection is the one in use, and an empty key field keeps it
+  await page.getByRole("button", { name: "فحص الاتصال" }).click();
+  await expect(page.getByText("الاتصال سليم.", { exact: true })).toBeVisible();
+  await page.goto("/orders");
+  await expect(page.getByText("SUP/2026/00101")).toBeVisible();
+});
+
+test("mobile layout works", async ({ page }) => {
+  await login(page, "admin", "secret-pass-1");
   await page.setViewportSize({ width: 390, height: 800 });
   await page.goto("/orders");
   await page.getByRole("button", { name: "القائمة" }).click();

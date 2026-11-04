@@ -75,6 +75,7 @@ export function ErrorBox({ message }: { message: string }) {
     <div className="card border-red-200 bg-red-50 p-5 text-sm text-red-800" role="alert">
       <p className="font-bold">تعذّر تحميل البيانات من أودو</p>
       <p className="mt-1">{message}</p>
+      <a href="/settings/odoo" className="mt-3 inline-block font-bold underline">افتح إعدادات الاتصال بأودو</a>
     </div>
   );
 }
