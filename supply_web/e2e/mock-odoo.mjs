@@ -6,16 +6,16 @@ const KEY = "test-key";
 const KEY_NO_USER = "no-user-key"; // valid key whose user is not the configured integration user
 const PORT = Number(process.env.MOCK_PORT ?? 8070);
 const products = [
-  { id: 1, name: "شيبس حار", barcode: "6221000000011", tracking: "none", uom: "وحدة", code: "CH-H", sale_price: 10, cost: 6 },
-  { id: 2, name: "شيبس جبنة", barcode: "6221000000028", tracking: "none", uom: "وحدة", code: "CH-C", sale_price: 10, cost: 6 },
-  { id: 3, name: "عصير برتقال 1 لتر", barcode: "6221000000035", tracking: "lot", uom: "وحدة", code: "JU-O", sale_price: 25, cost: 18 },
-  { id: 4, name: "ملح 1 كجم", barcode: "6221000000042", tracking: "none", uom: "كجم", code: "SA-1", sale_price: 5, cost: 3 },
+  { id: 1, name: "شيبس حار", barcode: "6221000000010", tracking: "none", uom: "وحدة", code: "CH-H", sale_price: 10, cost: 6 },
+  { id: 2, name: "شيبس جبنة", barcode: "6221000000027", tracking: "none", uom: "وحدة", code: "CH-C", sale_price: 10, cost: 6 },
+  { id: 3, name: "عصير برتقال 1 لتر", barcode: "6221000000034", tracking: "lot", uom: "وحدة", code: "JU-O", sale_price: 25, cost: 18 },
+  { id: 4, name: "ملح 1 كجم", barcode: "6221000000041", tracking: "none", uom: "كجم", code: "SA-1", sale_price: 5, cost: 3 },
 ];
 const partners = [
   { id: 10, name: "شركة النور للتجارة", ref: "C-001", phone: "0100000001" },
   { id: 11, name: "مورد الأمل", ref: "V-001", phone: "0100000002" },
 ];
-const P = (id) => { const { code, sale_price, cost, ...p } = products.find((x) => x.id === id); return p; };
+const P = (id) => { const { sale_price: _s, cost: _c, ...p } = products.find((x) => x.id === id); return p; };
 let seq = 100, lineSeq = 1000;
 const orders = new Map();
 const seen = new Map(); // idempotency

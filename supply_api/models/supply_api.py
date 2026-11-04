@@ -166,7 +166,8 @@ class SupplyApi(models.AbstractModel):
         if not product:
             return None
         return {'id': product.id, 'name': product.display_name, 'barcode': product.barcode or '',
-                'tracking': product.tracking or 'none', 'uom': product.uom_id.name}
+                'tracking': product.tracking or 'none', 'uom': product.uom_id.name,
+                'code': product.default_code or ''}
 
     def _line(self, line):
         lot = line.lot_id

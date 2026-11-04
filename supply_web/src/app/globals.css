@@ -94,3 +94,7 @@ input, select, textarea, button { font-family: inherit; }
 @utility td {
   @apply px-3 py-2.5 align-middle text-sm;
 }
+
+@keyframes scanline { 0%, 100% { top: 8%; } 50% { top: 90%; } }
+.scan-line { animation: scanline 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .scan-line { animation: none; top: 50%; } }

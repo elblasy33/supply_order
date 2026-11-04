@@ -5,6 +5,7 @@ const PORT = 3100;
 export default defineConfig({
   testDir: "./e2e",
   testMatch: /.*\.spec\.ts/,
+  // app.spec.ts creates the administrator first; the scan specs follow
   timeout: 45_000,
   fullyParallel: false,
   workers: 1,

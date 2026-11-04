@@ -1,5 +1,5 @@
 export type Partner = { id: number; name: string };
-export type Product = { id: number; name: string; barcode: string; tracking: "lot" | "serial" | "none"; uom: string };
+export type Product = { id: number; name: string; barcode: string; code?: string; tracking: "lot" | "serial" | "none"; uom: string };
 
 export type SupplyLine = {
   id: number;

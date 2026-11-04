@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
-import { Barcode, Loader2, Trash2, Truck, ShoppingCart } from "lucide-react";
+import { Barcode, Camera, Loader2, Trash2, Truck, ShoppingCart } from "lucide-react";
 import { createOrder, lookup } from "@/app/actions/orders";
+import { CameraScanner, type ScanResult } from "@/components/camera-scanner";
 import { PartnerPicker, ProductPicker } from "@/components/pickers";
 import { useToast } from "@/components/toast";
 import { useAction } from "@/components/use-action";
+import { unlockAudio } from "@/lib/scan/feedback";
 import { Field } from "@/components/ui";
 import type { LookupPartner, LookupProduct } from "@/lib/types";
 import { useT } from "@/lib/i18n/client";
@@ -26,6 +28,7 @@ export function NewOrderForm() {
   const [rows, setRows] = useState<Row[]>([]);
   const [code, setCode] = useState("");
   const [scanning, setScanning] = useState(false);
+  const [camera, setCamera] = useState(false);
 
   const price = (p: LookupProduct, t = type) => String(t === "sale" ? p.sale_price : p.cost);
 
@@ -42,16 +45,34 @@ export function NewOrderForm() {
     setRows((rs) => rs.map((r) => ({ ...r, price: price(r.product, t) })));
   }
 
+  // barcode → item, remembered so that scanning the same item again needs no server round trip
+  const known = useRef(new Map<string, LookupProduct>());
+  async function resolve(c: string): Promise<LookupProduct | null> {
+    const hit = known.current.get(c);
+    if (hit) return hit;
+    const res = await lookup("product", c);
+    if (!res.ok) return null;
+    const found = (res.data as LookupProduct[]).filter((p) => p.barcode === c || p.code === c);
+    if (found.length !== 1) return null;
+    known.current.set(c, found[0]);
+    return found[0];
+  }
+
+  async function fromCamera(c: string): Promise<ScanResult> {
+    const p = await resolve(c);
+    if (!p) return { kind: "error", message: t(`لا يوجد صنف بهذا الباركود: ${c}`) };
+    add(p);
+    return { kind: "ok", message: `${p.name} +1` };
+  }
+
   async function scanCode() {
     const c = code.trim();
     if (!c) return;
     setScanning(true);
-    const res = await lookup("product", c);
+    const p = await resolve(c);
     setScanning(false);
     setCode("");
-    if (!res.ok) return push("error", res.error);
-    const found = (res.data as LookupProduct[]).filter((p) => p.barcode === c || p.code === c);
-    if (found.length === 1) add(found[0]);
+    if (p) add(p);
     else push("error", t(`لا يوجد صنف بهذا الباركود: ${c}`));
   }
 
@@ -109,6 +130,9 @@ export function NewOrderForm() {
                 {scanning && <Loader2 className="absolute end-3 top-1/2 size-4 -translate-y-1/2 animate-spin" />}
               </div>
             </div>
+            <button type="button" className={clsx("btn-secondary", camera && "border-brand-500 text-brand-700")} aria-pressed={camera}
+              onClick={() => { unlockAudio(); setCamera((v) => !v); }}><Camera className="size-4" /> {t("مسح بكاميرا الجوال")}</button>
+            {camera && <CameraScanner onCode={fromCamera} onClose={() => setCamera(false)} />}
           </div>
           {rows.length === 0 ? <p className="px-6 py-12 text-center text-muted">{t("أضف أصنافاً بالبحث أو بمسح الباركود.")}</p> : (
             <div className="overflow-x-auto">

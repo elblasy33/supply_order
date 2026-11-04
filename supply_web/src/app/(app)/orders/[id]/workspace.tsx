@@ -1,18 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import {
-  ArrowLeftRight, Ban, Barcode, Check, CheckCheck, ChevronDown, CircleSlash, FileDown, FilePlus2, FileSpreadsheet,
+  ArrowLeftRight, Ban, Barcode, Camera, Check, CheckCheck, ChevronDown, CircleSlash, FileDown, FilePlus2, FileSpreadsheet,
   Lock, Pencil, Plus, Printer, ReceiptText, RotateCcw, ShoppingCart, Trash2, Truck,
 } from "lucide-react";
 import { addLine, orderAction, removeLine, scan, substituteLine, updateLine } from "@/app/actions/orders";
+import { CameraScanner, type ScanResult as CameraResult } from "@/components/camera-scanner";
 import { Dialog } from "@/components/dialog";
 import { ProductPicker } from "@/components/pickers";
 import { useToast } from "@/components/toast";
 import { useAction } from "@/components/use-action";
 import { Field, Badge, Fulfillment, InvoiceBadge, Num, Progress, formatDate, money } from "@/components/ui";
+import { feedback, unlockAudio, type FeedbackKind } from "@/lib/scan/feedback";
 import type { LookupProduct, ScanResult, SupplyLine, SupplyOrder } from "@/lib/types";
 import { useT } from "@/lib/i18n/client";
 
@@ -33,19 +35,6 @@ const DOC_KIND: Record<string, string> = {
   invoice: "فاتورة", vendor_bill: "فاتورة مورد", credit_note: "إشعار دائن", vendor_credit_note: "إشعار مورد دائن",
 };
 const LOG_LABEL: Record<string, string> = { add: "إضافة صنف", remove: "حذف صنف", substitute: "استبدال", qty: "تعديل كمية", price: "تعديل سعر/خصم" };
-
-function beep(ok: boolean) {
-  try {
-    const ctx = new AudioContext();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination);
-    o.frequency.value = ok ? 880 : 220;
-    g.gain.value = 0.06;
-    o.start(); o.stop(ctx.currentTime + (ok ? 0.08 : 0.25));
-    o.onended = () => ctx.close();
-  } catch { /* no audio: fine */ }
-}
 
 export function OrderWorkspace({ order, can, odooUrl }: { order: SupplyOrder; can: string[]; odooUrl: string }) {
   const allowed = useMemo(() => new Set(order.allowed_actions), [order.allowed_actions]);
@@ -156,8 +145,8 @@ function ScanBar({ order }: { order: SupplyOrder }) {
   const t = useT();
   const { run, busy } = useAction();
   const [value, setValue] = useState("");
-  const [last, setLast] = useState<ScanResult | null>(null);
-  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [camera, setCamera] = useState(false);
+  const [msg, setMsg] = useState<{ kind: FeedbackKind; text: string } | null>(null);
   const ref = useRef<HTMLInputElement>(null);
 
   const TEXT: Record<ScanResult["outcome"], string> = {
@@ -165,44 +154,50 @@ function ScanBar({ order }: { order: SupplyOrder }) {
     lot_added: t("أُضيفت التشغيلة كسطر"), new_lot_name: t("سُجّل رقم التشغيلة الجديد"), unknown: "", ambiguous: "", rejected: "",
   };
 
+  // one scan = one request, each with its own key (scanning the same code twice means two units)
+  const process = useCallback(async (code: string): Promise<CameraResult> => {
+    const res = await run(`scan-${Date.now()}-${code}`, (k) => scan(order.id, code, k));
+    if (!res.ok) return { kind: "error", message: t(res.error) };
+    const good = !["unknown", "ambiguous", "rejected"].includes(res.data.outcome);
+    return { kind: good ? "ok" : "error", message: good ? `${TEXT[res.data.outcome]} — ${code}` : t(res.data.message) };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [order.id, run, t]);
+
   async function submit() {
     const code = value.trim();
     if (!code || busy) return;
-    // a fresh key for every scan: scanning the same code twice means two units
-    const res = await run(`scan-${Date.now()}`, (k) => scan(order.id, code, k));
     setValue("");
-    if (res.ok) {
-      setLast(res.data);
-      const good = !["unknown", "ambiguous", "rejected"].includes(res.data.outcome);
-      beep(good);
-      setMsg({ ok: good, text: good ? `${TEXT[res.data.outcome]} — ${code}` : res.data.message });
-    } else {
-      beep(false);
-      setMsg({ ok: false, text: res.error });
-    }
+    const r = await process(code);
+    feedback(r.kind);
+    setMsg({ kind: r.kind, text: r.message });
     ref.current?.focus();
   }
 
-  useEffect(() => { ref.current?.focus(); }, []);
+  useEffect(() => { if (!camera) ref.current?.focus(); }, [camera]);
 
   return (
-    <div className="card p-4">
-      <label htmlFor="scan" className="label flex items-center gap-1.5"><Barcode className="size-4" />  {t("مسح باركود صنف أو رقم تشغيلة")}</label>
-      <div className="flex gap-2">
-        <input id="scan" ref={ref} dir="ltr" value={value} disabled={busy} autoComplete="off" inputMode="text"
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
-          className="input font-mono text-base" placeholder={t("امسح أو اكتب ثم Enter")} />
-        <button className="btn-primary" onClick={submit} disabled={busy || !value.trim()}>{t("إضافة")}</button>
+    <div className="space-y-3">
+      <div className="card p-4">
+        <label htmlFor="scan" className="label flex items-center gap-1.5"><Barcode className="size-4" />  {t("مسح باركود صنف أو رقم تشغيلة")}</label>
+        <div className="flex gap-2">
+          <input id="scan" ref={ref} dir="ltr" value={value} disabled={busy} autoComplete="off" inputMode="text" onFocus={unlockAudio}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
+            className="input font-mono text-base" placeholder={t("امسح أو اكتب ثم Enter")} />
+          <button className="btn-primary" onClick={submit} disabled={busy || !value.trim()}>{t("إضافة")}</button>
+          <button className={clsx("btn-secondary", camera && "border-brand-500 text-brand-700")} onClick={() => { unlockAudio(); setCamera((v) => !v); }} aria-pressed={camera} aria-label={t("كاميرا الجوال")}>
+            <Camera className="size-4" /><span className="hidden sm:inline">{t("الكاميرا")}</span>
+          </button>
+        </div>
+        <div className="mt-2 min-h-6 text-sm" aria-live="polite">
+          {msg && !camera && (
+            <p className={clsx("flex items-center gap-1.5 font-semibold", msg.kind === "ok" ? "text-ok" : "text-bad")}>
+              {msg.kind === "ok" ? <Check className="size-4" /> : <CircleSlash className="size-4" />} {msg.text}
+            </p>
+          )}
+        </div>
       </div>
-      <div className="mt-2 min-h-6 text-sm" aria-live="polite">
-        {msg && (
-          <p className={clsx("flex items-center gap-1.5 font-semibold", msg.ok ? "text-ok" : "text-bad")}>
-            {msg.ok ? <Check className="size-4" /> : <CircleSlash className="size-4" />} {msg.text}
-          </p>
-        )}
-        {last && !msg && null}
-      </div>
+      {camera && <CameraScanner onCode={process} onClose={() => setCamera(false)} />}
     </div>
   );
 }

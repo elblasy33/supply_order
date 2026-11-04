@@ -6,9 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "node scripts/copy-wasm.mjs",
+    "predev": "node scripts/copy-wasm.mjs",
+    "prebuild": "node scripts/copy-wasm.mjs",
+    "dev:https": "next dev --experimental-https -H 0.0.0.0",
+    "pretest:e2e": "node scripts/make-fake-camera.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
+    "barcode-detector": "^3.2.3",
     "clsx": "^2.1.1",
     "jose": "^6.2.15",
     "lucide-react": "^1.68.0",
@@ -21,10 +28,13 @@
     "@playwright/test": "^1.64.1",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^26.6.6",
+    "@types/pngjs": "^6.0.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "bwip-js": "^4.11.4",
     "eslint": "^9",
     "eslint-config-next": "16.4.5",
+    "pngjs": "^7.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

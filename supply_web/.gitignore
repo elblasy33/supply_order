@@ -44,3 +44,5 @@ next-env.d.ts
 /.e2e-data
 /e2e/.results
 /e2e/shots
+/public/wasm
+/e2e/fixtures

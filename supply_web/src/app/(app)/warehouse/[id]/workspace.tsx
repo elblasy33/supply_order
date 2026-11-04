@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
-import { Barcode, Ban, Check, CheckCheck, CircleSlash, ListChecks, Minus, Plus, Save, Trash2, Undo2 } from "lucide-react";
-import { cancelPicking, returnPicking, savePicking, scanPicking, validatePicking, type CountLine } from "@/app/actions/warehouse";
+import { Barcode, Ban, Camera, Check, CheckCheck, CircleSlash, ListChecks, Minus, Plus, Save, Trash2, Undo2 } from "lucide-react";
+import { cancelPicking, returnPicking, savePicking, validatePicking, type CountLine } from "@/app/actions/warehouse";
+import { CameraScanner, type ScanResult } from "@/components/camera-scanner";
 import { Dialog } from "@/components/dialog";
 import { useToast } from "@/components/toast";
 import { useAction } from "@/components/use-action";
 import { Badge, Num, formatDate } from "@/components/ui";
+import { applyScan, type CountMove } from "@/lib/scan/engine";
+import { feedback, unlockAudio } from "@/lib/scan/feedback";
 import type { Picking, PickingMove } from "@/lib/types";
 import { useT } from "@/lib/i18n/client";
 
@@ -36,18 +39,6 @@ function payload(rows: RowDraft[]): CountLine[] {
       ? { move_id: r.moveId, entries: r.entries.filter((e) => num(e.qty) > 0).map((e) => ({ quantity: num(e.qty), lot_name: e.lot.trim() || undefined })) }
       : { move_id: r.moveId, quantity: num(r.qty) },
   );
-}
-
-function beep(ok: boolean) {
-  try {
-    const ctx = new AudioContext();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination);
-    o.frequency.value = ok ? 880 : 220; g.gain.value = 0.06;
-    o.start(); o.stop(ctx.currentTime + (ok ? 0.08 : 0.25));
-    o.onended = () => ctx.close();
-  } catch { /* no audio */ }
 }
 
 export function PickingWorkspace({ picking, can }: { picking: Picking; can: string[] }) {
@@ -109,6 +100,50 @@ export function PickingWorkspace({ picking, can }: { picking: Picking; can: stri
     }));
   }
 
+  // ---- scanning: applied on the device at once, saved with the counts
+  const rowsRef = useRef(rows);
+  const currentRef = useRef<number | null>(null);
+  const [touched, setTouched] = useState<number | null>(null);
+  useEffect(() => { rowsRef.current = rows; }, [rows]);
+  useEffect(() => {
+    if (touched === null) return;
+    const timer = setTimeout(() => setTouched(null), 1400);
+    return () => clearTimeout(timer);
+  }, [touched]);
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => { e.preventDefault(); };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+
+  const countMoves = useMemo<CountMove[]>(() => open.map((m) => ({
+    id: m.id, name: m.product.name, barcode: m.product.barcode, code: m.product.code ?? "",
+    tracking: m.product.tracking, autoLot: m.auto_lot, demand: m.demand,
+  })), [open]);
+
+  const handleCode = useCallback((code: string): ScanResult => {
+    const { state, outcome } = applyScan({ rows: rowsRef.current, current: currentRef.current }, countMoves, code);
+    rowsRef.current = state.rows;
+    currentRef.current = state.current;
+    setRows(state.rows);
+    if ("moveId" in outcome) {
+      setTouched(outcome.moveId);
+      document.getElementById(`move-${outcome.moveId}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+    switch (outcome.kind) {
+      case "counted": {
+        const over = outcome.total > outcome.demand;
+        const where = outcome.lot ? ` · ${outcome.lot}` : "";
+        return { kind: over ? "warn" : "ok", message: `${outcome.name}${where} — ${outcome.total}/${outcome.demand}${over ? ` (${t("زيادة")})` : ""}` };
+      }
+      case "need_lot": return { kind: "warn", message: t("{0}: امسح رقم التشغيلة الآن", { 0: outcome.name }) };
+      case "duplicate_serial": return { kind: "dup", message: t("الرقم التسلسلي {0} مُسح من قبل", { 0: outcome.lot }) };
+      case "no_item_for_lot": return { kind: "error", message: t("امسح باركود الصنف أولاً ثم رقم التشغيلة") };
+      default: return { kind: "error", message: t("لا يوجد صنف بهذا الباركود على الإذن: {0}", { 0: outcome.code }) };
+    }
+  }, [countMoves, t]);
+
   return (
     <div className="space-y-5">
       {picking.state !== "done" && picking.state !== "cancel" && (
@@ -131,7 +166,7 @@ export function PickingWorkspace({ picking, can }: { picking: Picking; can: stri
         </div>
       )}
 
-      {editable && <ScanBar picking={picking} persist={persist} />}
+      {editable && <ScanPanel onCode={handleCode} />}
 
       <section className="card overflow-hidden">
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
@@ -150,7 +185,7 @@ export function PickingWorkspace({ picking, can }: { picking: Picking; can: stri
                 const isOpen = !!draft;
                 const total = isOpen ? rowTotal(draft) : m.quantity;
                 return (
-                  <tr key={m.id} className="align-top hover:bg-canvas/40">
+                  <tr key={m.id} id={`move-${m.id}`} className={clsx("align-top transition-colors hover:bg-canvas/40", touched === m.id && "bg-brand-100/60")}>
                     <td className="td num text-muted">{m.line_no || ""}</td>
                     <td className="td">
                       <p className="font-bold">{m.product.name}</p>
@@ -256,36 +291,45 @@ function Counter({ draft, move, onChange, receipt }: { draft: RowDraft; move: Pi
   );
 }
 
-function ScanBar({ picking, persist }: { picking: Picking; persist: () => Promise<boolean> }) {
+/** Text field (keyboard-wedge scanners, typing) and the phone camera, both feeding the same on-device counting. */
+function ScanPanel({ onCode }: { onCode: (code: string) => ScanResult }) {
   const t = useT();
-  const { run, busy } = useAction();
-  const { push } = useToast();
   const [value, setValue] = useState("");
+  const [camera, setCamera] = useState(false);
+  const [last, setLast] = useState<ScanResult | null>(null);
   const ref = useRef<HTMLInputElement>(null);
-  useEffect(() => { ref.current?.focus(); }, []);
+  useEffect(() => { if (!camera) ref.current?.focus(); }, [camera]);
 
-  async function submit() {
+  function submit() {
     const code = value.trim();
-    if (!code || busy) return;
+    if (!code) return;
     setValue("");
-    if (!(await persist())) return; // keep the counts typed so far before the scan reads them from Odoo
-    const res = await run(`pscan-${Date.now()}`, (k) => scanPicking(picking.id, code, k), { refresh: true });
-    if (!res.ok) { beep(false); return; }
-    const good = !["unknown", "ambiguous", "rejected", "need_lot"].includes(res.data.outcome);
-    beep(good);
-    push(good ? "ok" : "error", good ? t(`تم العدّ — ${code}`) : res.data.message);
+    const r = onCode(code);
+    feedback(r.kind);
+    setLast(r);
     ref.current?.focus();
   }
 
   return (
-    <div className="card p-4">
-      <label htmlFor="pscan" className="label flex items-center gap-1.5"><Barcode className="size-4" />  {t("امسح باركود الصنف أو رقم التشغيلة (كل مسح = وحدة)")}</label>
-      <div className="flex gap-2">
-        <input id="pscan" ref={ref} dir="ltr" value={value} disabled={busy} autoComplete="off" onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }} className="input font-mono text-base" placeholder={t("امسح أو اكتب ثم Enter")} />
-        <button className="btn-primary" onClick={submit} disabled={busy || !value.trim()}>{t("عدّ")}</button>
+    <div className="space-y-3">
+      <div className="card p-4">
+        <label htmlFor="pscan" className="label flex items-center gap-1.5"><Barcode className="size-4" /> {t("امسح باركود الصنف أو رقم التشغيلة (كل مسح = وحدة)")}</label>
+        <div className="flex gap-2">
+          <input id="pscan" ref={ref} dir="ltr" value={value} autoComplete="off" onFocus={unlockAudio} onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }} className="input font-mono text-base" placeholder={t("امسح أو اكتب ثم Enter")} />
+          <button className="btn-primary" onClick={submit} disabled={!value.trim()}>{t("عدّ")}</button>
+          <button className={clsx("btn-secondary", camera && "border-brand-500 text-brand-700")} onClick={() => { unlockAudio(); setCamera((v) => !v); }} aria-pressed={camera} aria-label={t("كاميرا الجوال")}>
+            <Camera className="size-4" /><span className="hidden sm:inline">{t("الكاميرا")}</span>
+          </button>
+        </div>
+        {last && !camera && (
+          <p role="status" className={clsx("mt-2 flex items-center gap-1.5 text-sm font-semibold", last.kind === "ok" ? "text-ok" : last.kind === "error" ? "text-bad" : "text-warn")}>
+            {last.kind === "ok" ? <Check className="size-4" /> : <CircleSlash className="size-4" />} {last.message}
+          </p>
+        )}
+        <p className="mt-2 text-xs text-muted">{t("الصنف المتتبَّع بالتشغيلات: امسح باركوده ثم رقم التشغيلة (أو امسح كود GS1 فيه الاثنان معاً). في الاستلام، رقم غير معروف بعد صنف متتبَّع يُسجَّل كتشغيلة جديدة.")}</p>
       </div>
-      <p className="mt-2 flex items-center gap-1.5 text-xs text-muted"><CircleSlash className="hidden" />{t("الصنف المتتبَّع بالتشغيلات: امسح رقم التشغيلة. في الاستلام، رقم غير معروف بعد صنف متتبَّع يُسجَّل كتشغيلة جديدة.")}</p>
+      {camera && <CameraScanner onCode={(code) => onCode(code)} onClose={() => setCamera(false)} />}
     </div>
   );
 }

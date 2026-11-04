@@ -47,7 +47,7 @@ test("create an order, confirm it, deliver, invoice", async ({ page }) => {
   await page.getByRole("option", { name: /شيبس حار/ }).click();
   await page.getByPlaceholder(/ابحث عن صنف/).fill("عصير");
   await page.getByRole("option", { name: /عصير/ }).click();
-  await page.getByPlaceholder("أو امسح باركود ثم Enter").fill("6221000000011");
+  await page.getByPlaceholder("أو امسح باركود ثم Enter").fill("6221000000010");
   await page.getByPlaceholder("أو امسح باركود ثم Enter").press("Enter");
   await expect(page.getByLabel("الكمية").first()).toHaveValue("2"); // scanning the same item raises the quantity
   await shot(page, "02-new-order");
@@ -82,10 +82,10 @@ test("scan, edit with a reason, substitute, remove — and the change log tells 
   await page.goto("/orders?state=confirmed");
   await page.getByRole("link", { name: /SUP\/2026\/00101/ }).click();
   const scan = page.getByLabel(/مسح باركود/);
-  await scan.fill("6221000000028");
+  await scan.fill("6221000000027");
   await scan.press("Enter");
   await expect(page.getByText(/زادت الكمية/)).toBeVisible();
-  await scan.fill("6221000000042"); // new item on a confirmed order
+  await scan.fill("6221000000041"); // new item on a confirmed order
   await scan.press("Enter");
   await expect(page.getByText(/أُضيف الصنف/)).toBeVisible();
   await scan.fill("0000");
@@ -159,12 +159,12 @@ test("warehouse: short delivery with a backorder, scanning, then a return", asyn
 
   // scanning counts one unit per scan
   const scan = page.getByLabel(/امسح باركود الصنف/);
-  await scan.fill("6221000000011");
+  await scan.fill("6221000000010");
   await scan.press("Enter");
   await expect(page.getByRole("spinbutton", { name: "كمية شيبس حار", exact: true })).toHaveValue("7");
   await scan.fill("not-a-code");
   await scan.press("Enter");
-  await expect(page.getByText(/لا يوجد شيء لـ/)).toBeVisible();
+  await expect(page.getByText(/لا يوجد صنف بهذا الباركود على الإذن/)).toBeVisible();
 
   await page.getByRole("button", { name: /تأكيد التسليم/ }).click();
   await expect(page.getByRole("dialog")).toContainText("بعض الكميات ناقصة");
