@@ -198,3 +198,35 @@ export type PickingScan = {
   message: string;
   picking: Picking;
 };
+
+// ---- dashboard (supply.api `dashboard`)
+export type DashSeriesPoint = { date: string; sale: number; purchase: number; count: number };
+export type DashboardData = {
+  period: { days: number; start: string; end: string; granularity: "day" | "week" | "month" };
+  currency: string;
+  sections: string[];
+  orders?: {
+    kpis: {
+      orders: { value: number; previous: number };
+      value: { value: number; previous: number; sale: number; purchase: number };
+      fill_rate: { value: number | null; previous: number | null };
+      changed_share: { value: number | null };
+      to_confirm: number;
+      to_invoice: number;
+    };
+    series: DashSeriesPoint[];
+    status: Record<"draft" | "confirmed" | "closed" | "cancel", number>;
+    funnel: { key: "confirmed" | "moving" | "delivered" | "invoiced"; count: number }[];
+    top_items: Record<"sale" | "purchase", { product: Partner; requested: number; done: number }[]>;
+    top_partners: Record<"sale" | "purchase", { partner: Partner; amount: number; orders: number }[]>;
+    changes: { by_type: Record<string, number>; total: number };
+  };
+  warehouse?: {
+    series: { date: string; delivery: number; receipt: number }[];
+    heat: number[][];
+    totals: { delivery: number; receipt: number; units: { delivery: number; receipt: number } };
+    ready: { delivery: number; receipt: number };
+  };
+  expiry?: { buckets: { key: "expired" | "d7" | "d30" | "d60"; lots: number; qty: number }[] };
+  rebates?: { by_state: Record<"draft" | "confirmed" | "settled", number>; open_by_kind: Record<"sale" | "purchase", number> };
+};

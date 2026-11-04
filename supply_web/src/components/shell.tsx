@@ -121,8 +121,10 @@ export function Shell({
       )}
 
       <main className="safe-bottom min-w-0 p-4 sm:p-6 lg:p-8">
-        <InstallPrompt />
-        {children}
+        <div className="mx-auto w-full max-w-[1800px]">
+          <InstallPrompt />
+          {children}
+        </div>
       </main>
     </div>
   );

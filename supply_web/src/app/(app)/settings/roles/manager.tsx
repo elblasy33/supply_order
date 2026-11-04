@@ -50,7 +50,7 @@ export function RolesManager({ roles }: { roles: Role[] }) {
   }
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[16rem_1fr]">
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-[16rem_1fr]">
       <div className="card h-fit p-2">
         {roles.map((r) => (
           <button key={r.id} onClick={() => choose(r.id)} aria-current={sel === r.id}
@@ -67,12 +67,12 @@ export function RolesManager({ roles }: { roles: Role[] }) {
             <fieldset key={g.title}>
               <legend className="mb-2 flex w-full items-center justify-between text-sm font-extrabold">
                 {t(g.title)}
-                <button type="button" className="text-xs font-semibold text-brand-700 hover:underline"
+                <button type="button" className="tap px-1 text-xs font-semibold text-brand-700 hover:underline"
                   onClick={() => setPerms((s) => { const n = new Set(s); const all = g.keys.every((k) => n.has(k)); g.keys.forEach((k) => (all ? n.delete(k) : n.add(k))); return n; })}>
                   {g.keys.every((k) => perms.has(k)) ? t("إلغاء الكل") : t("تحديد الكل")}
                 </button>
               </legend>
-              <div className="grid gap-1 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
                 {g.keys.map((k) => (
                   <label key={k} className="flex cursor-pointer items-start gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-canvas">
                     <input type="checkbox" className="mt-1" checked={perms.has(k)} onChange={() => toggle(k)} />{t(PERMISSIONS[k])}

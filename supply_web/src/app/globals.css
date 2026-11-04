@@ -107,3 +107,22 @@ body { overscroll-behavior-y: none; }
 .safe-top { padding-top: env(safe-area-inset-top); }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 @media (display-mode: standalone) { body { user-select: none; -webkit-user-select: none; } input, textarea { user-select: text; -webkit-user-select: text; } }
+
+/* touch-sized controls on phones, compact on desktop */
+@utility chip { @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition max-lg:min-h-9 max-lg:px-3.5; }
+@utility tap { @apply max-lg:inline-flex max-lg:min-h-10 max-lg:items-center; }
+
+/* ---- chart palette (validated with the dataviz validator: categorical, ordinal and status checks) ---- */
+:root {
+  --viz-1: #009aae; --viz-2: #eb6834; --viz-3: #6250d6;           /* categorical, in this fixed order */
+  --viz-ord-1: #55c0cf; --viz-ord-2: #2aa7b9; --viz-ord-3: #00899f; --viz-ord-4: #00647a; /* ordered stages */
+  --viz-gray: #c9c8c0;                                            /* de-emphasis: context next to one highlighted series */
+  --viz-grid: #e1e0d9; --viz-axis: #c3c2b7; --viz-muted: #898781;
+  --viz-good: #0ca30c; --viz-warning: #fab219; --viz-serious: #ec835a; --viz-critical: #d03b3b;
+}
+.dark {
+  --viz-1: #0f9ab0; --viz-2: #d95926; --viz-3: #9085e9;
+  --viz-ord-1: #0c6672; --viz-ord-2: #0f8696; --viz-ord-3: #18a6b8; --viz-ord-4: #5ccbd9;
+  --viz-gray: #3b3b38;
+  --viz-grid: #2c2c2a; --viz-axis: #383835; --viz-muted: #898781;
+}

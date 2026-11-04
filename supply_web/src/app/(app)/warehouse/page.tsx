@@ -36,7 +36,7 @@ async function Chips({ label, options, current, sp, field }: { label: string; op
       <span className="me-1 text-xs font-bold text-muted">{t(label)}</span>
       {options.map(([v, text]) => (
         <Link key={v} href={href(sp, { [field]: v })} aria-current={current === v ? "true" : undefined}
-          className={clsx("rounded-full border px-3 py-1 text-xs font-semibold transition",
+          className={clsx("chip",
             current === v ? "border-brand-500 bg-brand-500 text-white" : "border-line bg-surface hover:border-brand-200")}>{t(text)}</Link>
       ))}
     </div>
@@ -68,7 +68,33 @@ export default async function WarehousePage({ searchParams }: { searchParams: Pr
         <Chips label={t("النوع")} options={KINDS} current={sp.kind ?? ""} sp={sp} field="kind" />
         <Chips label={t("الحالة")} options={STATES} current={state} sp={sp} field="state" />
       </div>
-      <div className="card overflow-hidden">
+      {/* phones: one card per transfer */}
+      <ul className="space-y-3 md:hidden" aria-label={t("المخزن")}>
+        {res.data.map((p) => (
+          <li key={p.id}>
+            <Link href={`/warehouse/${p.id}`} className="card block p-4 transition active:bg-canvas">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-extrabold text-brand-700">{p.name}</p>
+                  <p className="truncate text-sm font-semibold">{p.partner?.name ?? "—"}</p>
+                  {p.backorder_of && <p className="text-xs text-muted">{t("متبقٍ من")} {p.backorder_of.name}</p>}
+                </div>
+                <PickingStateBadge state={p.state} />
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                <Badge tone={p.kind === "delivery" ? "brand" : "green"}>{t(KIND[p.kind])}</Badge>
+                {p.supply_order && <Badge>{p.supply_order.name}</Badge>}
+              </div>
+              <div className="mt-3 flex items-baseline justify-between border-t border-line pt-3 text-xs text-muted">
+                <span><span className="num">{p.move_count}</span> {t("الأصناف")}</span>
+                <span>{formatDate(p.state === "done" ? p.date_done : p.scheduled_date)}</span>
+              </div>
+            </Link>
+          </li>
+        ))}
+        {res.data.length === 0 && <li className="card"><Empty title={t("لا توجد أذونات مطابقة")} hint={t("تُنشأ الأذونات من أمر التوريد بزر «تجهيز التسليم/الاستلام».")} /></li>}
+      </ul>
+      <div className="card hidden overflow-hidden md:block">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-canvas/60"><tr>
@@ -92,14 +118,14 @@ export default async function WarehousePage({ searchParams }: { searchParams: Pr
           </table>
         </div>
         {res.data.length === 0 && <Empty title={t("لا توجد أذونات مطابقة")} hint={t("تُنشأ الأذونات من أمر التوريد بزر «تجهيز التسليم/الاستلام».")} />}
-        {pages > 1 && (
-          <nav className="flex items-center justify-between border-t border-line px-4 py-3 text-sm" aria-label={t("الصفحات")}>
+      </div>
+      {pages > 1 && (
+          <nav className="mt-3 flex items-center justify-between rounded-2xl border border-line bg-surface px-4 py-3 text-sm" aria-label={t("الصفحات")}>
             {page > 1 ? <Link className="btn-secondary" href={href(sp, { page: String(page - 1) })}><ChevronRight className="size-4 ltr:rotate-180" />  {t("السابق")}</Link> : <span />}
             <span className="text-muted">{t("صفحة")} <span className="num">{page}</span>  {t("من")} <span className="num">{pages}</span></span>
             {page < pages ? <Link className="btn-secondary" href={href(sp, { page: String(page + 1) })}>{t("التالي")} <ChevronLeft className="size-4 ltr:rotate-180" /></Link> : <span />}
           </nav>
         )}
-      </div>
     </>
   );
 }

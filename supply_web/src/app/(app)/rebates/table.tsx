@@ -27,7 +27,7 @@ export function RebateTable({ rows, canManage, state, type }: { rows: RebateAccr
       {opts.map(([v, text]) => {
         const qs = new URLSearchParams({ state, type, [field]: v });
         for (const [k, val] of [...qs]) if (!val) qs.delete(k);
-        return <Link key={v} href={`/rebates${qs.size ? `?${qs}` : ""}`} className={clsx("rounded-full border px-3 py-1 text-xs font-semibold",
+        return <Link key={v} href={`/rebates${qs.size ? `?${qs}` : ""}`} className={clsx("chip",
           cur === v ? "border-brand-500 bg-brand-500 text-white" : "border-line bg-surface hover:border-brand-200")}>{t(text)}</Link>;
       })}
     </div>

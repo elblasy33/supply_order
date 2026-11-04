@@ -104,7 +104,38 @@ const setEntries = (m, entries) => {
 };
 const LANGS = ["en_US", "ar_SY"]; // note: no ar_001, like the Odoo that reported the bug
 const SUITE = ["document_enhancement", "supply_order", "product_tracking_plus", "smart_alerts", "invoice_customization", "discounts_rebates", "smart_reconciliation", "supply_api"];
+const rnd = (seed) => { let x = seed; return () => (x = (x * 16807) % 2147483647) / 2147483647; };
+function dashboard(b) {
+  const days = Math.max(1, Math.min(Number(b.days) || 30, 366));
+  const gran = days <= 35 ? "day" : days <= 120 ? "week" : "month";
+  const r = rnd(days);
+  const n = gran === "day" ? days : gran === "week" ? Math.ceil(days / 7) : Math.ceil(days / 30);
+  const start = new Date(Date.UTC(2026, 10, 4)); // 2026-11-04
+  const at = (i) => { const d = new Date(start); d.setUTCDate(d.getUTCDate() - (n - 1 - i) * (gran === "day" ? 1 : gran === "week" ? 7 : 30)); return d.toISOString().slice(0, 10); };
+  const series = Array.from({ length: n }, (_, i) => ({ date: at(i), sale: Math.round(r() * 9000 + 800), purchase: Math.round(r() * 6000 + 300), count: Math.round(r() * 7 + 1) }));
+  const out = { period: { days, start: at(0), end: at(n - 1), granularity: gran }, currency: "EGP", sections: b.sections ?? ["orders", "warehouse", "expiry", "rebates"] };
+  const want = (k) => !b.sections || b.sections.includes(k);
+  const sum = (k) => series.reduce((s, x) => s + x[k], 0);
+  if (want("orders")) out.orders = {
+    kpis: { orders: { value: sum("count"), previous: Math.round(sum("count") * 0.86) }, value: { value: sum("sale") + sum("purchase"), previous: Math.round((sum("sale") + sum("purchase")) * 1.12), sale: sum("sale"), purchase: sum("purchase") },
+      fill_rate: { value: 87.4, previous: 82.1 }, changed_share: { value: 18.5 }, to_confirm: 3, to_invoice: 2 },
+    series, status: { draft: 4, confirmed: 22, closed: 9, cancel: 2 },
+    funnel: [{ key: "confirmed", count: 31 }, { key: "moving", count: 27 }, { key: "delivered", count: 19 }, { key: "invoiced", count: 14 }],
+    top_items: { sale: products.slice(0, 4).map((p, i) => ({ product: { id: p.id, name: p.name }, requested: 900 - i * 220, done: 780 - i * 230 })), purchase: products.slice(1, 4).map((p, i) => ({ product: { id: p.id, name: p.name }, requested: 500 - i * 120, done: 500 - i * 190 })) },
+    top_partners: { sale: partners.slice(0, 1).map((p) => ({ partner: p, amount: 48200, orders: 12 })), purchase: partners.slice(1).map((p) => ({ partner: p, amount: 21300, orders: 6 })) },
+    changes: { by_type: { qty: 14, add: 9, substitute: 5, price: 3, remove: 2 }, total: 33 },
+  };
+  if (want("warehouse")) out.warehouse = {
+    series: series.map((x) => ({ date: x.date, delivery: Math.round(r() * 5), receipt: Math.round(r() * 3) })),
+    heat: Array.from({ length: 7 }, (_, d) => Array.from({ length: 24 }, (_, h) => (h >= 8 && h <= 16 && d !== 4 ? Math.round(r() * 6) : r() > 0.9 ? 1 : 0))),
+    totals: { delivery: 41, receipt: 17, units: { delivery: 3120, receipt: 1480 } }, ready: { delivery: 2, receipt: 1 },
+  };
+  if (want("expiry")) out.expiry = { buckets: [{ key: "expired", lots: 2, qty: 24 }, { key: "d7", lots: 3, qty: 180 }, { key: "d30", lots: 5, qty: 640 }, { key: "d60", lots: 4, qty: 910 }] };
+  if (want("rebates")) out.rebates = { by_state: { draft: 1200, confirmed: 800, settled: 3500 }, open_by_kind: { sale: 1500, purchase: 500 } };
+  return out;
+}
 const handlers = {
+  dashboard: (b) => dashboard(b),
   info: (b, ctx) => ({ version: "20.0", major: 20, edition: "enterprise", database: "mock_db", languages: LANGS,
     modules: Object.fromEntries(SUITE.map((n) => [n, { state: "installed", version: "20.0.1.0.0" }])),
     service_user: { id: 7, login: "supply_integration", name: "Supply Integration", configured: true, is_service_user: ctx.bearer === `Bearer ${KEY}` },

@@ -89,7 +89,7 @@ export function NewOrderForm() {
   }
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[1fr_22rem]">
+    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_22rem]">
       <div className="space-y-5">
         <section className="card p-5">
           <h2 className="mb-4 font-extrabold">{t("بيانات الأمر")}</h2>
@@ -102,12 +102,12 @@ export function NewOrderForm() {
               </button>
             ))}
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <span className="label">{type === "sale" ? t("العميل") : t("المورد")}</span>
               {partner ? (
                 <div className="flex items-center justify-between rounded-xl border border-brand-200 bg-brand-50 px-3 py-2">
-                  <b>{partner.name}</b><button className="text-sm font-semibold text-brand-700 hover:underline" onClick={() => setPartner(null)}>{t("تغيير")}</button>
+                  <b>{partner.name}</b><button className="tap px-2 text-sm font-semibold text-brand-700 hover:underline" onClick={() => setPartner(null)}>{t("تغيير")}</button>
                 </div>
               ) : <PartnerPicker onPick={setPartner} placeholder={type === "sale" ? t("ابحث عن عميل…") : t("ابحث عن مورد…")} />}
             </div>
@@ -121,7 +121,7 @@ export function NewOrderForm() {
         <section className="card overflow-hidden">
           <div className="space-y-3 border-b border-line p-5">
             <h2 className="font-extrabold">{t("الأصناف")}</h2>
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <ProductPicker onPick={add} clearOnPick />
               <div className="relative">
                 <Barcode className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted" />

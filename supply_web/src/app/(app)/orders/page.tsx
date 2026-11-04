@@ -33,7 +33,7 @@ async function Chips({ label, options, current, sp, field }: { label: string; op
       <span className="me-1 text-xs font-bold text-muted">{t(label)}</span>
       {options.map(([v, text]) => (
         <Link key={v} href={href(sp, { [field]: v })} aria-current={(current ?? "") === v ? "true" : undefined}
-          className={clsx("rounded-full border px-3 py-1 text-xs font-semibold transition",
+          className={clsx("chip",
             (current ?? "") === v ? "border-brand-500 bg-brand-500 text-white" : "border-line bg-surface hover:border-brand-200")}>
           {t(text)}
         </Link>
@@ -74,7 +74,35 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
           <Chips label={t("النوع")} options={TYPES} current={sp.type} sp={sp} field="type" />
           <Chips label={t("الفوترة")} options={INVOICES} current={sp.invoice} sp={sp} field="invoice" />
         </div>
-        <div className="card overflow-hidden">
+        {/* phones: one card per order */}
+        <ul className="space-y-3 md:hidden" aria-label={t("أوامر التوريد")}>
+          {res.data.map((o) => (
+            <li key={o.id}>
+              <Link href={`/orders/${o.id}`} className="card block p-4 transition active:bg-canvas">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-extrabold text-brand-700">{o.name}</p>
+                    <p className="truncate text-sm font-semibold">{o.partner.name}</p>
+                    {o.supply_ref && <p className="text-xs text-muted">{t("رقم التوريد")} <span className="num">{o.supply_ref}</span></p>}
+                  </div>
+                  <StateBadge state={o.state} />
+                </div>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  <Badge>{t(TYPE[o.order_type])}</Badge>
+                  <Fulfillment s={o.fulfillment_state} />
+                  <InvoiceBadge s={o.invoice_state} />
+                </div>
+                <div className="mt-3 flex items-baseline justify-between border-t border-line pt-3">
+                  <span className="text-xs text-muted">{formatDate(o.date_order)} · <span className="num">{o.line_count}</span> {t("الأصناف")}</span>
+                  <span className="font-extrabold"><span className="num">{money.format(o.amount_total)}</span> <span className="text-xs font-semibold text-muted">{o.currency}</span></span>
+                </div>
+              </Link>
+            </li>
+          ))}
+          {res.data.length === 0 && <li className="card"><Empty title={t("لا توجد أوامر مطابقة")} hint={t("غيّر البحث أو المرشحات.")} /></li>}
+        </ul>
+
+        <div className="card hidden overflow-hidden md:block">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-canvas/60"><tr>
@@ -100,14 +128,14 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
             </table>
           </div>
           {res.data.length === 0 && <Empty title={t("لا توجد أوامر مطابقة")} hint={t("غيّر البحث أو المرشحات.")} />}
-          {pages > 1 && (
-            <nav className="flex items-center justify-between border-t border-line px-4 py-3 text-sm" aria-label={t("الصفحات")}>
+        </div>
+        {pages > 1 && (
+          <nav className="mt-3 flex items-center justify-between rounded-2xl border border-line bg-surface px-4 py-3 text-sm" aria-label={t("الصفحات")}>
               {page > 1 ? <Link className="btn-secondary" href={href(sp, { page: String(page - 1) })}><ChevronRight className="size-4 ltr:rotate-180" />  {t("السابق")}</Link> : <span />}
               <span className="text-muted">{t("صفحة")} <span className="num">{page}</span>  {t("من")} <span className="num">{pages}</span></span>
               {page < pages ? <Link className="btn-secondary" href={href(sp, { page: String(page + 1) })}>{t("التالي")} <ChevronLeft className="size-4 ltr:rotate-180" /></Link> : <span />}
-            </nav>
-          )}
-        </div>
+          </nav>
+        )}
       </>
     );
   }

@@ -22,7 +22,7 @@ test("first run creates the administrator and lands on the dashboard", async ({ 
   await page.getByRole("button", { name: /إنشاء الحساب/ }).click();
   await expect(page).toHaveURL("/");
   await expect(page.getByRole("heading", { name: /أهلاً مدير النظام/ })).toBeVisible();
-  await expect(page.getByText("آخر الأوامر")).toBeVisible();
+  await expect(page.getByRole("img", { name: "قيمة الأوامر عبر الزمن" })).toBeVisible(); // the dashboard charts
   await shot(page, "01-dashboard");
 });
 
@@ -189,7 +189,7 @@ test("warehouse: short delivery with a backorder, scanning, then a return", asyn
 
   // the warehouse list finds the open backorder
   await page.goto("/warehouse");
-  await expect(page.getByText(/متبقٍ من WH\/OUT/).first()).toBeVisible();
+  await expect(page.locator("table").getByText(/متبقٍ من WH\/OUT/).first()).toBeVisible();
   await shot(page, "16-warehouse-list");
   await page.goto("/warehouse?state=done&kind=delivery");
   await expect(page.getByText("منفّذ").first()).toBeVisible();
@@ -320,7 +320,7 @@ test("connection settings: every failure is explained, only a working connection
   await page.getByRole("button", { name: "فحص الاتصال" }).click();
   await expect(page.getByText("الاتصال سليم.", { exact: true })).toBeVisible();
   await page.goto("/orders");
-  await expect(page.getByText("SUP/2026/00101")).toBeVisible();
+  await expect(page.locator("table").getByText("SUP/2026/00101")).toBeVisible();
 });
 
 test("mobile layout works", async ({ page }) => {

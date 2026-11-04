@@ -57,13 +57,13 @@ export function ReconcileWizard() {
   return (
     <div className="space-y-5">
       <section className="card p-5">
-        <div className="grid gap-4 md:grid-cols-[12rem_1fr_10rem_10rem_auto]">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-[12rem_1fr_10rem_10rem_auto]">
           <Field label={t("النوع")}>
             <select className="input" value={kind} onChange={(e) => { setKind(e.target.value as "customer" | "vendor"); setPartner(null); setItems(null); }}>
               <option value="customer">{t("عميل")}</option><option value="vendor">{t("مورد")}</option></select></Field>
           <div><span className="label">{kind === "customer" ? t("العميل") : t("المورد")}</span>
             {partner ? <div className="flex items-center justify-between rounded-xl border border-brand-200 bg-brand-50 px-3 py-2"><b>{partner.name}</b>
-              <button className="text-sm font-semibold text-brand-700 hover:underline" onClick={() => { setPartner(null); setItems(null); }}>{t("تغيير")}</button></div>
+              <button className="tap px-2 text-sm font-semibold text-brand-700 hover:underline" onClick={() => { setPartner(null); setItems(null); }}>{t("تغيير")}</button></div>
               : <PartnerPicker onPick={setPartner} />}</div>
           <Field label={t("من تاريخ")}><input type="date" className="input" value={from} onChange={(e) => setFrom(e.target.value)} /></Field>
           <Field label={t("إلى تاريخ")}><input type="date" className="input" value={to} onChange={(e) => setTo(e.target.value)} /></Field>
@@ -84,7 +84,7 @@ export function ReconcileWizard() {
 
       {items && (
         <>
-          <div className="grid gap-5 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             <ItemsTable title={t("الفواتير (حدّد ما تريد تسويته)")} rows={items.invoices} selected={inv} onToggle={(id) => toggle(inv, id, setInv)}
               onAll={(on) => setInv(on ? new Set(items.invoices.map((i) => i.document.id)) : new Set())} empty={t("لا فواتير مفتوحة في هذه الفترة.")} />
             <ItemsTable title={t("الدفعات والإشعارات الدائنة المتاحة")} rows={items.payments} selected={pay} onToggle={(id) => toggle(pay, id, setPay)}
@@ -94,7 +94,7 @@ export function ReconcileWizard() {
             <div><p className="text-xs text-muted">{t("إجمالي المحدد")}</p><p className="text-lg font-extrabold"><Num v={selectedTotal} dec /></p></div>
             <div><p className="text-xs text-muted">{t("إجمالي المتاح")}</p><p className="text-lg font-extrabold"><Num v={availableTotal} dec /></p></div>
             <div><p className="text-xs text-muted">{t("المتبقي بعد التسوية")}</p><p className={clsx("text-lg font-extrabold", selectedTotal > availableTotal && "text-warn")}><Num v={Math.max(selectedTotal - availableTotal, 0)} dec /></p></div>
-            <div className="ms-auto flex items-end gap-3">
+            <div className="flex flex-wrap items-end gap-3 sm:ms-auto">
               <Field label={t("ترتيب التوزيع")}>
                 <select className="input" value={order} onChange={(e) => setOrder(e.target.value as "due" | "invoice")}>
                   <option value="due">{t("الأقدم استحقاقاً")}</option><option value="invoice">{t("الأقدم فاتورةً")}</option></select></Field>

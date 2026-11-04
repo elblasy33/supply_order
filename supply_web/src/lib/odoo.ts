@@ -42,6 +42,8 @@ type CallOptions = {
   /** Writes are idempotent: the same key replays the first answer instead of repeating the effect. */
   idempotencyKey?: string;
   lang?: string;
+  /** Time zone the answer is bucketed in (dashboard days, hours). */
+  tz?: string;
 };
 
 type Envelope<T> = { ok: true; data: T } | { ok: false; error: { code: OdooErrorCode; message: string; field?: string } };
@@ -92,6 +94,7 @@ export async function odooCall<T = unknown>(
 ): Promise<{ data: T; page?: { total: number; offset: number; limit: number } }> {
   const context: Record<string, unknown> = {};
   if (opts.extUserId) context.ext_user_id = opts.extUserId;
+  if (opts.tz) context.tz = opts.tz;
   const lang = opts.lang ?? (await odooLang());
   if (lang) context.lang = lang;
   const body: Record<string, unknown> = { ...args, context };

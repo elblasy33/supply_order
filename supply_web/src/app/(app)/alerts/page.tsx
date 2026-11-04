@@ -42,7 +42,7 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
       <div className="mb-4 flex flex-wrap gap-1.5">
         {filters.map(([v, text]) => (
           <Link key={v} href={`/alerts?tab=${tab}${v ? `&f=${v}` : ""}`}
-            className={clsx("rounded-full border px-3 py-1 text-xs font-semibold", f === v ? "border-brand-500 bg-brand-500 text-white" : "border-line bg-surface hover:border-brand-200")}>{t(text)}</Link>
+            className={clsx("chip", f === v ? "border-brand-500 bg-brand-500 text-white" : "border-line bg-surface hover:border-brand-200")}>{t(text)}</Link>
         ))}
       </div>
       <div className="card overflow-x-auto">{body}</div>

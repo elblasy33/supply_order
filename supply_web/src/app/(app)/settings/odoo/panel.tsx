@@ -57,7 +57,7 @@ export function OdooPanel({ initial }: { initial: Initial }) {
 
   const info = result?.check?.info;
   return (
-    <div className="grid gap-5 xl:grid-cols-[26rem_1fr]">
+    <div className="grid grid-cols-1 gap-5 xl:grid-cols-[26rem_1fr]">
       <section className="card h-fit p-5">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-extrabold">{t("بيانات الاتصال")}</h2>
@@ -123,7 +123,7 @@ export function OdooPanel({ initial }: { initial: Initial }) {
         {info && (
           <div className="card p-5">
             <h2 className="mb-3 font-extrabold">{t("الموديولات على هذا الخادم")}</h2>
-            <ul className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
+            <ul className="grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2">
               {Object.entries(info.modules).map(([name, m]) => (
                 <li key={name} className="flex items-center justify-between border-b border-line/60 py-1.5 text-sm">
                   <span dir="ltr" className="font-mono text-xs">{name}</span>

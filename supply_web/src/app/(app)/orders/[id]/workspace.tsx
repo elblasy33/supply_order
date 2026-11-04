@@ -44,7 +44,7 @@ export function OrderWorkspace({ order, can, odooUrl }: { order: SupplyOrder; ca
   const showMoved = order.state !== "draft";
 
   return (
-    <div className="grid gap-6 2xl:grid-cols-[1fr_22rem]">
+    <div className="grid grid-cols-1 gap-6 2xl:grid-cols-[1fr_22rem]">
       <div className="min-w-0 space-y-5">
         <ActionBar order={order} allowed={allowed} can={can} />
         {canEdit && has("orders.scan") && <ScanBar order={order} />}
@@ -215,7 +215,7 @@ function LinesCard({ order, canEdit, canSubstitute, showMoved }: { order: Supply
         {order.grouping_warning && <Badge tone="amber">{t("تنبيه تجميع الأصناف")}</Badge>}
       </div>
       {order.grouping_warning && <p className="border-b border-amber-200 bg-amber-50 px-5 py-2 text-xs text-amber-800">{order.grouping_warning}</p>}
-      <div className="overflow-x-auto">
+      <div className="relative overflow-x-auto">
         <table className="w-full min-w-[40rem]">
           <thead className="bg-canvas/60">
             <tr>
@@ -342,7 +342,7 @@ function EditPanel({ line: l, order, onDone }: { line: SupplyLine; order: Supply
   const field = (label: string, node: React.ReactNode, cls = "") => <Field label={label} className={cls}>{node}</Field>;
   return (
     <div role="group" aria-label={t("تعديل السطر")} className="rounded-xl border border-brand-200 bg-surface p-4">
-      <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="grid gap-3 sm:grid grid-cols-1-cols-3 lg:grid-cols-6">
         {field(t("رقم السطر"), <input className="input num" type="number" min={1} value={no} onChange={(e) => setNo(e.target.value)} />)}
         {field(t("الكمية"), <input className="input num" type="number" min={0} step="any" value={qty} onChange={(e) => setQty(e.target.value)} />)}
         {field(t("السعر"), <input className="input num" type="number" min={0} step="any" value={price} onChange={(e) => setPrice(e.target.value)} />)}
@@ -450,7 +450,7 @@ function AddLine({ order }: { order: SupplyOrder }) {
   return (
     <section className="card p-4">
       <h2 className="mb-3 flex items-center gap-2 font-extrabold"><Plus className="size-4" />  {t("إضافة صنف")}</h2>
-      <div className="grid gap-3 md:grid-cols-[1fr_6rem_8rem]">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_6rem_8rem]">
         <Field label={t("الصنف")}><ProductPicker onPick={pick} clearOnPick={false} /></Field>
         <Field label={t("الكمية")}><input className="input num" type="number" min={0} step="any" value={qty} onChange={(e) => setQty(e.target.value)} /></Field>
         <Field label={t("السعر")}><input className="input num" type="number" min={0} step="any" value={price} onChange={(e) => setPrice(e.target.value)} /></Field>
@@ -494,9 +494,9 @@ function Documents({ order, odooUrl, canPrint, can }: { order: SupplyOrder; odoo
             <li key={`${d.model}-${d.id}`} className="flex items-center justify-between gap-2 rounded-xl bg-canvas/70 px-3 py-2 text-sm">
               <div className="min-w-0"><p className="truncate font-bold">{d.name || "—"}</p><p className="text-xs text-muted">{t(DOC_KIND[d.kind] ?? d.kind)} · {d.state}</p></div>
               <div className="flex shrink-0 gap-1">
-                {d.model === "stock.picking" && can.includes("warehouse.view") && <a className="btn-ghost px-2 py-1 text-xs font-bold text-brand-700" href={`/warehouse/${d.id}`}>{t("فتح")}</a>}
-                {canPrint && d.model === "account.move" && <a className="btn-ghost px-2 py-1 text-xs" target="_blank" rel="noreferrer" href={`/api/print/invoice/html/${d.id}`}>{t("طباعة")}</a>}
-                <a className="btn-ghost px-2 py-1 text-xs" target="_blank" rel="noreferrer" href={open(d)}>{t("أودو")}</a>
+                {d.model === "stock.picking" && can.includes("warehouse.view") && <a className="btn-ghost px-2 py-1 text-xs font-bold text-brand-700 max-lg:min-h-9" href={`/warehouse/${d.id}`}>{t("فتح")}</a>}
+                {canPrint && d.model === "account.move" && <a className="btn-ghost px-2 py-1 text-xs max-lg:min-h-9" target="_blank" rel="noreferrer" href={`/api/print/invoice/html/${d.id}`}>{t("طباعة")}</a>}
+                <a className="btn-ghost px-2 py-1 text-xs max-lg:min-h-9" target="_blank" rel="noreferrer" href={open(d)}>{t("أودو")}</a>
               </div>
             </li>
           ))}

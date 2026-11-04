@@ -28,7 +28,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
   const odooUrl = (process.env.ODOO_PUBLIC_URL || process.env.ODOO_URL || "").replace(/\/+$/, "");
   return (
     <>
-      <Link href="/orders" className="mb-3 inline-flex items-center gap-1 text-sm font-semibold text-muted hover:text-ink"><ChevronRight className="size-4 ltr:rotate-180" />  {t("أوامر التوريد")}</Link>
+      <Link href="/orders" className="tap mb-3 inline-flex items-center gap-1 text-sm font-semibold text-muted hover:text-ink"><ChevronRight className="size-4 ltr:rotate-180" />  {t("أوامر التوريد")}</Link>
       <PageHeader
         title={<span className="flex flex-wrap items-center gap-3">{order.name} <StateBadge state={order.state} /></span>}
         subtitle={

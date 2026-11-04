@@ -29,14 +29,14 @@ export default async function PickingPage({ params }: { params: Promise<{ id: st
   const p = loaded.data;
   return (
     <>
-      <Link href="/warehouse" className="mb-3 inline-flex items-center gap-1 text-sm font-semibold text-muted hover:text-ink"><ChevronRight className="size-4 ltr:rotate-180" />  {t("المخزن")}</Link>
+      <Link href="/warehouse" className="tap mb-3 inline-flex items-center gap-1 text-sm font-semibold text-muted hover:text-ink"><ChevronRight className="size-4 ltr:rotate-180" />  {t("المخزن")}</Link>
       <PageHeader
         title={<span className="flex flex-wrap items-center gap-3">{p.name} <PickingStateBadge state={p.state} /></span>}
         subtitle={
           <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <Badge tone={p.kind === "delivery" ? "brand" : "green"}>{t(KIND[p.kind])}</Badge>
             {p.partner && <b className="text-ink">{p.partner.name}</b>}
-            {p.supply_order && <span>{t("أمر التوريد")} <Link className="font-bold text-brand-700 hover:underline" href={`/orders/${p.supply_order.id}`}>{p.supply_order.name}</Link>{p.supply_order.supply_ref && <>  {t("· رقم")} <b className="num text-ink">{p.supply_order.supply_ref}</b></>}</span>}
+            {p.supply_order && <span>{t("أمر التوريد")} <Link className="tap font-bold text-brand-700 hover:underline" href={`/orders/${p.supply_order.id}`}>{p.supply_order.name}</Link>{p.supply_order.supply_ref && <>  {t("· رقم")} <b className="num text-ink">{p.supply_order.supply_ref}</b></>}</span>}
             <span>{formatDate(p.state === "done" ? p.date_done : p.scheduled_date, true)}</span>
             {p.backorder_of && <span>{t("متبقٍ من")} <Link className="font-semibold hover:underline" href={`/warehouse/${p.backorder_of.id}`}>{p.backorder_of.name}</Link></span>}
           </span>
