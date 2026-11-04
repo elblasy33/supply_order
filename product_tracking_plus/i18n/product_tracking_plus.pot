@@ -1,0 +1,290 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_tracking_plus
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 13:40+0000\n"
+"PO-Revision-Date: 2026-11-04 13:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_product_product__lot_auto_generate
+#: model:ir.model.fields,field_description:product_tracking_plus.field_product_template__lot_auto_generate
+msgid "Auto-generate Lot Numbers"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.module.module,summary:base.module_product_tracking_plus
+msgid ""
+"Automatic lot numbers, barcode and lot scanning on supply, sales and "
+"purchase orders"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_barcode_scan_mixin
+msgid "Barcode scanning field for document forms"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_res_company
+msgid "Company"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_barcode_scan_mixin__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_product_product__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_product_template__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_res_company__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_sale_order__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_stock_lot__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_stock_move_line__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order__display_name
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order_line__lot_expiration
+msgid "Expires on"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_barcode_scan_mixin__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_product_product__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_product_template__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_purchase_order__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_res_company__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_res_config_settings__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_sale_order__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_stock_lot__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_stock_move_line__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_stock_picking__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order__id
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_res_company__supply_barcode_increment
+#: model:ir.model.fields,field_description:product_tracking_plus.field_res_config_settings__supply_barcode_increment
+#: model_terms:ir.ui.view,arch_db:product_tracking_plus.res_config_settings_view_form_supply_barcode
+msgid "Increase quantity on repeated scan"
+msgstr ""
+
+#. module: product_tracking_plus
+#. odoo-python
+#: code:addons/product_tracking_plus/models/supply_order.py:0
+msgid "Lot %(lot)s belongs to %(lot_product)s, not to %(product)s."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_product_product__lot_pattern
+#: model:ir.model.fields,field_description:product_tracking_plus.field_product_template__lot_pattern
+msgid "Lot Pattern"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,help:product_tracking_plus.field_supply_order_line__lot_name
+msgid "Lot number to create at reception, when the lot does not exist yet."
+msgstr ""
+
+#. module: product_tracking_plus
+#. odoo-python
+#: code:addons/product_tracking_plus/models/barcode_scan_mixin.py:0
+msgid "Lot numbers can be scanned on supply orders only."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_stock_lot
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order_line__lot_id
+msgid "Lot/Serial"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order_line__lot_name
+msgid "New Lot Name"
+msgstr ""
+
+#. module: product_tracking_plus
+#. odoo-python
+#: code:addons/product_tracking_plus/models/barcode_scan_mixin.py:0
+msgid "Nothing found for “%s”: unknown barcode or lot number."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,help:product_tracking_plus.field_stock_lot__vendor_id
+msgid "Partner the lot was received from."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.module.module,shortdesc:base.module_product_tracking_plus
+msgid "Product Tracking Plus"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_stock_lot__receipt_date
+msgid "Received on"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: product_tracking_plus
+#. odoo-python
+#: code:addons/product_tracking_plus/models/barcode_scan_mixin.py:0
+#: model:ir.model.fields,field_description:product_tracking_plus.field_barcode_scan_mixin__scan_input
+#: model:ir.model.fields,field_description:product_tracking_plus.field_purchase_order__scan_input
+#: model:ir.model.fields,field_description:product_tracking_plus.field_sale_order__scan_input
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order__scan_input
+msgid "Scan"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,help:product_tracking_plus.field_barcode_scan_mixin__scan_input
+#: model:ir.model.fields,help:product_tracking_plus.field_purchase_order__scan_input
+#: model:ir.model.fields,help:product_tracking_plus.field_sale_order__scan_input
+#: model:ir.model.fields,help:product_tracking_plus.field_supply_order__scan_input
+msgid "Scan a product barcode (or a lot number on supply orders), then Enter."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model_terms:ir.ui.view,arch_db:product_tracking_plus.supply_order_view_form_scan
+msgid "Scan barcode or lot number…"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model_terms:ir.ui.view,arch_db:product_tracking_plus.purchase_order_form_supply_scan
+#: model_terms:ir.ui.view,arch_db:product_tracking_plus.view_order_form_supply_scan
+msgid "Scan product barcode…"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model_terms:ir.ui.view,arch_db:product_tracking_plus.res_config_settings_view_form_supply_barcode
+msgid ""
+"Scanning the same product again adds 1 to its line (supply, sales and "
+"purchase orders) instead of adding a new line."
+msgstr ""
+
+#. module: product_tracking_plus
+#. odoo-python
+#: code:addons/product_tracking_plus/models/supply_order.py:0
+msgid "Serial number %s was already scanned."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_supply_order
+msgid "Supply Order"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_supply_order_line
+msgid "Supply Order Line"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,help:product_tracking_plus.field_supply_order_line__tracking
+msgid ""
+"Technical field holding the tracking method. False on a storable product "
+"means it's tracked by quantity only."
+msgstr ""
+
+#. module: product_tracking_plus
+#. odoo-python
+#: code:addons/product_tracking_plus/models/product.py:0
+msgid "The lot pattern must contain {seq} so that numbers never repeat."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,help:product_tracking_plus.field_supply_order_line__lot_expiration
+msgid ""
+"This is the date on which the goods with this Serial Number may become "
+"dangerous and must not be consumed."
+msgstr ""
+
+#. module: product_tracking_plus
+#. odoo-python
+#: code:addons/product_tracking_plus/models/supply_order.py:0
+msgid "This lot number exists for several items: scan the item first."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,help:product_tracking_plus.field_product_product__lot_pattern
+#: model:ir.model.fields,help:product_tracking_plus.field_product_template__lot_pattern
+msgid ""
+"Tokens: {code} product reference, {date} receipt date (YYMMDD), {vendor} "
+"vendor reference, {seq} or {seq:4} running number per product (zero padded)."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_supply_order_line__tracking
+msgid "Tracking Method"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model,name:product_tracking_plus.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,field_description:product_tracking_plus.field_stock_lot__vendor_id
+msgid "Vendor"
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,help:product_tracking_plus.field_product_product__lot_auto_generate
+#: model:ir.model.fields,help:product_tracking_plus.field_product_template__lot_auto_generate
+msgid ""
+"When receiving this product, lot numbers are generated at validation if none"
+" was entered."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model:ir.model.fields,help:product_tracking_plus.field_res_company__supply_barcode_increment
+#: model:ir.model.fields,help:product_tracking_plus.field_res_config_settings__supply_barcode_increment
+msgid ""
+"When the same product is scanned again, add 1 to its line instead of adding "
+"a new line."
+msgstr ""
+
+#. module: product_tracking_plus
+#: model_terms:ir.ui.view,arch_db:product_tracking_plus.product_template_form_lot_auto
+msgid "{code}-{date}-{seq}"
+msgstr ""

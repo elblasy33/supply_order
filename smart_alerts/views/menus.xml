@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_supply_alerts" name="Alerts" parent="supply_order.menu_supply_root" sequence="50"/>
+    <menuitem id="menu_expiry_alerts" name="Expiry Alerts" parent="menu_supply_alerts"
+              action="stock_lot_expiry_alert_action" sequence="10" groups="stock.group_stock_user"/>
+    <menuitem id="menu_auto_purchases" name="Automatic Purchases" parent="menu_supply_alerts"
+              action="purchase_order_auto_action" sequence="20" groups="purchase.group_purchase_user"/>
+</odoo>

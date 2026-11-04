@@ -1,0 +1,260 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* smart_alerts
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 13:40+0000\n"
+"PO-Revision-Date: 2026-11-04 13:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: smart_alerts
+#: model:ir.model.fields.selection,name:smart_alerts.selection__stock_lot__expiry_state__alert
+#: model_terms:ir.ui.view,arch_db:smart_alerts.stock_lot_expiry_alert_view_search
+msgid "Alert reached"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.ui.menu,name:smart_alerts.menu_supply_alerts
+msgid "Alerts"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_purchase_order__auto_generated
+msgid "Auto-generated"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.actions.act_window,name:smart_alerts.purchase_order_auto_action
+#: model:ir.ui.menu,name:smart_alerts.menu_auto_purchases
+msgid "Automatic Purchases"
+msgstr ""
+
+#. module: smart_alerts
+#. odoo-python
+#: code:addons/smart_alerts/models/purchase_order.py:0
+msgid "Automatic purchase order %s"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_purchase_order__auto_source
+msgid "Created by"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,help:smart_alerts.field_purchase_order__auto_generated
+msgid "Created by the scheduler (replenish on order or reordering rule)."
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_stock_lot__days_to_expiry
+msgid "Days To Expiry"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,help:smart_alerts.field_product_category__expiry_alert_days
+msgid ""
+"Default alert period for lots of products of this category that have no "
+"alert period of their own."
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_product_category__display_name
+#: model:ir.model.fields,field_description:smart_alerts.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:smart_alerts.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:smart_alerts.field_stock_lot__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields.selection,name:smart_alerts.selection__stock_lot__expiry_state__expired
+#: model_terms:ir.ui.view,arch_db:smart_alerts.stock_lot_expiry_alert_view_search
+msgid "Expired"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.stock_lot_expiry_alert_view_search
+msgid "Expires within 30 days"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.stock_lot_expiry_alert_view_search
+msgid "Expires within 60 days"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.stock_lot_expiry_alert_view_search
+msgid "Expires within 7 days"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_product_category__expiry_alert_days
+msgid "Expiry Alert (days before)"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.actions.act_window,name:smart_alerts.stock_lot_expiry_alert_action
+#: model:ir.ui.menu,name:smart_alerts.menu_expiry_alerts
+msgid "Expiry Alerts"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_stock_lot__expiry_state
+msgid "Expiry State"
+msgstr ""
+
+#. module: smart_alerts
+#. odoo-python
+#: code:addons/smart_alerts/models/stock_lot.py:0
+msgid "Expiry alert: %s"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.module.module,summary:base.module_smart_alerts
+msgid ""
+"Expiry alerts (per product/category/lot) and tracking of automatically "
+"created purchase orders"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_product_category__id
+#: model:ir.model.fields,field_description:smart_alerts.field_purchase_order__id
+#: model:ir.model.fields,field_description:smart_alerts.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:smart_alerts.field_stock_lot__id
+msgid "ID"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_purchase_order__late_alerted
+msgid "Late Alerted"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,field_description:smart_alerts.field_purchase_order__is_late_receipt
+msgid "Late receipt"
+msgstr ""
+
+#. module: smart_alerts
+#. odoo-python
+#: code:addons/smart_alerts/models/purchase_order.py:0
+msgid "Late receipt: %s"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.purchase_order_auto_view_search
+msgid "Late receipts"
+msgstr ""
+
+#. module: smart_alerts
+#. odoo-python
+#: code:addons/smart_alerts/models/stock_lot.py:0
+msgid "Lot %(lot)s of %(product)s expires on %(date)s."
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model,name:smart_alerts.model_stock_lot
+msgid "Lot/Serial"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields,help:smart_alerts.field_stock_lot__days_to_expiry
+msgid "Negative once expired."
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields.selection,name:smart_alerts.selection__stock_lot__expiry_state__ok
+msgid "OK"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.stock_lot_expiry_alert_view_list
+msgid "On hand"
+msgstr ""
+
+#. module: smart_alerts
+#. odoo-python
+#: code:addons/smart_alerts/models/purchase_order.py:0
+msgid "Planned for %s and not fully received."
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.stock_lot_expiry_alert_view_search
+msgid "Product"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model,name:smart_alerts.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model,name:smart_alerts.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model,name:smart_alerts.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: smart_alerts
+#. odoo-python
+#: code:addons/smart_alerts/models/purchase_order.py:0
+msgid "Purchase order created automatically (%s)."
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields.selection,name:smart_alerts.selection__purchase_order__auto_source__reorder
+#: model_terms:ir.ui.view,arch_db:smart_alerts.purchase_order_auto_view_search
+msgid "Reordering rule"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.model.fields.selection,name:smart_alerts.selection__purchase_order__auto_source__mto
+#: model_terms:ir.ui.view,arch_db:smart_alerts.purchase_order_auto_view_search
+msgid "Replenish on order"
+msgstr ""
+
+#. module: smart_alerts
+#. odoo-python
+#: code:addons/smart_alerts/models/purchase_order.py:0
+msgid "Review and confirm: created by the scheduler."
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.module.module,shortdesc:base.module_smart_alerts
+msgid "Smart Alerts"
+msgstr ""
+
+#. module: smart_alerts
+#: model:ir.actions.server,name:smart_alerts.ir_cron_late_auto_purchase_ir_actions_server
+msgid "Smart Alerts: late automatic purchase orders"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.purchase_order_auto_view_search
+#: model_terms:ir.ui.view,arch_db:smart_alerts.stock_lot_expiry_alert_view_search
+msgid "Status"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.purchase_order_auto_view_search
+msgid "To confirm"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.purchase_order_auto_view_search
+msgid "To receive"
+msgstr ""
+
+#. module: smart_alerts
+#: model_terms:ir.ui.view,arch_db:smart_alerts.purchase_order_auto_view_search
+msgid "Vendor"
+msgstr ""

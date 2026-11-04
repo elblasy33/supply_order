@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_auto_view_list" model="ir.ui.view">
+        <field name="name">purchase.order.auto.list</field>
+        <field name="model">purchase.order</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-danger="is_late_receipt" decoration-info="state in ('draft', 'sent')">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="auto_source"/>
+                <field name="supply_order_id" optional="show"/>
+                <field name="date_planned"/>
+                <field name="amount_total" optional="show"/>
+                <field name="state" widget="badge"/>
+                <field name="receipt_status" widget="badge" optional="show"/>
+                <field name="is_late_receipt" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="purchase_order_auto_view_search" model="ir.ui.view">
+        <field name="name">purchase.order.auto.search</field>
+        <field name="model">purchase.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="supply_order_id"/>
+                <filter name="to_confirm" string="To confirm" domain="[('state', 'in', ('draft', 'sent'))]"/>
+                <filter name="to_receive" string="To receive"
+                        domain="[('state', '=', 'purchase'), ('receipt_status', '!=', 'full')]"/>
+                <filter name="late" string="Late receipts" domain="[('is_late_receipt', '=', True)]"/>
+                <separator/>
+                <filter name="mto" string="Replenish on order" domain="[('auto_source', '=', 'mto')]"/>
+                <filter name="reorder" string="Reordering rule" domain="[('auto_source', '=', 'reorder')]"/>
+                <group>
+                    <filter name="group_vendor" string="Vendor" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="purchase_order_auto_action" model="ir.actions.act_window">
+        <field name="name">Automatic Purchases</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('auto_generated', '=', True)]</field>
+        <field name="search_view_id" ref="purchase_order_auto_view_search"/>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('purchase_order_auto_view_list')}), (0, 0, {'view_mode': 'form'})]"/>
+    </record>
+
+    <record id="purchase_order_form_auto_alert" model="ir.ui.view">
+        <field name="name">purchase.order.form.auto.alert</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="supply_order.purchase_order_form_supply"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='supply_ref']" position="after">
+                <field name="auto_generated" invisible="not auto_generated"/>
+                <field name="auto_source" invisible="not auto_generated"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

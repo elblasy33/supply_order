@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="supply_order_view_form_scan" model="ir.ui.view">
+        <field name="name">supply.order.form.scan</field>
+        <field name="model">supply.order</field>
+        <field name="inherit_id" ref="supply_order.supply_order_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='supply_ref']" position="after">
+                <field name="scan_input" placeholder="Scan barcode or lot number…"
+                       invisible="state in ('closed', 'cancel')"
+                       options="{'autofocus': True}" class="o_supply_scan"/>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/list/field[@name='product_id']" position="after">
+                <field name="tracking" column_invisible="True"/>
+                <field name="lot_id" optional="show" readonly="not tracking"
+                       context="{'default_product_id': product_id}"/>
+                <field name="lot_name" optional="show" readonly="not tracking or lot_id"
+                       column_invisible="parent.order_type != 'purchase'"/>
+                <field name="lot_expiration" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_form_supply_scan" model="ir.ui.view">
+        <field name="name">sale.order.form.supply.scan</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="supply_order.view_order_form_supply"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='supply_ref']" position="after">
+                <field name="scan_input" placeholder="Scan product barcode…"
+                       invisible="state not in ('draft', 'sent')"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_form_supply_scan" model="ir.ui.view">
+        <field name="name">purchase.order.form.supply.scan</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="supply_order.purchase_order_form_supply"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='supply_ref']" position="after">
+                <field name="scan_input" placeholder="Scan product barcode…"
+                       invisible="state not in ('draft', 'sent')"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

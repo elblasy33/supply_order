@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_supply_barcode" model="ir.ui.view">
+        <field name="name">res.config.settings.supply.barcode</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='barcode_setting_container']" position="inside">
+                <setting id="supply_barcode_increment" string="Increase quantity on repeated scan"
+                         help="Scanning the same product again adds 1 to its line (supply, sales and purchase orders) instead of adding a new line.">
+                    <field name="supply_barcode_increment"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

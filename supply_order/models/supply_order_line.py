@@ -316,7 +316,7 @@ class SupplyOrderLine(models.Model):
         invoiced_old = sum(inv.quantity * (-1 if inv.move_id.move_type in ('out_refund', 'in_refund') else 1)
                            for inv in self.invoice_line_ids.filtered(
                                lambda l: l.move_id.state != 'cancel' and l.product_id == old_product))
-        super(SupplyOrderLine, self.with_context(supply_internal=True)).write({
+        self.with_context(supply_internal=True).write({
             'product_id': new_product.id,
             'substitution_reason': reason,
             'sale_line_id': new_doc_line.id if new_doc_line else self.sale_line_id.id,
