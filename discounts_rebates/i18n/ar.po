@@ -1,0 +1,840 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* discounts_rebates
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "A custom period needs a start date before its end date."
+msgstr "الفترة المخصصة تحتاج تاريخ بداية قبل تاريخ النهاية."
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "A free-product tier needs a product and a positive quantity."
+msgstr "شريحة المنتج المجاني تحتاج منتجاً وكمية موجبة."
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "A percentage reward cannot exceed 100."
+msgstr "نسبة المكافأة لا يمكن أن تتجاوز 100."
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.view_company_form_rebates
+msgid ""
+"A rebate owed to a customer is provisioned (expense / accrued payable); the customer credit note is\n"
+"                        then posted against the accrued account, so revenue is not reduced twice. Vendor rebates mirror it\n"
+"                        (accrued receivable / rebate income). The button creates a <b>proposal</b> to review with the accountant."
+msgstr ""
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "A settled rebate cannot be cancelled: cancel its credit note first."
+msgstr "لا يمكن إلغاء خصم مُسوّى: ألغِ إشعاره الدائن أولاً."
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_form
+msgid "Accounting"
+msgstr "المحاسبة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__accrual_ids
+msgid "Accrual"
+msgstr "المخصص"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__accrual_count
+msgid "Accrual Count"
+msgstr "عدد المخصصات"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_program_view_form
+msgid "Accruals"
+msgstr "المخصصات"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_res_company__rebate_accrual_sale_account_id
+msgid "Accrued rebates payable"
+msgstr "مخصص خصومات مستحقة للعملاء"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_res_company__rebate_accrual_purchase_account_id
+msgid "Accrued rebates receivable"
+msgstr "مخصص خصومات مستحقة من الموردين"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_needaction
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_needaction
+msgid "Action Needed"
+msgstr "إجراء مطلوب"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__active
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__active
+msgid "Active"
+msgstr "نشط"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__conditional_discount_rule__discount_type__amount
+msgid "Amount per unit"
+msgstr "مبلغ لكل وحدة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__applies_to
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__applies_to
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__applies_to
+msgid "Applies To"
+msgstr "ينطبق على"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.conditional_discount_rule_view_form
+msgid "Applies to (empty = every product)"
+msgstr "ينطبق على (فارغ = كل المنتجات)"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_attachment_count
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_attachment_count
+msgid "Attachment Count"
+msgstr "عدد المرفقات"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__conditional_discount_rule__applies_to__both
+msgid "Both"
+msgstr "الاثنان"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_form
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_accrual__state__cancel
+msgid "Cancelled"
+msgstr "ملغي"
+
+#. module: discounts_rebates
+#: model:ir.model,name:discounts_rebates.model_res_company
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__company_id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__company_id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__company_id
+msgid "Company"
+msgstr "الشركة"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_program_view_form
+msgid "Compute closed periods"
+msgstr "احتساب الفترات المنتهية"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.conditional_discount_rule_view_form
+msgid "Condition"
+msgstr "الشرط"
+
+#. module: discounts_rebates
+#: model:ir.actions.act_window,name:discounts_rebates.conditional_discount_rule_action
+#: model:ir.ui.menu,name:discounts_rebates.menu_conditional_discounts
+msgid "Conditional Discounts"
+msgstr "الخصومات الشرطية"
+
+#. module: discounts_rebates
+#: model:ir.model,name:discounts_rebates.model_conditional_discount_rule
+msgid "Conditional price discount"
+msgstr "خصم شرطي حسب السعر"
+
+#. module: discounts_rebates
+#: model:ir.module.module,summary:base.module_discounts_rebates
+msgid "Conditional price discounts and deferred rebates (tiers, period, credit/debit note) for sales and purchases"
+msgstr "خصومات شرطية حسب السعر وخصومات مؤجلة (شرائح وفترات وإشعار دائن/مدين) للمبيعات والمشتريات"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.view_company_form_rebates
+msgid "Create the suggested accounts and journal"
+msgstr "إنشاء الحسابات واليومية المقترحة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__create_uid
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__create_uid
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__create_uid
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__create_uid
+msgid "Created by"
+msgstr "أنشأه"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__create_date
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__create_date
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__create_date
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__create_date
+msgid "Created on"
+msgstr "تاريخ الإنشاء"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__credit_note_id
+msgid "Credit / debit note"
+msgstr "إشعار دائن / مدين"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_res_company__rebate_accrual_sale_account_id
+msgid "Credited by the provision; the customer credit note is posted against it, not against revenue."
+msgstr "يُقيَّد دائناً عند تكوين المخصص؛ ويُرحَّل إشعار العميل الدائن مقابله لا مقابل الإيراد."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_res_company__rebate_income_account_id
+msgid "Credited when a rebate due from a vendor is provisioned."
+msgstr "يُقيَّد دائناً عند تكوين مخصص خصم مستحق من مورد."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__currency_id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__currency_id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__currency_id
+msgid "Currency"
+msgstr "العملة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_program__period_type__custom
+msgid "Custom period"
+msgstr "فترة مخصصة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__date_from
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__date_to
+msgid "Custom period only."
+msgstr "للفترة المخصصة فقط."
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_search
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.view_company_form_rebates
+msgid "Customers"
+msgstr "العملاء"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_program__period_type__daily
+msgid "Daily"
+msgstr "يومي"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__date_from
+msgid "Date From"
+msgstr "من تاريخ"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__date_to
+msgid "Date To"
+msgstr "إلى تاريخ"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_res_company__rebate_accrual_purchase_account_id
+msgid "Debited by the provision; the vendor credit note is posted against it, not against purchases."
+msgstr "يُقيَّد مديناً عند تكوين المخصص؛ ويُرحَّل إشعار المورد الدائن مقابله لا مقابل المشتريات."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_res_company__rebate_expense_account_id
+msgid "Debited when a rebate owed to a customer is provisioned."
+msgstr "يُقيَّد مديناً عند تكوين مخصص خصم مستحق لعميل."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_supply_order_line__discount
+msgid "Disc.%"
+msgstr "خصم%"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__value
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.conditional_discount_rule_view_form
+msgid "Discount"
+msgstr "الخصم"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__discount_type
+msgid "Discount Type"
+msgstr "نوع الخصم"
+
+#. module: discounts_rebates
+#: model:ir.ui.menu,name:discounts_rebates.menu_supply_discounts
+msgid "Discounts"
+msgstr "الخصومات"
+
+#. module: discounts_rebates
+#: model:ir.module.module,shortdesc:base.module_discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.view_company_form_rebates
+msgid "Discounts & Rebates"
+msgstr "الخصومات والمكافآت"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__display_name
+#: model:ir.model.fields,field_description:discounts_rebates.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__display_name
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__display_name
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__display_name
+#: model:ir.model.fields,field_description:discounts_rebates.field_res_company__display_name
+#: model:ir.model.fields,field_description:discounts_rebates.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:discounts_rebates.field_supply_order_line__display_name
+msgid "Display Name"
+msgstr "اسم العرض"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__partner_ids
+msgid "Empty: every partner."
+msgstr "فارغ: كل الشركاء."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__product_ids
+msgid "Empty: every product."
+msgstr "فارغ: كل المنتجات."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__date_to
+msgid "End"
+msgstr "النهاية"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_tier__reward_type__fixed
+msgid "Fixed amount"
+msgstr "مبلغ ثابت"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_follower_ids
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_partner_ids
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون (الشركاء)"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__supply_order_id
+msgid "Free goods order"
+msgstr "أمر البضاعة المجانية"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "Free goods: %s"
+msgstr "بضاعة مجانية: %s"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__free_product_id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__product_id
+msgid "Free product"
+msgstr "منتج مجاني"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_tier__reward_type__free_product
+msgid "Free products"
+msgstr "منتجات مجانية"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__free_quantity
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__quantity
+msgid "Free quantity"
+msgstr "الكمية المجانية"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__has_message
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__has_message
+msgid "Has Message"
+msgstr "له رسالة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__id
+#: model:ir.model.fields,field_description:discounts_rebates.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__id
+#: model:ir.model.fields,field_description:discounts_rebates.field_res_company__id
+#: model:ir.model.fields,field_description:discounts_rebates.field_sale_order_line__id
+#: model:ir.model.fields,field_description:discounts_rebates.field_supply_order_line__id
+msgid "ID"
+msgstr "المعرّف"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_accrual__message_needaction
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "إذا فُعّل، فهناك رسائل جديدة تتطلب انتباهك."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_accrual__message_has_error
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_accrual__message_has_sms_error
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__message_has_error
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "إذا فُعّل، فبعض الرسائل بها خطأ في التسليم."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_is_follower
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_form
+msgid "Issue credit note"
+msgstr "إصدار إشعار دائن"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.view_company_form_rebates
+msgid "Journal"
+msgstr "اليومية"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__last_period_end
+msgid "Last Period End"
+msgstr "نهاية آخر فترة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__write_uid
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__write_uid
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__write_uid
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__write_uid
+msgid "Last Updated by"
+msgstr "آخر تحديث بواسطة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__write_date
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__write_date
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__write_date
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__write_date
+msgid "Last Updated on"
+msgstr "آخر تحديث في"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__last_period_end
+msgid "Last period already computed."
+msgstr "آخر فترة تم احتسابها."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_conditional_discount_rule__sequence
+msgid "Lowest number wins when several rules match."
+msgstr "الرقم الأصغر يفوز عند تطابق عدة قواعد."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_has_error
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ تسليم الرسالة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_ids
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_program__period_type__monthly
+msgid "Monthly"
+msgstr "شهري"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__name
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__name
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_needaction_counter
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الإجراءات"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_has_error_counter
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الأخطاء"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_accrual__message_needaction_counter
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "عدد الرسائل التي تتطلب إجراءً"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_accrual__message_has_error_counter
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_program__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد الرسائل التي بها خطأ تسليم"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "Only accruals to review can be provisioned."
+msgstr "فقط المخصصات قيد المراجعة يمكن تكوينها."
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "Only cancelled accruals can be reset."
+msgstr "فقط المخصصات الملغاة يمكن إعادتها."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__partner_id
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_search
+msgid "Partner"
+msgstr "الشريك"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__partner_ids
+msgid "Partners"
+msgstr "الشركاء"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__conditional_discount_rule__discount_type__percent
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_tier__reward_type__percent
+msgid "Percentage"
+msgstr "نسبة مئوية"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__value
+msgid "Percentage / amount"
+msgstr "النسبة / المبلغ"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__period_type
+msgid "Period Type"
+msgstr "نوع الفترة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__date_to
+msgid "Period end"
+msgstr "نهاية الفترة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__date_from
+msgid "Period start"
+msgstr "بداية الفترة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__min_price
+msgid "Price above"
+msgstr "السعر فوق"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__category_ids
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__category_ids
+msgid "Product Categories"
+msgstr "فئات المنتجات"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__product_ids
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__product_ids
+msgid "Products"
+msgstr "المنتجات"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__program_id
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__program_id
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_search
+msgid "Program"
+msgstr "البرنامج"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_form
+msgid "Provision"
+msgstr "تكوين مخصص"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__provision_move_id
+msgid "Provision entry"
+msgstr "قيد المخصص"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "Provision the rebate before settling it."
+msgstr "كوّن مخصص الخصم قبل تسويته."
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_accrual__state__confirmed
+msgid "Provisioned"
+msgstr "تم تكوين المخصص"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_search
+msgid "Provisioned (to settle)"
+msgstr "مكوَّن (للتسوية)"
+
+#. module: discounts_rebates
+#: model:ir.model,name:discounts_rebates.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "بند أمر الشراء"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__conditional_discount_rule__applies_to__purchase
+msgid "Purchases"
+msgstr "المشتريات"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_program__applies_to__purchase
+msgid "Purchases (rebate we receive)"
+msgstr "المشتريات (خصم نحصل عليه)"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__amount
+msgid "Rebate"
+msgstr "الخصم المؤجل"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "Rebate %(program)s (%(start)s → %(end)s)"
+msgstr "خصم %(program)s (%(start)s ← %(end)s)"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "Rebate Accruals"
+msgstr "مخصصات الخصومات المؤجلة"
+
+#. module: discounts_rebates
+#: model:ir.actions.act_window,name:discounts_rebates.rebate_program_action
+#: model:ir.ui.menu,name:discounts_rebates.menu_rebate_programs
+msgid "Rebate Programs"
+msgstr "برامج الخصومات المؤجلة"
+
+#. module: discounts_rebates
+#: model:ir.model,name:discounts_rebates.model_rebate_accrual
+msgid "Rebate accrual"
+msgstr "مخصص خصم مؤجل"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_res_company__rebate_journal_id
+msgid "Rebate journal"
+msgstr "يومية الخصومات المؤجلة"
+
+#. module: discounts_rebates
+#: model:ir.model,name:discounts_rebates.model_rebate_program
+msgid "Rebate program"
+msgstr "برنامج خصم مؤجل"
+
+#. module: discounts_rebates
+#: model:ir.model,name:discounts_rebates.model_rebate_tier
+msgid "Rebate tier"
+msgstr "شريحة خصم مؤجل"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_list
+msgid "Rebates"
+msgstr "الخصومات المؤجلة"
+
+#. module: discounts_rebates
+#: model:ir.actions.act_window,name:discounts_rebates.rebate_accrual_action
+#: model:ir.ui.menu,name:discounts_rebates.menu_rebates_entitled
+msgid "Rebates Entitled"
+msgstr "الخصومات المستحقة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_res_company__rebate_expense_account_id
+msgid "Rebates granted (expense)"
+msgstr "خصومات ممنوحة (مصروف)"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_res_company__rebate_income_account_id
+msgid "Rebates received (income)"
+msgstr "خصومات مستلمة (إيراد)"
+
+#. module: discounts_rebates
+#: model:ir.actions.server,name:discounts_rebates.ir_cron_compute_rebates_ir_actions_server
+msgid "Rebates: compute closed periods"
+msgstr "الخصومات المؤجلة: احتساب الفترات المنتهية"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_form
+msgid "Reset"
+msgstr "إعادة"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "Reversal of %s"
+msgstr "عكس %s"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__reward_type
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__reward_type
+msgid "Reward Type"
+msgstr "نوع المكافأة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__message_has_sms_error
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ تسليم الرسالة النصية"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__conditional_discount_rule__applies_to__sale
+msgid "Sales"
+msgstr "المبيعات"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_program__applies_to__sale
+msgid "Sales (rebate we grant)"
+msgstr "المبيعات (خصم نمنحه)"
+
+#. module: discounts_rebates
+#: model:ir.model,name:discounts_rebates.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "بند أمر البيع"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_program_view_form
+msgid "Scope"
+msgstr "النطاق"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__sequence
+msgid "Sequence"
+msgstr "الترتيب"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/res_company.py:0
+msgid "Set the rebate accounts first (Company → Discounts & Rebates). Missing: %s"
+msgstr "حدد حسابات الخصومات المؤجلة أولاً (الشركة ← الخصومات والمكافآت). الناقص: %s"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_accrual__state__settled
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_search
+msgid "Settled"
+msgstr "مُسوّى"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_conditional_discount_rule__date_from
+msgid "Start"
+msgstr "البداية"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__state
+msgid "State"
+msgstr "الحالة"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_search
+msgid "Status"
+msgstr "الحالة"
+
+#. module: discounts_rebates
+#: model:ir.model,name:discounts_rebates.model_supply_order_line
+msgid "Supply Order Line"
+msgstr "بند أمر التوريد"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.conditional_discount_rule_view_form
+msgid ""
+"The discount is applied automatically on sales, purchase and supply order lines whose unit price\n"
+"                        is above the threshold. A discount already given by a price list is never stacked."
+msgstr ""
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/conditional_discount.py:0
+msgid "The discount must be positive (and at most 100%)."
+msgstr "يجب أن يكون الخصم موجباً (وبحد أقصى 100%)."
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/conditional_discount.py:0
+msgid "The end date must be after the start date."
+msgstr "يجب أن يكون تاريخ النهاية بعد تاريخ البداية."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_rebate_tier__threshold
+msgid "The highest tier reached applies to the whole turnover of the period."
+msgstr "أعلى شريحة تم بلوغها تُطبَّق على كامل مبيعات الفترة."
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_program_view_form
+msgid ""
+"The highest tier reached applies to the whole turnover of the period.\n"
+"                                Turnover is the net untaxed amount of posted invoices minus credit notes."
+msgstr ""
+
+#. module: discounts_rebates
+#: model:ir.model.fields,help:discounts_rebates.field_conditional_discount_rule__min_price
+msgid "The rule applies when the unit price is strictly above this amount."
+msgstr "تنطبق القاعدة عندما يكون سعر الوحدة أعلى تماماً من هذا المبلغ."
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "The tier reward must be positive."
+msgstr "مكافأة الشريحة يجب أن تكون موجبة."
+
+#. module: discounts_rebates
+#: model:ir.model.constraint,message:discounts_rebates.constraint_rebate_accrual_unique_period
+msgid "This partner already has an accrual for that period."
+msgstr "لهذا الشريك مخصص لنفس الفترة بالفعل."
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__tier_id
+msgid "Tier"
+msgstr "الشريحة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_program__tier_ids
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_program_view_form
+msgid "Tiers"
+msgstr "الشرائح"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_accrual__state__draft
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_search
+msgid "To review"
+msgstr "للمراجعة"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_accrual__base_amount
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_list
+msgid "Turnover"
+msgstr "حجم التعامل"
+
+#. module: discounts_rebates
+#: model:ir.model.fields,field_description:discounts_rebates.field_rebate_tier__threshold
+msgid "Turnover from"
+msgstr "حجم التعامل من"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_accrual_view_search
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.view_company_form_rebates
+msgid "Vendors"
+msgstr "الموردون"
+
+#. module: discounts_rebates
+#: model:ir.model.fields.selection,name:discounts_rebates.selection__rebate_program__period_type__weekly
+msgid "Weekly"
+msgstr "أسبوعي"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.rebate_program_view_form
+msgid "e.g. Monthly volume rebate"
+msgstr "مثال: خصم الحجم الشهري"
+
+#. module: discounts_rebates
+#: model_terms:ir.ui.view,arch_db:discounts_rebates.conditional_discount_rule_view_form
+msgid "e.g. Premium items over 100"
+msgstr "مثال: الأصناف المميزة فوق 100"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "id"
+msgstr "المعرّف"
+
+#. module: discounts_rebates
+#. odoo-python
+#: code:addons/discounts_rebates/models/rebate.py:0
+msgid "program_id"
+msgstr "البرنامج"

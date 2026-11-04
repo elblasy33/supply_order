@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="conditional_discount_rule_view_list" model="ir.ui.view">
+        <field name="name">conditional.discount.rule.list</field>
+        <field name="model">conditional.discount.rule</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="applies_to"/>
+                <field name="min_price"/>
+                <field name="discount_type"/>
+                <field name="value"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="conditional_discount_rule_view_form" model="ir.ui.view">
+        <field name="name">conditional.discount.rule.form</field>
+        <field name="model">conditional.discount.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Premium items over 100"/></h1></div>
+                    <group>
+                        <group string="Condition">
+                            <field name="applies_to"/>
+                            <field name="min_price"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Discount">
+                            <field name="discount_type"/>
+                            <field name="value"/>
+                            <field name="sequence"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Applies to (empty = every product)">
+                        <field name="product_ids" widget="many2many_tags"/>
+                        <field name="category_ids" widget="many2many_tags"/>
+                    </group>
+                    <p class="text-muted">
+                        The discount is applied automatically on sales, purchase and supply order lines whose unit price
+                        is above the threshold. A discount already given by a price list is never stacked.
+                    </p>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="conditional_discount_rule_action" model="ir.actions.act_window">
+        <field name="name">Conditional Discounts</field>
+        <field name="res_model">conditional.discount.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

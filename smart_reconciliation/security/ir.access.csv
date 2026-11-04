@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_smart_reconcile_wizard,smart.reconcile.wizard,smart.reconcile.wizard,account.group_account_invoice,crud,
+access_smart_reconcile_wizard_line,smart.reconcile.wizard.line,smart.reconcile.wizard.line,account.group_account_invoice,crud,
+access_smart_reconcile_log_invoice,smart.reconcile.log invoicing,smart.reconcile.log,account.group_account_invoice,cr,
+access_smart_reconcile_log_manager,smart.reconcile.log manager,smart.reconcile.log,account.group_account_manager,r,
+smart_reconcile_log_comp_rule,Smart reconcile log multi-company,smart.reconcile.log,,crud,"[('company_id', 'in', company_ids)]"

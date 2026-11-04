@@ -1,0 +1,456 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* smart_reconciliation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 14:12+0000\n"
+"PO-Revision-Date: 2026-11-04 14:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__allocation_order
+msgid "Allocation Order"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,help:smart_reconciliation.field_smart_reconcile_log__amount
+msgid "Amount matched, in company currency."
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Available"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__available_total
+msgid "Available Total"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__batch
+msgid "Batch"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard__state__draft
+msgid "Choose"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid ""
+"Choose the customer or vendor and the period, then load their open invoices "
+"and payments."
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Close"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__company_id
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__create_date
+msgid "Create Date"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__create_uid
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__create_uid
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__create_date
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__currency_id
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__currency_id
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_log__kind__customer
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard__kind__customer
+msgid "Customer"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_log_view_search
+msgid "Customers"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__date
+msgid "Date"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__display_name
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__display_name
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__move_id
+msgid "Document"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__doc_currency_id
+msgid "Document currency"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard__state__done
+msgid "Done"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__date_maturity
+msgid "Due"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__id
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__id
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__id
+msgid "ID"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__invoice_id
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard_line__role__invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__invoice_line_ids
+msgid "Invoice Line"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__invoice_line_id
+msgid "Invoice item"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__invoice_residual_after
+msgid "Invoice left"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Invoices to reconcile (tick the ones you want)"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__kind
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__kind
+msgid "Kind"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__write_uid
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__write_uid
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__write_date
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__write_date
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__line_ids
+msgid "Line"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Load open items"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__move_line_id
+msgid "Move Line"
+msgstr ""
+
+#. module: smart_reconciliation
+#. odoo-python
+#: code:addons/smart_reconciliation/models/smart_reconcile.py:0
+msgid "Nothing could be reconciled with the selection."
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard__allocation_order__due
+msgid "Oldest due date first"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard__allocation_order__invoice
+msgid "Oldest invoice first"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__residual
+msgid "Open amount"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,help:smart_reconciliation.field_smart_reconcile_wizard_line__residual
+msgid "Open amount in company currency."
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model,name:smart_reconciliation.model_smart_reconcile_wizard_line
+msgid "Open item shown in the reconciliation wizard"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__partner_id
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__partner_id
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_log_view_search
+msgid "Partner"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard_line__role__payment
+msgid "Payment"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__payment_move_id
+msgid "Payment / credit note"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__payment_line_ids
+msgid "Payment Line"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__payment_line_id
+msgid "Payment item"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Payments and credit notes available"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Reconcile"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.actions.act_window,name:smart_reconciliation.smart_reconcile_wizard_action
+#: model:ir.ui.menu,name:smart_reconciliation.menu_smart_reconcile_wizard
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Reconcile Invoices"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.module.module,summary:base.module_smart_reconciliation
+msgid ""
+"Reconcile a chosen set of invoices of a customer/vendor against that "
+"partner's payments"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model,name:smart_reconciliation.model_smart_reconcile_wizard
+msgid "Reconcile selected invoices with payments"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__amount
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_log_view_list
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Reconciled"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__log_ids
+msgid "Reconciled pairs"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.ui.menu,name:smart_reconciliation.menu_smart_reconcile_root
+msgid "Reconciliation"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.actions.act_window,name:smart_reconciliation.smart_reconcile_log_action
+#: model:ir.ui.menu,name:smart_reconciliation.menu_smart_reconcile_log
+msgid "Reconciliation Log"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Reload"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__remaining_total
+msgid "Remaining Total"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Result"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__role
+msgid "Role"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_log_view_search
+msgid "Run"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__selected
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard__state__loaded
+msgid "Select"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Selected"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__selected_total
+msgid "Selected Total"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.module.module,shortdesc:base.module_smart_reconciliation
+msgid "Smart Reconciliation"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model,name:smart_reconciliation.model_smart_reconcile_log
+msgid "Smart reconciliation log"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard__state
+msgid "State"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_wizard_view_form
+msgid "Still due on the selected invoices"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,help:smart_reconciliation.field_smart_reconcile_wizard__remaining_total
+msgid "Still due on the selected invoices after the reconciliation."
+msgstr ""
+
+#. module: smart_reconciliation
+#. odoo-python
+#: code:addons/smart_reconciliation/models/smart_reconcile.py:0
+msgid "The period must start before it ends."
+msgstr ""
+
+#. module: smart_reconciliation
+#. odoo-python
+#: code:addons/smart_reconciliation/models/smart_reconcile.py:0
+msgid "The reconciliation log cannot be deleted."
+msgstr ""
+
+#. module: smart_reconciliation
+#. odoo-python
+#: code:addons/smart_reconciliation/models/smart_reconcile.py:0
+msgid "The reconciliation log cannot be modified."
+msgstr ""
+
+#. module: smart_reconciliation
+#. odoo-python
+#: code:addons/smart_reconciliation/models/smart_reconcile.py:0
+msgid ""
+"There is no payment available: tick at least one payment or credit note."
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,help:smart_reconciliation.field_smart_reconcile_wizard_line__date_maturity
+msgid ""
+"This field is used for payable and receivable journal entries. You can put "
+"the limit date for the payment of this line."
+msgstr ""
+
+#. module: smart_reconciliation
+#. odoo-python
+#: code:addons/smart_reconciliation/models/smart_reconcile.py:0
+msgid "Tick at least one invoice to reconcile."
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__move_type
+msgid "Type"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_log__user_id
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_log_view_search
+msgid "User"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_log__kind__vendor
+#: model:ir.model.fields.selection,name:smart_reconciliation.selection__smart_reconcile_wizard__kind__vendor
+msgid "Vendor"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model_terms:ir.ui.view,arch_db:smart_reconciliation.smart_reconcile_log_view_search
+msgid "Vendors"
+msgstr ""
+
+#. module: smart_reconciliation
+#: model:ir.model.fields,field_description:smart_reconciliation.field_smart_reconcile_wizard_line__wizard_id
+msgid "Wizard"
+msgstr ""

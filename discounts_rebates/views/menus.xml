@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_supply_discounts" name="Discounts" parent="supply_order.menu_supply_root" sequence="40"/>
+    <menuitem id="menu_conditional_discounts" name="Conditional Discounts" parent="menu_supply_discounts"
+              action="conditional_discount_rule_action" sequence="10"/>
+    <menuitem id="menu_rebate_programs" name="Rebate Programs" parent="menu_supply_discounts"
+              action="rebate_program_action" sequence="20"/>
+    <menuitem id="menu_rebates_entitled" name="Rebates Entitled" parent="menu_supply_discounts"
+              action="rebate_accrual_action" sequence="30"/>
+</odoo>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rebate_program_view_list" model="ir.ui.view">
+        <field name="name">rebate.program.list</field>
+        <field name="model">rebate.program</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="applies_to"/>
+                <field name="period_type"/>
+                <field name="last_period_end"/>
+                <field name="accrual_count"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="rebate_program_view_form" model="ir.ui.view">
+        <field name="name">rebate.program.form</field>
+        <field name="model">rebate.program</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_compute_closed_periods" string="Compute closed periods" type="object"
+                            class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_accruals" type="object" class="oe_stat_button" icon="payments"
+                                invisible="accrual_count == 0">
+                            <field name="accrual_count" widget="statinfo" string="Accruals"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Monthly volume rebate"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="applies_to"/>
+                            <field name="period_type"/>
+                            <field name="date_from" invisible="period_type != 'custom'" required="period_type == 'custom'"/>
+                            <field name="date_to" invisible="period_type != 'custom'" required="period_type == 'custom'"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="last_period_end"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Tiers" name="tiers">
+                            <field name="tier_ids">
+                                <list editable="bottom">
+                                    <field name="threshold"/>
+                                    <field name="reward_type"/>
+                                    <field name="value" invisible="reward_type == 'free_product'"/>
+                                    <field name="product_id" invisible="reward_type != 'free_product'"
+                                           required="reward_type == 'free_product'"/>
+                                    <field name="quantity" invisible="reward_type != 'free_product'"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                </list>
+                            </field>
+                            <p class="text-muted">The highest tier reached applies to the whole turnover of the period.
+                                Turnover is the net untaxed amount of posted invoices minus credit notes.</p>
+                        </page>
+                        <page string="Scope" name="scope">
+                            <group>
+                                <field name="partner_ids" widget="many2many_tags"/>
+                                <field name="product_ids" widget="many2many_tags"/>
+                                <field name="category_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="rebate_accrual_view_list" model="ir.ui.view">
+        <field name="name">rebate.accrual.list</field>
+        <field name="model">rebate.accrual</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-muted="state == 'cancel'" decoration-success="state == 'settled'">
+                <field name="partner_id"/>
+                <field name="program_id"/>
+                <field name="applies_to" optional="show"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="base_amount" sum="Turnover"/>
+                <field name="reward_type"/>
+                <field name="amount" sum="Rebates"/>
+                <field name="state" widget="badge"/>
+                <field name="currency_id" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="rebate_accrual_view_form" model="ir.ui.view">
+        <field name="name">rebate.accrual.form</field>
+        <field name="model">rebate.accrual</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <button name="action_confirm" string="Provision" type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_settle" string="Issue credit note" type="object" class="btn-primary"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('cancel', 'settled')"/>
+                    <button name="action_reset_draft" string="Reset" type="object" invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,settled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="program_id"/>
+                            <field name="applies_to"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="base_amount"/>
+                            <field name="tier_id"/>
+                            <field name="reward_type"/>
+                            <field name="amount"/>
+                            <field name="free_product_id" invisible="reward_type != 'free_product'"/>
+                            <field name="free_quantity" invisible="reward_type != 'free_product'"/>
+                        </group>
+                    </group>
+                    <group string="Accounting">
+                        <field name="provision_move_id"/>
+                        <field name="credit_note_id"/>
+                        <field name="supply_order_id" invisible="not supply_order_id"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="rebate_accrual_view_pivot" model="ir.ui.view">
+        <field name="name">rebate.accrual.pivot</field>
+        <field name="model">rebate.accrual</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="partner_id" type="row"/>
+                <field name="program_id" type="col"/>
+                <field name="amount" type="measure"/>
+                <field name="base_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="rebate_accrual_view_search" model="ir.ui.view">
+        <field name="name">rebate.accrual.search</field>
+        <field name="model">rebate.accrual</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="program_id"/>
+                <filter name="draft" string="To review" domain="[('state', '=', 'draft')]"/>
+                <filter name="confirmed" string="Provisioned (to settle)" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="settled" string="Settled" domain="[('state', '=', 'settled')]"/>
+                <separator/>
+                <filter name="sale" string="Customers" domain="[('applies_to', '=', 'sale')]"/>
+                <filter name="purchase" string="Vendors" domain="[('applies_to', '=', 'purchase')]"/>
+                <group>
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_program" string="Program" context="{'group_by': 'program_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="rebate_program_action" model="ir.actions.act_window">
+        <field name="name">Rebate Programs</field>
+        <field name="res_model">rebate.program</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="rebate_accrual_action" model="ir.actions.act_window">
+        <field name="name">Rebates Entitled</field>
+        <field name="res_model">rebate.accrual</field>
+        <field name="view_mode">list,pivot,form</field>
+        <field name="search_view_id" ref="rebate_accrual_view_search"/>
+        <field name="context">{'search_default_group_partner': 1}</field>
+    </record>
+</odoo>

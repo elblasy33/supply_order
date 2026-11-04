@@ -1,0 +1,15 @@
+id,name,model_id,group_id/id,operation,domain
+access_conditional_discount_rule_user,conditional.discount.rule user,conditional.discount.rule,supply_order.group_supply_user,r,
+access_conditional_discount_rule_manager,conditional.discount.rule manager,conditional.discount.rule,supply_order.group_supply_manager,crud,
+access_conditional_discount_rule_account,conditional.discount.rule accountant,conditional.discount.rule,account.group_account_manager,crud,
+access_rebate_program_user,rebate.program user,rebate.program,supply_order.group_supply_user,r,
+access_rebate_program_manager,rebate.program manager,rebate.program,supply_order.group_supply_manager,crud,
+access_rebate_program_account,rebate.program accountant,rebate.program,account.group_account_manager,crud,
+access_rebate_tier_user,rebate.tier user,rebate.tier,supply_order.group_supply_user,r,
+access_rebate_tier_manager,rebate.tier manager,rebate.tier,supply_order.group_supply_manager,crud,
+access_rebate_tier_account,rebate.tier accountant,rebate.tier,account.group_account_manager,crud,
+access_rebate_accrual_user,rebate.accrual user,rebate.accrual,supply_order.group_supply_user,r,
+access_rebate_accrual_manager,rebate.accrual manager,rebate.accrual,supply_order.group_supply_manager,crud,
+access_rebate_accrual_invoice,rebate.accrual invoicing,rebate.accrual,account.group_account_invoice,crud,
+rebate_program_comp_rule,Rebate program multi-company,rebate.program,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+rebate_accrual_comp_rule,Rebate accrual multi-company,rebate.accrual,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
