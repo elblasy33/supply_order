@@ -222,8 +222,11 @@ class TestSupplyFlowChanges(SupplyCase):
         order = self._order(qty=7)
         action = order.action_print_quotation()
         # first print of a company opens the standard "configure document layout" step
-        report_action = action if action.get('type') == 'ir.actions.report' else action['context']['report_action']
-        self.assertEqual(report_action['report_name'], 'supply_order.report_supply_quotation')
+        if action.get('type') == 'ir.actions.act_url':  # invoice_customization installed: preview first
+            self.assertTrue(action['url'].startswith('/report/html/supply_order.report_supply_quotation/'))
+        else:
+            report_action = action if action.get('type') == 'ir.actions.report' else action['context']['report_action']
+            self.assertEqual(report_action['report_name'], 'supply_order.report_supply_quotation')
         html, _fmt = self.env['ir.actions.report']._render_qweb_html(
             'supply_order.report_supply_quotation', order.ids)
         html = html.decode()

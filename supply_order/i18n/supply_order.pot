@@ -6,14 +6,51 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 20.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 13:20+0000\n"
-"PO-Revision-Date: 2026-11-04 13:20+0000\n"
+"POT-Creation-Date: 2026-11-04 13:51+0000\n"
+"PO-Revision-Date: 2026-11-04 13:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: supply_order
+#: model:ir.module.module,description:base.module_supply_order
+msgid ""
+"# Supply Order (`supply_order`)\n"
+"\n"
+"The supply order is the **starting point and operational hub**: every real-world event (delivery before\n"
+"any document, receipt before the purchase order, item swaps, changes after confirmation, invoicing the\n"
+"real quantities) starts from it or is recorded in it. Quotations, sales/purchase orders, transfers and\n"
+"invoices are generated from it at any time, or linked to it afterwards.\n"
+"\n"
+"## What it does\n"
+"- `supply.order` / `supply.order.line`, free-text **Supply Order No.** (`supply_ref`) copied to every related document.\n"
+"- **Prepare delivery/receipt** at any time; a sales/purchase order can be created *after* the stock moved, from the real quantities, without a second transfer (see \"Odoo 20 detail\" below).\n"
+"- **Create Supply Order** button on existing sales/purchase orders (adopts their transfers and invoices).\n"
+"- Invoice from what was really delivered/received, per actual item; the original request is kept.\n"
+"- Substitution before validation, or after it (the done move is returned, never edited).\n"
+"- Items added or changed in a transfer appear in the order; adding items creates a new transfer automatically.\n"
+"- Original / current / change quantities, append-only **change log**, edits after confirmation limited to managers.\n"
+"- Print a **Quotation** straight from the supply order (no sales order needed).\n"
+"- `external.user` + `ext_user_id` context stamp: the real app user is recorded when the integration account acts.\n"
+"\n"
+"## Odoo 20 detail the module depends on\n"
+"`sale_stock` counts a move as the procurement of a sale line only if the move carries the delivery route rule\n"
+"(`rule_id`) — see `sale_stock/models/sale_order_line.py:_get_outgoing_incoming_moves`. When moves are linked to a\n"
+"sale line after the fact, the module also writes `rule_id` and `warehouse_id`. Tests `test_02*` guard this.\n"
+"\n"
+"## Groups\n"
+"`Supply Orders / User` and `Supply Orders / Manager` (only managers edit a confirmed order).\n"
+"\n"
+"## Tests\n"
+"`odoo-bin -c odoo.conf -d supply_dev -u supply_order --test-tags /supply_order --stop-after-init`\n"
+"\n"
+"## Not yet covered\n"
+"Lot generation, barcode, alerts, invoice grouping, Commercial Bill, discounts/rebates, mass reconciliation\n"
+"(see the project concept document).\n"
+msgstr ""
 
 #. module: supply_order
 #. odoo-python
@@ -223,6 +260,16 @@ msgstr ""
 #. module: supply_order
 #: model:ir.model.fields,field_description:supply_order.field_supply_order_change_log__change_type
 msgid "Change Type"
+msgstr ""
+
+#. module: supply_order
+#: model:product.template,name:supply_order.demo_chips_cheese_product_template
+msgid "Chips (Cheese)"
+msgstr ""
+
+#. module: supply_order
+#: model:product.template,name:supply_order.demo_chips_hot_product_template
+msgid "Chips (Hot)"
 msgstr ""
 
 #. module: supply_order
@@ -937,6 +984,13 @@ msgid "Print Quotation"
 msgstr ""
 
 #. module: supply_order
+#: model:ir.model.fields,help:supply_order.field_supply_order_line__invoice_group_name
+msgid ""
+"Printed as one line with the other items of the same group (invoice and "
+"Commercial Bill)."
+msgstr ""
+
+#. module: supply_order
 #: model_terms:ir.ui.view,arch_db:supply_order.supply_order_view_form
 msgid "Purchase"
 msgstr ""
@@ -1125,6 +1179,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/supply_order/models/supply_order.py:0
 msgid "Sales order %s created."
+msgstr ""
+
+#. module: supply_order
+#: model:product.template,name:supply_order.demo_salt_product_template
+msgid "Salt 1kg"
 msgstr ""
 
 #. module: supply_order

@@ -45,7 +45,7 @@ msgstr ""
 
 #. module: smart_alerts
 #: model:ir.model.fields,field_description:smart_alerts.field_purchase_order__auto_source
-msgid "Created by"
+msgid "Created automatically by"
 msgstr ""
 
 #. module: smart_alerts

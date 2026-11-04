@@ -18,12 +18,23 @@ msgid "%s does not define a line parent field."
 msgstr "%s لا يعرّف حقل الأب للأسطر."
 
 #. module: document_enhancement
+#: model:ir.model,name:document_enhancement.model_res_company
+msgid "Company"
+msgstr "الشركة"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:document_enhancement.field_line_numbering_mixin__display_name
+#: model:ir.model.fields,field_description:document_enhancement.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__display_name
+#: model:ir.model.fields,field_description:document_enhancement.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:document_enhancement.field_stock_move__display_name
 msgid "Display Name"
 msgstr "اسم العرض"
 
 #. module: document_enhancement
 #: model:ir.module.module,shortdesc:base.module_document_enhancement
+#: model_terms:ir.ui.view,arch_db:document_enhancement.view_company_form_document_enhancement
 msgid "Document Enhancement"
 msgstr "تحسينات المستندات"
 
@@ -38,16 +49,99 @@ msgid "Editable line numbers (separate from sequence) and per-line notes"
 msgstr "أرقام أسطر قابلة للتعديل (منفصلة عن الترتيب الداخلي) وملاحظات لكل سطر"
 
 #. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_account_move_line__id
 #: model:ir.model.fields,field_description:document_enhancement.field_line_numbering_mixin__id
+#: model:ir.model.fields,field_description:document_enhancement.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__id
+#: model:ir.model.fields,field_description:document_enhancement.field_sale_order_line__id
+#: model:ir.model.fields,field_description:document_enhancement.field_stock_move__id
 msgid "ID"
 msgstr "المعرّف"
 
 #. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_account_move_line__line_note
 #: model:ir.model.fields,field_description:document_enhancement.field_line_numbering_mixin__line_note
+#: model:ir.model.fields,field_description:document_enhancement.field_purchase_order_line__line_note
+#: model:ir.model.fields,field_description:document_enhancement.field_sale_order_line__line_note
+#: model:ir.model.fields,field_description:document_enhancement.field_stock_move__line_note
 msgid "Item Note"
 msgstr "ملاحظة الصنف"
 
 #. module: document_enhancement
+#: model:ir.model,name:document_enhancement.model_account_move_line
+msgid "Journal Item"
+msgstr "بند يومية"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__print_lineno_purchase
+msgid "Line numbers on RFQ / purchase orders"
+msgstr "أرقام الأسطر في طلبات عروض الأسعار وأوامر الشراء"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__print_lineno_delivery
+msgid "Line numbers on delivery slips"
+msgstr "أرقام الأسطر في أذون التسليم"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__print_lineno_invoice
+msgid "Line numbers on invoices / bills"
+msgstr "أرقام الأسطر في الفواتير"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_account_move_line__line_no
 #: model:ir.model.fields,field_description:document_enhancement.field_line_numbering_mixin__line_no
+#: model:ir.model.fields,field_description:document_enhancement.field_purchase_order_line__line_no
+#: model:ir.model.fields,field_description:document_enhancement.field_sale_order_line__line_no
+#: model:ir.model.fields,field_description:document_enhancement.field_stock_move__line_no
 msgid "No."
 msgstr "م"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__print_note_purchase
+msgid "Notes on RFQ / purchase orders"
+msgstr "الملاحظات في طلبات عروض الأسعار وأوامر الشراء"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__print_note_delivery
+msgid "Notes on delivery slips"
+msgstr "الملاحظات في أذون التسليم"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__print_note_invoice
+msgid "Notes on invoices / bills"
+msgstr "الملاحظات في الفواتير"
+
+#. module: document_enhancement
+#: model:ir.model.fields,field_description:document_enhancement.field_res_company__print_note_sale
+msgid "Notes on quotations / orders"
+msgstr "الملاحظات في عروض الأسعار وأوامر البيع"
+
+#. module: document_enhancement
+#: model_terms:ir.ui.view,arch_db:document_enhancement.view_company_form_document_enhancement
+msgid "Print item notes on"
+msgstr "طباعة ملاحظات الأصناف في"
+
+#. module: document_enhancement
+#: model_terms:ir.ui.view,arch_db:document_enhancement.view_company_form_document_enhancement
+msgid "Print line numbers on"
+msgstr "طباعة أرقام الأسطر في"
+
+#. module: document_enhancement
+#: model:ir.model,name:document_enhancement.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "بند أمر الشراء"
+
+#. module: document_enhancement
+#: model_terms:ir.ui.view,arch_db:document_enhancement.view_company_form_document_enhancement
+msgid "Quotations and orders follow Odoo's own \"Line Numbers\" setting."
+msgstr "عروض الأسعار وأوامر البيع تتبع إعداد «أرقام الأسطر» الأصلي في Odoo."
+
+#. module: document_enhancement
+#: model:ir.model,name:document_enhancement.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "بند أمر البيع"
+
+#. module: document_enhancement
+#: model:ir.model,name:document_enhancement.model_stock_move
+msgid "Stock Move"
+msgstr "حركة مخزون"

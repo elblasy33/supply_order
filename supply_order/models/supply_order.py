@@ -199,6 +199,8 @@ class SupplyOrder(models.Model):
                 'location_id': src.id,
                 'location_dest_id': dest.id,
                 'supply_line_id': line.id,
+                'line_no': line.line_no,
+                'line_note': line.line_note,
             }
             if is_sale and line.sale_line_id:
                 vals.update(sale_line_id=line.sale_line_id.id, rule_id=rule.id, warehouse_id=wh.id)
@@ -290,6 +292,8 @@ class SupplyOrder(models.Model):
                 'discount': l.discount,
                 'tax_ids': [Command.set(l.tax_ids.ids)],
                 'supply_line_id': l.id,
+                'line_no': l.line_no,
+                'line_note': l.line_note,
             }) for l in self.line_ids],
         })
         for line in self.line_ids:
@@ -315,6 +319,8 @@ class SupplyOrder(models.Model):
                 'discount': l.discount,
                 'tax_ids': [Command.set(l.tax_ids.ids)],
                 'supply_line_id': l.id,
+                'line_no': l.line_no,
+                'line_note': l.line_note,
             }) for l in self.line_ids],
         })
         for line in self.line_ids:
@@ -339,7 +345,8 @@ class SupplyOrder(models.Model):
                 'tax_ids': [Command.set(line.tax_ids.ids)],
                 'product_uom_id': line.uom_id.id,
                 'supply_line_id': line.id,
-                'name': line.line_note or product.display_name,
+                'line_no': line.line_no,
+                'line_note': line.line_note,
             }
             doc_line = line.sale_line_id if is_sale else line.purchase_line_id
             if doc_line and doc_line.product_id == product:

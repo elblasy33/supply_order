@@ -1,0 +1,379 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* invoice_customization
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 13:51+0000\n"
+"PO-Revision-Date: 2026-11-04 13:51+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: invoice_customization
+#: model:ir.actions.report,print_report_name:invoice_customization.action_report_commercial_bill
+msgid "'Commercial Bill - %s' % (object.supply_ref or object.name)"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "<span> # </span>"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "<strong>Consignee</strong>"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "<strong>Currency:</strong>"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "<strong>Date:</strong>"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "<strong>Reference:</strong>"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "<strong>Supply Order No.:</strong>"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "<strong>Total</strong>"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "Amount"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.view_company_form_invoice_customization
+msgid "Bank details, origin, declaration…"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/supply_order.py:0
+#: model:ir.actions.report,name:invoice_customization.action_report_commercial_bill
+#: model_terms:ir.ui.view,arch_db:invoice_customization.supply_order_view_form_commercial_bill
+#: model_terms:ir.ui.view,arch_db:invoice_customization.view_company_form_invoice_customization
+msgid "Commercial Bill"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_res_company__commercial_bill_footer
+msgid "Commercial Bill footer"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_res_company__commercial_bill_title
+msgid "Commercial Bill title"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model,name:invoice_customization.model_res_company
+msgid "Company"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Consignee"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Currency"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Date"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "Description"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Disc.%"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_account_move__display_name
+#: model:ir.model.fields,field_description:invoice_customization.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:invoice_customization.field_product_template__display_name
+#: model:ir.model.fields,field_description:invoice_customization.field_res_company__display_name
+#: model:ir.model.fields,field_description:invoice_customization.field_supply_order__display_name
+#: model:ir.model.fields,field_description:invoice_customization.field_supply_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/controllers/main.py:0
+msgid "Download PDF"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/controllers/main.py:0
+msgid "Download XLSX"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,help:invoice_customization.field_res_company__commercial_bill_footer
+msgid "Free text printed at the bottom: bank details, origin, declaration…"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_res_company__group_invoice_lines_default
+msgid "Group items on printed invoices by default"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.module.module,summary:base.module_invoice_customization
+msgid ""
+"Group items on the printed invoice, preview before printing (PDF/XLSX), "
+"Commercial Bill"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_account_bank_statement_line__group_invoice_lines
+#: model:ir.model.fields,field_description:invoice_customization.field_account_move__group_invoice_lines
+msgid "Group items when printing"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_account_bank_statement_line__grouping_warning
+#: model:ir.model.fields,field_description:invoice_customization.field_account_move__grouping_warning
+msgid "Grouping Warning"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_account_move__id
+#: model:ir.model.fields,field_description:invoice_customization.field_account_move_line__id
+#: model:ir.model.fields,field_description:invoice_customization.field_product_template__id
+#: model:ir.model.fields,field_description:invoice_customization.field_res_company__id
+#: model:ir.model.fields,field_description:invoice_customization.field_supply_order__id
+#: model:ir.model.fields,field_description:invoice_customization.field_supply_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+msgid "Invoice"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.module.module,shortdesc:base.module_invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.view_company_form_invoice_customization
+msgid "Invoice Customization"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_account_move_line__invoice_group_name
+#: model:ir.model.fields,field_description:invoice_customization.field_product_product__invoice_group_name
+#: model:ir.model.fields,field_description:invoice_customization.field_product_template__invoice_group_name
+#: model:ir.model.fields,field_description:invoice_customization.field_supply_order_line__invoice_group_name
+msgid "Invoice Group"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.view_company_form_invoice_customization
+msgid "Invoices"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,help:invoice_customization.field_product_product__invoice_group_name
+#: model:ir.model.fields,help:invoice_customization.field_product_template__invoice_group_name
+msgid ""
+"Items sharing this name are shown as one line on the printed invoice and the"
+" Commercial Bill. Stock, cost and accounting entries keep every item "
+"separate."
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model,name:invoice_customization.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model,name:invoice_customization.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,help:invoice_customization.field_res_company__group_invoice_lines_default
+msgid "New invoices start with 'Group items when printing' ticked."
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Partner"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/controllers/main.py:0
+msgid "Preview"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/controllers/main.py:0
+msgid "Print"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,help:invoice_customization.field_supply_order_line__invoice_group_name
+msgid ""
+"Printed as one line with the other items of the same group (invoice and "
+"Commercial Bill)."
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model,name:invoice_customization.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "Quantity"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Quotation"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Quotation %s"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Reference"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_res_company__commercial_bill_show_notes
+msgid "Show item notes on the Commercial Bill"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,field_description:invoice_customization.field_res_company__commercial_bill_show_prices
+msgid "Show prices on the Commercial Bill"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model,name:invoice_customization.model_supply_order
+msgid "Supply Order"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model,name:invoice_customization.model_supply_order_line
+msgid "Supply Order Line"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Supply Order No."
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Taxes"
+msgstr ""
+
+#. module: invoice_customization
+#: model:ir.model.fields,help:invoice_customization.field_account_bank_statement_line__group_invoice_lines
+#: model:ir.model.fields,help:invoice_customization.field_account_move__group_invoice_lines
+msgid ""
+"The printed invoice shows items of the same Invoice Group as one line. "
+"Journal items, stock moves and costs are not changed."
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+msgid ""
+"These groups mix different taxes, units or discounts, so their items are not"
+" merged on the printed invoice: %s"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Total"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Unit"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+#: model_terms:ir.ui.view,arch_db:invoice_customization.report_commercial_bill_document
+msgid "Unit Price"
+msgstr ""
+
+#. module: invoice_customization
+#. odoo-python
+#: code:addons/invoice_customization/models/account_move.py:0
+#: code:addons/invoice_customization/models/supply_order.py:0
+msgid "Untaxed Amount"
+msgstr ""
+
+#. module: invoice_customization
+#: model_terms:ir.ui.view,arch_db:invoice_customization.product_template_form_invoice_group
+msgid "e.g. Chips"
+msgstr ""

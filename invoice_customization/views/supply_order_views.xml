@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="supply_order_view_form_commercial_bill" model="ir.ui.view">
+        <field name="name">supply.order.form.commercial.bill</field>
+        <field name="model">supply.order</field>
+        <field name="inherit_id" ref="supply_order.supply_order_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_print_quotation']" position="after">
+                <button name="action_print_commercial_bill" string="Commercial Bill" type="object"
+                        invisible="state == 'cancel' or order_type != 'sale'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

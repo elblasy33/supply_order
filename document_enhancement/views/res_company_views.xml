@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_document_enhancement" model="ir.ui.view">
+        <field name="name">res.company.form.document.enhancement</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Document Enhancement" name="document_enhancement">
+                    <group>
+                        <group string="Print item notes on">
+                            <field name="print_note_sale"/>
+                            <field name="print_note_invoice"/>
+                            <field name="print_note_purchase"/>
+                            <field name="print_note_delivery"/>
+                        </group>
+                        <group string="Print line numbers on" name="line_numbers">
+                            <div class="text-muted" colspan="2">
+                                Quotations and orders follow Odoo's own "Line Numbers" setting.
+                            </div>
+                            <field name="print_lineno_invoice"/>
+                            <field name="print_lineno_purchase"/>
+                            <field name="print_lineno_delivery"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

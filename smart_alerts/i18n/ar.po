@@ -41,8 +41,8 @@ msgstr "أمر شراء تلقائي %s"
 
 #. module: smart_alerts
 #: model:ir.model.fields,field_description:smart_alerts.field_purchase_order__auto_source
-msgid "Created by"
-msgstr "أنشأه"
+msgid "Created automatically by"
+msgstr "أُنشئ تلقائياً بواسطة"
 
 #. module: smart_alerts
 #: model:ir.model.fields,help:smart_alerts.field_purchase_order__auto_generated

@@ -7,7 +7,7 @@ class PurchaseOrder(models.Model):
     auto_generated = fields.Boolean(string='Auto-generated', readonly=True, copy=False, index=True,
                                     help="Created by the scheduler (replenish on order or reordering rule).")
     auto_source = fields.Selection([('mto', 'Replenish on order'), ('reorder', 'Reordering rule')],
-                                   string='Created by', readonly=True, copy=False)
+                                   string='Created automatically by', readonly=True, copy=False)
     late_alerted = fields.Boolean(copy=False)
     is_late_receipt = fields.Boolean(string='Late receipt', compute='_compute_is_late_receipt',
                                      search='_search_is_late_receipt')

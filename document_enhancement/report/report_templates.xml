@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Quotation / sales order: our editable number replaces Odoo's counter; item note under the name -->
+    <template id="report_saleorder_document_line" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//td[@name='td_product_line_no']/span[@t-out='line_counter']" position="replace">
+            <span t-out="line.line_no or line_counter"/>
+        </xpath>
+        <xpath expr="//td[@name='td_product_name']" position="inside">
+            <div t-if="line.line_note and doc.company_id.print_note_sale" class="text-muted small">
+                <span t-field="line.line_note"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_invoice_document_line" inherit_id="account.report_invoice_document">
+        <xpath expr="//td[@name='account_invoice_line_name']/span[@t-if='line.label']" position="before">
+            <span t-if="o.company_id.print_lineno_invoice and line.line_no" t-out="'%s.' % line.line_no" class="me-1"/>
+        </xpath>
+        <xpath expr="//td[@name='account_invoice_line_name']" position="inside">
+            <div t-if="line.line_note and o.company_id.print_note_invoice" class="text-muted small">
+                <span t-field="line.line_note"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_purchaseorder_document_line" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//td[@id='product']/span[@t-field='line.label']" position="before">
+            <span t-if="o.company_id.print_lineno_purchase and line.line_no" t-out="'%s.' % line.line_no" class="me-1"/>
+        </xpath>
+        <xpath expr="//td[@id='product']" position="inside">
+            <div t-if="line.line_note and o.company_id.print_note_purchase" class="text-muted small">
+                <span t-field="line.line_note"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_delivery_document_line" inherit_id="stock.report_delivery_document">
+        <xpath expr="//tr[@t-foreach='lines']/td[1]/span[@t-field='move.product_id']" position="before">
+            <span t-if="o.company_id.print_lineno_delivery and move.line_no" t-out="'%s.' % move.line_no" class="me-1"/>
+        </xpath>
+        <xpath expr="//tr[@t-foreach='lines']/td[1]" position="inside">
+            <div t-if="move.line_note and o.company_id.print_note_delivery" class="text-muted small">
+                <span t-field="move.line_note"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>
