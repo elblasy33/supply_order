@@ -143,7 +143,7 @@ export async function saveConnectionAction(input: ConnectionInput): Promise<Conn
     const full = withSavedKey(input);
     const check = await diagnose(full);
     if (!check.ok) return { ok: false, check, error: "لم يُحفظ الاتصال: أصلح الخطوات الفاشلة ثم أعد المحاولة." };
-    saveConnection({ url: normalizeUrl(full.url)!, database: full.database.trim(), apiKey: full.apiKey });
+    saveConnection({ url: normalizeUrl(full.url)!, database: full.database.trim(), apiKey: full.apiKey, languages: check.info?.languages });
     audit(user.id, "odoo.connection.save", { url: full.url, database: full.database });
     revalidatePath("/", "layout");
     return { ok: true, saved: true, check };

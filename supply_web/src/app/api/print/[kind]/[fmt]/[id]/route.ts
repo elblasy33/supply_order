@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
-import { OdooError, odooPrint } from "@/lib/odoo";
-import { ODOO_LANG } from "@/lib/i18n/core";
-import { getLocale, getT } from "@/lib/i18n/server";
+import { OdooError, odooLang, odooPrint } from "@/lib/odoo";
+import { getT } from "@/lib/i18n/server";
 
 const KINDS = new Set(["quotation", "commercial_bill", "invoice"]);
 const FORMATS = new Set(["html", "pdf", "xlsx"]);
@@ -10,7 +9,6 @@ const FORMATS = new Set(["html", "pdf", "xlsx"]);
 /** Streams an Odoo document to the browser; the Odoo key never leaves the server. */
 export async function GET(_req: Request, ctx: { params: Promise<{ kind: string; fmt: string; id: string }> }) {
   const { kind, fmt, id } = await ctx.params;
-  const locale = await getLocale();
   const t = await getT();
   const user = await getCurrentUser();
   if (!user) return new NextResponse(t("غير مسجّل"), { status: 401 });
@@ -20,7 +18,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ kind: string; 
     return new NextResponse(t("طلب غير صالح"), { status: 400 });
   }
   try {
-    const upstream = await odooPrint(kind, fmt, rid, ODOO_LANG[locale]);
+    const upstream = await odooPrint(kind, fmt, rid, await odooLang());
     if (upstream.status === 404) return new NextResponse(t("المستند غير موجود"), { status: 404 });
     const headers = new Headers();
     for (const h of ["content-type", "content-disposition"]) {

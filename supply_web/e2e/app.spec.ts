@@ -395,6 +395,18 @@ test("English: the whole screen switches to English and left-to-right, and back"
   await expect(page.getByRole("heading", { name: /أهلاً/ })).toBeVisible();
 });
 
+test("Odoo is asked in a language it has: Arabic → ar_SY here (no ar_001 installed), English → en_US", async ({ page }) => {
+  await login(page, "admin", "secret-pass-1");
+  await page.goto("/orders");
+  await page.getByRole("button", { name: "English" }).first().click();
+  await page.goto("/orders");
+  await page.getByRole("button", { name: "العربية" }).first().click();
+  await page.goto("/orders");
+  const calls = (await (await page.request.get("http://localhost:8070/__calls", { headers: { Authorization: "Bearer test-key" } })).json()) as { body: { context?: { lang?: string } } }[];
+  const langs = new Set(calls.map((c) => c.body.context?.lang).filter(Boolean));
+  expect(langs).toEqual(new Set(["ar_SY", "en_US"]));
+});
+
 test("double clicking an action does the work once (idempotency)", async ({ page }) => {
   await login(page, "admin", "secret-pass-1");
   await page.goto("/orders/new");

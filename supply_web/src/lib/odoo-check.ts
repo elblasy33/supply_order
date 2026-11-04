@@ -9,6 +9,7 @@ export type OdooInfo = {
   major: number;
   edition: "community" | "enterprise";
   database: string;
+  languages?: string[];
   modules: Record<string, { state: string; version: string }>;
   service_user: { id: number; login: string; name: string; configured: boolean; is_service_user: boolean };
   company: { id: number; name: string; currency: string };

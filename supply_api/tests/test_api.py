@@ -294,6 +294,7 @@ class TestSupplyApi(ApiCase):
         self.assertEqual(set(info['modules']), set(self.env['supply.api'].SUITE))
         self.assertTrue(info['service_user']['is_service_user'])
         self.assertEqual(info['database'], self.env.cr.dbname)
+        self.assertIn('en_US', info['languages'])
         other = self.env['supply.api'].with_user(self.env.user).info()
         self.assertFalse(other['data']['service_user']['is_service_user'])
 

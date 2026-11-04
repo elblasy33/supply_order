@@ -102,9 +102,10 @@ const setEntries = (m, entries) => {
   m.entries = entries.filter((e) => e.quantity > 0).map((e) => ({ quantity: e.quantity, lot_name: e.lot_name ?? "", lot: null }));
   m.quantity = m.entries.reduce((s, e) => s + e.quantity, 0);
 };
+const LANGS = ["en_US", "ar_SY"]; // note: no ar_001, like the Odoo that reported the bug
 const SUITE = ["document_enhancement", "supply_order", "product_tracking_plus", "smart_alerts", "invoice_customization", "discounts_rebates", "smart_reconciliation", "supply_api"];
 const handlers = {
-  info: (b, ctx) => ({ version: "20.0", major: 20, edition: "enterprise", database: "mock_db",
+  info: (b, ctx) => ({ version: "20.0", major: 20, edition: "enterprise", database: "mock_db", languages: LANGS,
     modules: Object.fromEntries(SUITE.map((n) => [n, { state: "installed", version: "20.0.1.0.0" }])),
     service_user: { id: 7, login: "supply_integration", name: "Supply Integration", configured: true, is_service_user: ctx.bearer === `Bearer ${KEY}` },
     company: { id: 1, name: "Mock Co", currency: "EGP" } }),
@@ -281,6 +282,8 @@ http.createServer((req, res) => {
     const method = m[1];
     const key = body.idempotency_key;
     calls.push({ method, body });
+    const lang = body.context?.lang;
+    if (lang && !LANGS.includes(lang)) return send(422, { name: "werkzeug.exceptions.UnprocessableEntity", message: `Invalid language code: ${lang}` });
     const h = handlers[method];
     if (!h) return send(404, { name: "NotFound" });
     if (key && seen.has(key)) return send(200, seen.get(key));

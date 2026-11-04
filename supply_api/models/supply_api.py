@@ -568,6 +568,7 @@ class SupplyApi(models.AbstractModel):
             'version': release.version, 'major': release.version_info[0],
             'edition': 'enterprise' if enterprise else 'community',
             'database': self.env.cr.dbname,
+            'languages': self.env['res.lang'].sudo().search([]).mapped('code'),
             'modules': {name: modules.get(name, {'state': 'missing', 'version': ''}) for name in self.SUITE},
             'service_user': {'id': self.env.uid, 'login': self.env.user.login, 'name': self.env.user.name,
                              'configured': bool(service_id), 'is_service_user': service_id == self.env.uid},

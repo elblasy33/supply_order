@@ -1,7 +1,7 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
-import { getConnection, type OdooConnection } from "./settings";
-import { ODOO_LANG } from "./i18n/core";
+import { getConnection, getLangs, setLangs, type OdooConnection } from "./settings";
+import { pickOdooLang } from "./i18n/core";
 import { getLocale } from "./i18n/server";
 
 /** Error code of the supply.api contract (docs/API_CONTRACT.yaml) plus the transport failures. */
@@ -66,6 +66,24 @@ function transportError(status: number): OdooError {
   return new OdooError("server_error", `ردّ أودو بخطأ غير متوقع (${status}).`);
 }
 
+/**
+ * The language to ask Odoo for, among those installed there (Odoo refuses the whole request for a language it
+ * does not have). Learned once from `info` and kept with the connection; undefined = Odoo's own default.
+ */
+export async function odooLang(): Promise<string | undefined> {
+  const locale = await getLocale().catch(() => "ar" as const);
+  let langs = getLangs();
+  if (langs === null) {
+    try {
+      const res = await raw("/json/2/supply.api/info", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ context: {} }) });
+      const body = (await res.json()) as { ok?: boolean; data?: { languages?: string[] } };
+      langs = body.ok ? (body.data?.languages ?? []) : null;
+      if (langs) setLangs(langs);
+    } catch { return undefined; }
+  }
+  return pickOdooLang(locale, langs);
+}
+
 /** Calls `POST /json/2/supply.api/<method>` and returns the whole envelope fields (data + page info). */
 export async function odooCall<T = unknown>(
   method: string,
@@ -74,14 +92,21 @@ export async function odooCall<T = unknown>(
 ): Promise<{ data: T; page?: { total: number; offset: number; limit: number } }> {
   const context: Record<string, unknown> = {};
   if (opts.extUserId) context.ext_user_id = opts.extUserId;
-  context.lang = opts.lang ?? ODOO_LANG[await getLocale().catch(() => "ar" as const)];
+  const lang = opts.lang ?? (await odooLang());
+  if (lang) context.lang = lang;
   const body: Record<string, unknown> = { ...args, context };
   if (opts.idempotencyKey) body.idempotency_key = opts.idempotencyKey;
-  const res = await raw(`/json/2/supply.api/${method}`, {
+  const send = () => raw(`/json/2/supply.api/${method}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
+  let res = await send();
+  if (!res.ok && context.lang && /invalid language/i.test(await res.clone().text())) {
+    delete context.lang; // that language was removed from Odoo since we last looked: carry on in its default
+    setLangs([]);
+    res = await send();
+  }
   if (!res.ok) throw transportError(res.status);
   const env = (await res.json()) as Envelope<T> & { total?: number; offset?: number; limit?: number };
   if (!env.ok) throw new OdooError(env.error.code, env.error.message, env.error.field || undefined);

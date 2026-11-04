@@ -58,7 +58,15 @@ export function getConnection(): OdooConnection {
   return { url: url ?? eurl, database: read("odoo.database") ?? "", apiKey: "", source: "none" };
 }
 
-export function saveConnection(c: { url: string; database: string; apiKey: string }) {
+/** Languages installed on the connected Odoo (null = not known yet). */
+export function getLangs(): string[] | null {
+  const v = read("odoo.langs");
+  try { return v ? (JSON.parse(v) as string[]) : null; } catch { return null; }
+}
+export function setLangs(langs: string[]) { write("odoo.langs", JSON.stringify(langs)); }
+
+export function saveConnection(c: { url: string; database: string; apiKey: string; languages?: string[] }) {
+  write("odoo.langs", JSON.stringify(c.languages ?? []));
   write("odoo.url", c.url);
   write("odoo.database", c.database);
   write("odoo.api_key", encrypt(c.apiKey));

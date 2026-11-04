@@ -7,6 +7,18 @@ export const DIR: Record<Locale, "rtl" | "ltr"> = { ar: "rtl", en: "ltr" };
 /** The language Odoo is asked to answer in (record names stay as stored). */
 export const ODOO_LANG: Record<Locale, string> = { ar: "ar_001", en: "en_US" };
 
+/**
+ * The Odoo language to ask for: one that is installed on that Odoo (asking for a missing one makes Odoo refuse
+ * the whole request). Arabic prefers ar_001, English en_US; undefined = let Odoo use the user's own language.
+ */
+export function pickOdooLang(locale: Locale, installed: string[] | null): string | undefined {
+  if (!installed?.length) return undefined;
+  const prefix = locale === "ar" ? "ar" : "en";
+  const preferred = ODOO_LANG[locale];
+  if (installed.includes(preferred)) return preferred;
+  return installed.find((c) => c === prefix || c.startsWith(`${prefix}_`));
+}
+
 export type T = (key: string, vars?: Record<string, string | number>) => string;
 
 export const isLocale = (v: unknown): v is Locale => v === "ar" || v === "en";
