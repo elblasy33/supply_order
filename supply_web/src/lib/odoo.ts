@@ -26,7 +26,7 @@ export class OdooError extends Error {
   }
 }
 
-export type Page<T> = { data: T[]; total: number; offset: number; limit: number };
+export type Page<T> = { data: T[]; total: number; offset: number; limit: number; balance_total?: number };
 
 function config(): OdooConnection {
   const c = getConnection();
@@ -91,7 +91,7 @@ export async function odooCall<T = unknown>(
   method: string,
   args: Record<string, unknown> = {},
   opts: CallOptions = {},
-): Promise<{ data: T; page?: { total: number; offset: number; limit: number } }> {
+): Promise<{ data: T; page?: { total: number; offset: number; limit: number; balance_total?: number } }> {
   const context: Record<string, unknown> = {};
   if (opts.extUserId) context.ext_user_id = opts.extUserId;
   if (opts.tz) context.tz = opts.tz;
@@ -111,9 +111,9 @@ export async function odooCall<T = unknown>(
     res = await send();
   }
   if (!res.ok) throw transportError(res.status);
-  const env = (await res.json()) as Envelope<T> & { total?: number; offset?: number; limit?: number };
+  const env = (await res.json()) as Envelope<T> & { total?: number; offset?: number; limit?: number; balance_total?: number };
   if (!env.ok) throw new OdooError(env.error.code, env.error.message, env.error.field || undefined);
-  const page = env.total === undefined ? undefined : { total: env.total, offset: env.offset ?? 0, limit: env.limit ?? 0 };
+  const page = env.total === undefined ? undefined : { total: env.total, offset: env.offset ?? 0, limit: env.limit ?? 0, balance_total: env.balance_total };
   return { data: env.data, page };
 }
 
@@ -123,7 +123,7 @@ export async function odooData<T = unknown>(method: string, args: Record<string,
 
 export async function odooPage<T>(method: string, args: Record<string, unknown> = {}, opts: CallOptions = {}): Promise<Page<T>> {
   const { data, page } = await odooCall<T[]>(method, args, opts);
-  return { data, total: page?.total ?? data.length, offset: page?.offset ?? 0, limit: page?.limit ?? data.length };
+  return { data, total: page?.total ?? data.length, offset: page?.offset ?? 0, limit: page?.limit ?? data.length, balance_total: page?.balance_total };
 }
 
 /** Key-authenticated print/download route of supply_api; returns the upstream response to stream. */

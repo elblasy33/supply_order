@@ -22,8 +22,14 @@ export const PERMISSIONS = {
   "warehouse.cancel": "إلغاء إذن",
   "alerts.view": "عرض التنبيهات (الصلاحية والمشتريات التلقائية)",
   "accounting.reconcile": "التسوية الجماعية للفواتير",
+  "accounting.ledger": "أرصدة العملاء والموردين وكشوف الحساب",
   "rebates.view": "عرض الخصومات المؤجلة",
   "rebates.manage": "تكوين وتسوية الخصومات المؤجلة",
+  "cash.view": "عرض الخزائن وحركتها",
+  "cash.receive": "قبض نقدية (من عميل أو مورد)",
+  "cash.pay": "صرف نقدية (لعميل أو مورد)",
+  "cash.transfer": "تحويل أموال بين الخزائن",
+  "expenses.create": "تسجيل مصروف على الشركة",
   "settings.users": "إدارة المستخدمين",
   "settings.roles": "إدارة الأدوار والصلاحيات",
   "settings.odoo": "إعدادات الاتصال بأودو",
@@ -43,7 +49,8 @@ export const PERMISSION_GROUPS: { title: string; keys: Permission[] }[] = [
   },
   { title: "المخزن (التسليم والاستلام)", keys: ["warehouse.view", "warehouse.process", "warehouse.validate", "warehouse.return", "warehouse.cancel"] },
   { title: "التنبيهات", keys: ["alerts.view"] },
-  { title: "المحاسبة", keys: ["accounting.reconcile", "rebates.view", "rebates.manage"] },
+  { title: "المحاسبة", keys: ["accounting.reconcile", "accounting.ledger", "rebates.view", "rebates.manage"] },
+  { title: "الخزينة والمصروفات", keys: ["cash.view", "cash.receive", "cash.pay", "cash.transfer", "expenses.create"] },
   { title: "الإعدادات", keys: ["settings.users", "settings.roles", "settings.odoo"] },
 ];
 
@@ -73,6 +80,7 @@ export const DEFAULT_ROLES: { name: string; permissions: Permission[] }[] = [
     name: "محاسب",
     permissions: [
       "orders.view", "orders.invoice", "orders.print", "accounting.reconcile", "rebates.view", "rebates.manage", "warehouse.view",
+      "cash.view", "cash.receive", "cash.pay", "cash.transfer", "expenses.create", "accounting.ledger",
     ],
   },
 ];

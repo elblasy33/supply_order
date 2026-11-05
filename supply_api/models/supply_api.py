@@ -551,6 +551,7 @@ class SupplyApi(models.AbstractModel):
             user = User.create(dict(vals, login=login))
         return {'id': user.id, 'login': user.login, 'name': user.name, 'role': user.role, 'active': user.active}
 
+    OPTIONAL = ('supply_cash',)  # extra modules the app uses when present
     SUITE = ('document_enhancement', 'supply_order', 'product_tracking_plus', 'smart_alerts', 'invoice_customization',
              'discounts_rebates', 'smart_reconciliation', 'supply_api')
 
@@ -561,7 +562,7 @@ class SupplyApi(models.AbstractModel):
         """What the app needs to know before using this Odoo: version, edition, our modules, the key's user."""
         Module = self.env['ir.module.module'].sudo()
         modules = {m.name: {'state': m.state, 'version': m.latest_version or ''}
-                   for m in Module.search([('name', 'in', list(self.SUITE))])}
+                   for m in Module.search([('name', 'in', list(self.SUITE) + list(self.OPTIONAL))])}
         enterprise = bool(Module.search_count([('name', '=', 'web_enterprise'), ('state', '=', 'installed')]))
         service_id = self._service_user_id()
         return {
@@ -570,6 +571,7 @@ class SupplyApi(models.AbstractModel):
             'database': self.env.cr.dbname,
             'languages': self.env['res.lang'].sudo().search([]).mapped('code'),
             'modules': {name: modules.get(name, {'state': 'missing', 'version': ''}) for name in self.SUITE},
+            'optional': {name: modules.get(name, {'state': 'missing', 'version': ''}) for name in self.OPTIONAL},
             'service_user': {'id': self.env.uid, 'login': self.env.user.login, 'name': self.env.user.name,
                              'configured': bool(service_id), 'is_service_user': service_id == self.env.uid},
             'company': {'id': self.env.company.id, 'name': self.env.company.name,

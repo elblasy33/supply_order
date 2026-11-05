@@ -82,7 +82,7 @@ input, select, textarea, button { font-family: inherit; }
   @apply btn text-muted hover:bg-canvas hover:text-ink;
 }
 @utility input {
-  @apply w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm outline-none transition
+  @apply w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm text-ink outline-none transition
     placeholder:text-muted/70 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 disabled:bg-canvas;
 }
 @utility label {

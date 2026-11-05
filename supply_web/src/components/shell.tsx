@@ -5,9 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import clsx from "clsx";
 import {
-  Bell, ChevronsLeft, ChevronsRight, ClipboardList, Gift, LayoutDashboard, LogOut, Menu, Plug, Scale,
-  ShieldCheck, Users, Warehouse, X,
-} from "lucide-react";
+  Bell, BookUser, ChevronsLeft, ChevronsRight, ClipboardList, Gift, LayoutDashboard, LogOut, Menu, Plug, Scale,
+  ShieldCheck, Users, Warehouse, X, Wallet, Receipt } from "lucide-react";
 import { LocaleToggle } from "@/components/locale-toggle";
 import { OdooStatusBanner, OdooStatusPill, OdooStatusProvider } from "@/components/odoo-status";
 import { InstallPrompt } from "@/components/pwa";
@@ -22,7 +21,10 @@ const ITEMS: Item[] = [
   { href: "/warehouse", label: "المخزن (تسليم/استلام)", icon: <Warehouse className="size-5" />, perm: "warehouse.view" },
   { href: "/alerts", label: "التنبيهات", icon: <Bell className="size-5" />, perm: "alerts.view" },
   { href: "/accounting/reconcile", label: "التسوية الجماعية", icon: <Scale className="size-5" />, perm: "accounting.reconcile", section: "المحاسبة" },
+  { href: "/accounting/balances", label: "أرصدة العملاء والموردين", icon: <BookUser className="size-5" />, perm: "accounting.ledger", section: "المحاسبة" },
   { href: "/rebates", label: "الخصومات المؤجلة", icon: <Gift className="size-5" />, perm: "rebates.view", section: "المحاسبة" },
+  { href: "/cash", label: "الخزائن والنقدية", icon: <Wallet className="size-5" />, perm: "cash.view", section: "الخزينة" },
+  { href: "/expenses", label: "المصروفات", icon: <Receipt className="size-5" />, perm: "expenses.create", section: "الخزينة" },
   { href: "/settings/users", label: "المستخدمون", icon: <Users className="size-5" />, perm: "settings.users", section: "الإعدادات" },
   { href: "/settings/roles", label: "الأدوار والصلاحيات", icon: <ShieldCheck className="size-5" />, perm: "settings.roles", section: "الإعدادات" },
   { href: "/settings/odoo", label: "الاتصال بأودو", icon: <Plug className="size-5" />, perm: "settings.odoo", section: "الإعدادات" },

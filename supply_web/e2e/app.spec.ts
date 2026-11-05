@@ -276,6 +276,55 @@ test("alerts, reconciliation and rebates", async ({ page }) => {
   await shot(page, "10-rebates");
 });
 
+test("cash vouchers, transfers and company expenses", async ({ page }) => {
+  await login(page, "admin", "secret-pass-1");
+  await page.goto("/cash");
+  await expect(page.getByText("الخزينة الرئيسية").first()).toBeVisible();
+  await page.getByRole("button", { name: /المظهر/ }).first().click(); // system -> light -> dark
+  await page.getByRole("button", { name: /المظهر/ }).first().click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await page.getByRole("button", { name: "قبض نقدية" }).click();
+  const dialog = page.getByRole("dialog");
+  // in the dark, typed amounts and the dialog text must be light, not the browser's black
+  const light = (el: Element) => getComputedStyle(el).color.match(/\d+/g)!.slice(0, 3).every((c) => Number(c) > 150);
+  expect(await dialog.getByRole("spinbutton").evaluate(light)).toBe(true);
+  expect(await dialog.evaluate(light)).toBe(true);
+  await dialog.getByPlaceholder("ابحث عن عميل أو مورد…").fill("النور");
+  await dialog.getByRole("option", { name: /شركة النور/ }).click();
+  await dialog.getByRole("spinbutton").fill("250");
+  await dialog.getByRole("button", { name: "حفظ" }).click();
+  await expect(page.getByRole("cell", { name: "قبض" })).toBeVisible();
+  await expect(page.getByText("1,250.00").first()).toBeVisible(); // 1000 + 250
+
+  await page.getByRole("button", { name: "تحويل بين الخزائن" }).click();
+  await page.getByRole("dialog").getByRole("spinbutton").fill("100");
+  await page.getByRole("dialog").getByRole("button", { name: "حفظ" }).click();
+  await expect(page.getByRole("cell", { name: "تحويل" })).toBeVisible();
+  await page.getByRole("button", { name: /المظهر/ }).first().click(); // back to system
+  await shot(page, "11-cash");
+
+  await page.goto("/expenses");
+  await page.getByLabel("بند المصروف").selectOption({ label: "وقود" });
+  await page.getByRole("spinbutton").fill("60");
+  await page.getByRole("button", { name: "تسجيل المصروف" }).click();
+  await expect(page.getByRole("cell", { name: "مدفوع" })).toBeVisible();
+  await shot(page, "12-expenses");
+});
+
+test("balances of customers and vendors, and the statement of account", async ({ page }) => {
+  await login(page, "admin", "secret-pass-1");
+  await page.goto("/accounting/balances");
+  await expect(page.getByText("الخزينة الرئيسية").first()).toBeVisible(); // treasury balances on top
+  await expect(page.getByRole("cell", { name: "شركة النور للتجارة" })).toBeVisible();
+  await page.getByRole("link", { name: "كشف الحساب" }).click();
+  await expect(page.getByRole("heading", { name: /كشف الحساب — شركة النور/ })).toBeVisible();
+  await expect(page.getByText("INV/2026/0001")).toBeVisible();
+  await expect(page.getByText("مسوّى")).toBeVisible();
+  await shot(page, "13-statement");
+  await page.goto("/accounting/balances?kind=vendor");
+  await expect(page.getByRole("cell", { name: "مورد الأمل" })).toBeVisible();
+});
+
 test("connection settings: every failure is explained, only a working connection is saved", async ({ page }) => {
   await login(page, "admin", "secret-pass-1");
   await page.goto("/settings/odoo");

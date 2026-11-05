@@ -201,7 +201,7 @@
 <div class="section newpage">
   <h1>٨. السيناريوهات حسب الدور</h1>
   <p>لكل دور سيناريوهاته؛ ويُنصح أن يجرّب كل مشارك سيناريوهات دوره <b>ثم</b> يطّلع على سيناريوهات الأدوار الأخرى ليفهم الدورة كاملة. «حرج» يعني أنه لا يمكن اعتماد النظام دون نجاحه.</p>
-  <table><thead><tr><th>الدور</th><th>السيناريوهات</th><th>منها حرجة</th><th>الدقائق التقريبية</th></tr></thead><tbody><tr><td><span class='chip mgr'>A</span> مدير النظام / الإدارة</td><td class='num'>3</td><td class='num'>2</td><td class='num'>55</td></tr><tr><td><span class='chip sales'>S</span> مندوب المبيعات</td><td class='num'>8</td><td class='num'>4</td><td class='num'>110</td></tr><tr><td><span class='chip wh'>W</span> أمين المخزن</td><td class='num'>12</td><td class='num'>6</td><td class='num'>175</td></tr><tr><td><span class='chip acc'>C</span> المحاسب</td><td class='num'>5</td><td class='num'>2</td><td class='num'>105</td></tr><tr><td><span class='chip mgr'>X</span> الجميع (عبر الأدوار)</td><td class='num'>6</td><td class='num'>0</td><td class='num'>100</td></tr><tr><td><b>المجموع</b></td><td class='num'><b>34</b></td><td class='num'><b>14</b></td><td class='num'><b>545</b></td></tr></tbody></table>
+  <table><thead><tr><th>الدور</th><th>السيناريوهات</th><th>منها حرجة</th><th>الدقائق التقريبية</th></tr></thead><tbody><tr><td><span class='chip mgr'>A</span> مدير النظام / الإدارة</td><td class='num'>3</td><td class='num'>2</td><td class='num'>55</td></tr><tr><td><span class='chip sales'>S</span> مندوب المبيعات</td><td class='num'>8</td><td class='num'>4</td><td class='num'>110</td></tr><tr><td><span class='chip wh'>W</span> أمين المخزن</td><td class='num'>12</td><td class='num'>6</td><td class='num'>175</td></tr><tr><td><span class='chip acc'>C</span> المحاسب</td><td class='num'>8</td><td class='num'>4</td><td class='num'>145</td></tr><tr><td><span class='chip mgr'>X</span> الجميع (عبر الأدوار)</td><td class='num'>6</td><td class='num'>0</td><td class='num'>100</td></tr><tr><td><b>المجموع</b></td><td class='num'><b>37</b></td><td class='num'><b>16</b></td><td class='num'><b>585</b></td></tr></tbody></table>
   <p class="small">تُسجَّل نتيجة كل سيناريو في الجدول الإلكتروني (ورقة «السيناريوهات»)، وتُترك هذه الصفحات للطباعة والتعبئة على الورق إن فُضِّل.</p>
 </div>
 
@@ -462,7 +462,7 @@
   </div>
   <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
 </div>
-<h2><span class="chip acc">C</span> المحاسب <span class="small">— 5 سيناريوهات، حوالي <span class="num">105</span> دقيقة</span></h2>
+<h2><span class="chip acc">C</span> المحاسب <span class="small">— 8 سيناريوهات، حوالي <span class="num">145</span> دقيقة</span></h2>
 
 <div class="scn">
   <div class="scn-head"><span class="sid num">C1</span><b>فاتورة من الكميات الفعلية</b>
@@ -515,6 +515,39 @@
   <div class="cols">
     <div><b class="kufi">الخطوات</b><ol><li>كرّر C4 على مورد.</li></ol></div>
     <div><b class="kufi">النتيجة المتوقعة</b><ul><li>القيود معكوسة بالشكل الصحيح (أصل مستحق / إيراد خصومات).</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">C6</span><b>قبض وصرف نقدية دون تسوية</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> يومية نقدية ويومية بنك، وعميل ومورد</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>افتح «الخزائن والنقدية» ثم «قبض نقدية»: اختر الخزينة والعميل والمبلغ واحفظ.</li><li>كرر «صرف نقدية» لمورد.</li><li>قارن الرصيد الظاهر والقيد في أودو (دفتر اليومية وكشف حساب الشريك).</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>رصيد الخزينة يزيد بالقبض وينقص بالصرف فوراً.</li><li>يظهر سند دفع حقيقي في أودو (المحاسبة ← العملاء/الموردين ← المدفوعات) مرحَّل وغير مسوّى بأي فاتورة، ويمكن تسويته لاحقاً.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">C7</span><b>تحويل بين الخزائن</b>
+    <span class="badge b-warn">مهم</span><span class="small">حوالي <span class="num">10</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> خزينة نقدية وحساب بنكي برصيد</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>من «تحويل بين الخزائن» حوّل مبلغاً من النقدية إلى البنك.</li><li>جرّب اختيار الخزينة نفسها.</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>يظهر سندان مرتبطان (صرف من الأولى وقبض في الثانية) ورصيد الأولى ينقص والثانية يزيد بنفس المبلغ.</li><li>اختيار الخزينة نفسها مرفوض برسالة واضحة.</li></ul></div>
+  </div>
+  <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
+</div>
+
+<div class="scn">
+  <div class="scn-head"><span class="sid num">C8</span><b>مصروف على الشركة</b>
+    <span class="badge b-bad">حرج</span><span class="small">حوالي <span class="num">15</span> دقيقة</span></div>
+  <p class="small"><b>قبل البدء:</b> وحدة النفقات مثبتة ومنتج «يمكن صرفه كمصروف»</p>
+  <div class="cols">
+    <div><b class="kufi">الخطوات</b><ol><li>افتح «المصروفات» واختر الخزينة وبند المصروف والمبلغ ثم سجّل.</li><li>افتح المصروف في أودو (النفقات).</li></ol></div>
+    <div><b class="kufi">النتيجة المتوقعة</b><ul><li>المصروف «مدفوع من الشركة» وليس من موظف، معتمد ومرحَّل، ورصيد الخزينة المختارة ينقص.</li></ul></div>
   </div>
   <p class="res">النتيجة: <span class="check"></span> نجح &nbsp; <span class="check"></span> نجح بملاحظة &nbsp; <span class="check"></span> فشل &nbsp;&nbsp;|&nbsp;&nbsp; المختبِر: ________________ &nbsp; التاريخ: ____/____</p>
 </div>

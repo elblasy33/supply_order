@@ -20,7 +20,7 @@ export function Dialog({
       ref={ref}
       onClose={onClose}
       onClick={(e) => e.target === ref.current && onClose()}
-      className={`m-auto w-[min(94vw,${wide ? "44rem" : "30rem"})] rounded-2xl border border-line bg-surface p-0 shadow-2xl backdrop:bg-black/40`}
+      className={`m-auto w-[min(94vw,${wide ? "44rem" : "30rem"})] rounded-2xl border border-line bg-surface p-0 text-ink shadow-2xl backdrop:bg-black/40`}
       style={{ width: `min(94vw, ${wide ? "44rem" : "30rem"})` }}
     >
       {open && (

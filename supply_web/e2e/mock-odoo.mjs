@@ -289,6 +289,24 @@ const handlers = {
   rebate_action: (b) => { const next = { confirm: "confirmed", settle: "settled", cancel: "cancel", reset_draft: "draft" }[b.action]; if (b.action === "settle" && rebate.state !== "confirmed") throw new Err("user_error", "كوّن مخصص الخصم قبل تسويته."); rebate.state = next; return { id: 1, state: next, amount: 100, credit_note: null }; },
 };
 const rebate = { state: "draft" };
+const treasuries = [{ id: 21, name: "الخزينة الرئيسية", type: "cash", code: "CSH1", balance: 1000, currency: "EGP", has_account: true },
+  { id: 22, name: "البنك الأهلي", type: "bank", code: "BNK1", balance: 5000, currency: "EGP", has_account: true }];
+const cashMoves = [], expenses = [];
+const treasury = (id) => treasuries.find((j) => j.id === id) ?? (() => { throw new Err("not_found", "الخزينة غير موجودة.", "journal_id"); })();
+const voucher = (kind, j, amount, extra = {}) => { const m = { id: cashMoves.length + 1, name: `MISC/2026/${String(cashMoves.length + 1).padStart(4, "0")}`, kind, date: "2026-11-05", ref: "", state: "posted", journal: { id: j.id, name: j.name }, partner: null, amount, direction: "inbound", counter_journal: null, ...extra }; cashMoves.unshift(m); return m; };
+Object.assign(handlers, {
+  partner_balances: (b) => { const d = b.kind === "vendor" ? [{ partner: partners[1], debit: 100, credit: 800, balance: 700, last_date: "2026-11-01" }] : [{ partner: partners[0], debit: 500, credit: 200, balance: 300, last_date: "2026-11-02" }]; return { page: { total: d.length, offset: 0, limit: 200, balance_total: d.reduce((a, r) => a + r.balance, 0) }, data: d }; },
+  partner_statement: (b) => ({ partner: { ...partners.find((p) => p.id === b.partner_id), phone: "", ref: "" }, kind: b.kind, date_from: b.date_from ?? null, date_to: b.date_to ?? null, opening: 0, debit: 500, credit: 200, closing: 300, currency: "EGP", truncated: false,
+    lines: [{ id: 1, date: "2026-10-10", due: null, document: { id: 1, name: "INV/2026/0001" }, journal: "فواتير العملاء", label: "فاتورة", debit: 500, credit: 0, balance: 500, open_amount: 300, reconciled: false },
+      { id: 2, date: "2026-10-20", due: null, document: { id: 2, name: "MISC/2026/0001" }, journal: "الخزينة", label: "قبض", debit: 0, credit: 200, balance: 300, open_amount: 0, reconciled: true }] }),
+  cash_journals: () => treasuries,
+  cash_search: (b) => { const d = cashMoves.filter((m) => (!b.kind || m.kind === b.kind) && (!b.journal_id || m.journal.id === b.journal_id)); return { page: { total: d.length, offset: 0, limit: 100 }, data: d }; },
+  cash_entry: (b) => { if (!(b.amount > 0)) throw new Err("validation_error", "المبلغ يجب أن يكون أكبر من صفر.", "amount"); const j = treasury(b.journal_id); const partner = partners.find((p) => p.id === b.partner_id); j.balance += b.direction === "in" ? b.amount : -b.amount; return voucher(b.direction === "in" ? "receipt" : "payment", j, b.amount, { partner, ref: b.ref ?? "", direction: b.direction === "in" ? "inbound" : "outbound" }); },
+  cash_transfer: (b) => { const a = treasury(b.from_journal_id), c = treasury(b.to_journal_id); a.balance -= b.amount; c.balance += b.amount; return voucher("transfer", a, b.amount, { direction: "outbound", counter_journal: { id: c.id, name: c.name } }); },
+  expense_products: () => [{ id: 31, name: "ضيافة", code: "EXP-1", cost: 0 }, { id: 32, name: "وقود", code: "EXP-2", cost: 0 }],
+  expense_create: (b) => { const j = treasury(b.journal_id); j.balance -= b.amount; const e = { id: expenses.length + 1, name: b.product_id === 31 ? "ضيافة" : "وقود", state: "paid", amount: b.amount, date: b.date ?? "2026-11-05", product: { id: b.product_id, name: "ضيافة" }, journal: { id: j.id, name: j.name }, move: { id: 900 + expenses.length, name: "EXP/0001" } }; expenses.unshift(e); return e; },
+  expense_search: () => ({ page: { total: expenses.length, offset: 0, limit: 100 }, data: expenses }),
+});
 
 let mode = "up";
 http.createServer(async (req, res) => {

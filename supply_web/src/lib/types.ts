@@ -230,3 +230,25 @@ export type DashboardData = {
   expiry?: { buckets: { key: "expired" | "d7" | "d30" | "d60"; lots: number; qty: number }[] };
   rebates?: { by_state: Record<"draft" | "confirmed" | "settled", number>; open_by_kind: Record<"sale" | "purchase", number> };
 };
+
+export type CashJournal = { id: number; name: string; type: "cash" | "bank"; code: string; balance: number; currency: string; has_account: boolean };
+export type CashMove = {
+  id: number; name: string; kind: "receipt" | "payment" | "transfer" | "expense"; date: string; ref: string; state: string;
+  journal: { id: number; name: string }; partner: { id: number; name: string } | null; amount: number; direction: "inbound" | "outbound"; counter_journal: { id: number; name: string } | null;
+};
+export type ExpenseRow = {
+  id: number; name: string; state: string; amount: number; date: string;
+  product: { id: number; name: string }; journal: { id: number; name: string };
+};
+export type ExpenseProduct = { id: number; name: string; code: string; cost: number };
+
+export type PartnerBalance = { partner: { id: number; name: string }; debit: number; credit: number; balance: number; last_date: string | null };
+export type StatementLine = {
+  id: number; date: string; due: string | null; document: { id: number; name: string }; journal: string; label: string;
+  debit: number; credit: number; balance: number; open_amount: number; reconciled: boolean;
+};
+export type Statement = {
+  partner: { id: number; name: string; phone: string; ref: string }; kind: "customer" | "vendor";
+  date_from: string | null; date_to: string | null; opening: number; debit: number; credit: number; closing: number;
+  currency: string; lines: StatementLine[]; truncated: boolean;
+};

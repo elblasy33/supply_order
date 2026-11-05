@@ -74,6 +74,15 @@ function migrate(db: DatabaseSync) {
     for (const r of ["مندوب مبيعات", "محاسب"]) grant(r, ["warehouse.view"]);
     mark("migrated.warehouse.v1");
   }
+  if (!done("migrated.cash.v1")) {
+    const cash = ["cash.view", "cash.receive", "cash.pay", "cash.transfer", "expenses.create"];
+    for (const r of ["مدير النظام", "مدير توريد", "محاسب"]) grant(r, cash);
+    mark("migrated.cash.v1");
+  }
+  if (!done("migrated.ledger.v1")) {
+    for (const r of ["مدير النظام", "مدير توريد", "محاسب"]) grant(r, ["accounting.ledger"]);
+    mark("migrated.ledger.v1");
+  }
 }
 
 export function db(): DatabaseSync {
